@@ -36,6 +36,11 @@ Generation time : 2011-02-11 11:58:05 CET
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
+      <artifactId>oppna-program-account-activation-core-bc-composite-types</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
       <artifactId>oppna-program-account-activation-core-bc-composite-webcomp</artifactId>
       <version>${project.version}</version>
     </dependency>
