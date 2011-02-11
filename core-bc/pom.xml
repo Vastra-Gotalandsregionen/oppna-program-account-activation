@@ -28,6 +28,5 @@ Generation time : 2011-02-11 11:58:05 CET
     <module>modules/web</module>
     <module>modules/portlet</module>
     <module>modules/intsvc</module>
-    <module>applications/core-bc</module>
   </modules>
 </project>
