@@ -1,4 +1,4 @@
-package model;
+package se.vgregion.activation.domain;
 
 public class ActivationValidationResponse {
     private final boolean valid;
