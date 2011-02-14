@@ -20,7 +20,7 @@
 --%>
 
 <html>
-<head>JAVG Template default page</head>
+<head>JAVGsss Template default page</head>
 <body>
 <p>CHANGE THIS!</p>
 </body>
