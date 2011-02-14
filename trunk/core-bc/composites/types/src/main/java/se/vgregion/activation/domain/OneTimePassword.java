@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table("vgr_onetime_password")
+@Table(name = "vgr_onetime_password")
 public class OneTimePassword extends AbstractEntity<Long> implements Serializable {
 
     @Id
