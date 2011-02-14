@@ -4,12 +4,30 @@
   xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
   version="2.4">
 
-  <description>Account Activation</description>
-  
-  <!-- Creates the Spring Container shared by all Servlets and Filters -->
+  <display-name>account-activation-portlet</display-name>
+  <description>
+    Portlet GUI for account activation.
+  </description>
+
+  <resource-ref>
+      <description>LiferayPool Datasource</description>
+      <res-ref-name>jdbc/PortalDbPool</res-ref-name>
+      <res-type>javax.sql.DataSource</res-type>
+      <res-auth>Container</res-auth>
+  </resource-ref>
+
+  <listener>
+    <listener-class>com.liferay.portal.kernel.servlet.PortletContextListener</listener-class>
+  </listener>
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
+
+  <servlet>
+    <servlet-name>view</servlet-name>
+    <servlet-class>org.springframework.web.servlet.ViewRendererServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
   
   <servlet>
     <servlet-name>activation</servlet-name>
@@ -18,12 +36,13 @@
   </servlet>
 
   <servlet-mapping>
+    <servlet-name>view</servlet-name>
+    <url-pattern>/WEB-INF/jsp/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
     <servlet-name>activation</servlet-name>
     <url-pattern>/activation/*</url-pattern>
   </servlet-mapping>
- 
-  <servlet-mapping>
-    <servlet-name>jsp</servlet-name>
-    <url-pattern>/WEB-INF/jsp/*</url-pattern>
-  </servlet-mapping>
+
 </web-app>

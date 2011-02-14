@@ -1,6 +1,5 @@
 package se.vgregion.activation.persistence.jpa;
 
-import org.intellij.lang.annotations.Language;
 import se.vgregion.activation.domain.OneTimePassword;
 import se.vgregion.activation.domain.OneTimePasswordRepository;
 import se.vgregion.dao.domain.patterns.repository.db.jpa.DefaultJpaRepository;
