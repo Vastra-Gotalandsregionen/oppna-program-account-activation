@@ -1,14 +1,15 @@
 package se.vgregion.activation.controllers;
 
-/**
- * Created by IntelliJ IDEA.
- * User: david
- * Date: 15/2-11
- * Time: 18:44
- * To change this template use File | Settings | File Templates.
- */
 public class OneTimeAccountDTO {
+
+    private String vgrId;
+
     public String getVgrId() {
-        return "apa";
+        return vgrId;
     }
+
+    public void setVgrId(String vgrId) {
+        this.vgrId = vgrId;
+    }
+
 }
