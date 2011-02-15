@@ -4,19 +4,19 @@
 
 <!--  <import resource="classpath*:jpa-hibernate-configuration.xml" />-->
 
-  <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-    <property name="ignoreUnresolvablePlaceholders" value="true" />
-    <property name="locations">
-      <list>
-        <value>classpath:datasource.properties</value>
-        <value>classpath:security.properties</value>
-      </list>
-    </property>
-  </bean> 
+  <!--<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
+    <!--<property name="ignoreUnresolvablePlaceholders" value="true" />-->
+    <!--<property name="locations">-->
+      <!--<list>-->
+        <!--<value>classpath:datasource.properties</value>-->
+        <!--<value>classpath:security.properties</value>-->
+      <!--</list>-->
+    <!--</property>-->
+  <!--</bean> -->
 
-  <bean class="se.vgregion.activation.controllers.ServiceMockController">
-    <constructor-arg ref="accountService" />
-  </bean>
+  <!--<bean class="se.vgregion.activation.controllers.ServiceMockController">-->
+    <!--<constructor-arg ref="accountService" />-->
+  <!--</bean>-->
 
   <bean id="accountService" class="se.vgregion.account.services.OneTimePasswordService">
     <constructor-arg ref="oneTimePasswordRepo" />
