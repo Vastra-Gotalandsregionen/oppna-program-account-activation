@@ -34,9 +34,14 @@
   </build>
 
   <dependencies>
+    <!--<dependency>-->
+      <!--<groupId>${project.groupId}</groupId>-->
+      <!--<artifactId>oppna-program-account-activation-core-bc-composite-webcomp</artifactId>-->
+      <!--<version>${project.version}</version>-->
+    <!--</dependency>-->
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>oppna-program-account-activation-core-bc-composite-webcomp</artifactId>
+      <artifactId>oppna-program-account-activation-core-bc-composite-svc</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>

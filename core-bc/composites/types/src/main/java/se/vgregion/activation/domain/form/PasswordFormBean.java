@@ -1,4 +1,4 @@
-package se.vgregion.activation.domain;
+package se.vgregion.activation.domain.form;
 
 import java.io.Serializable;
 
