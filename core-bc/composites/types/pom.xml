@@ -31,28 +31,30 @@
       <version>3.5-SNAPSHOT</version>
     </dependency>
 
-    <!-- <dependency> -->
-    <!-- <groupId>org.hibernate</groupId> -->
-    <!-- <artifactId>ejb3-persistence</artifactId> -->
-    <!-- <version>1.0.2.GA</version> -->
-    <!-- </dependency> -->
-    <!-- <dependency> -->
-    <!-- <groupId>org.springframework</groupId> -->
-    <!-- <artifactId>spring-orm</artifactId> -->
-    <!-- </dependency> -->
-    <!-- <dependency> -->
-    <!-- <groupId>cglib</groupId> -->
-    <!-- <artifactId>cglib-nodep</artifactId> -->
-    <!-- </dependency> -->
-    <!-- <dependency> -->
-    <!-- <groupId>asm</groupId> -->
-    <!-- <artifactId>asm</artifactId> -->
-    <!-- </dependency> -->
-    <!-- <dependency> -->
-    <!-- <groupId>javax.validation</groupId> -->
-    <!-- <artifactId>validation-api</artifactId> -->
-    <!-- <version>1.0.0.GA</version> -->
-    <!-- </dependency> -->
+
+<!-- TOOD Look over to see whats needed for jpa activation -->
+     <dependency> 
+     <groupId>org.hibernate</groupId> 
+     <artifactId>ejb3-persistence</artifactId> 
+     <version>1.0.2.GA</version> 
+     </dependency> 
+     <dependency> 
+     <groupId>org.springframework</groupId> 
+     <artifactId>spring-orm</artifactId> 
+     </dependency> 
+     <dependency> 
+     <groupId>cglib</groupId> 
+     <artifactId>cglib-nodep</artifactId> 
+     </dependency> 
+     <dependency> 
+     <groupId>asm</groupId> 
+     <artifactId>asm</artifactId> 
+     </dependency> 
+     <dependency> 
+     <groupId>javax.validation</groupId> 
+     <artifactId>validation-api</artifactId> 
+     <version>1.0.0.GA</version> 
+     </dependency> 
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-validator</artifactId>

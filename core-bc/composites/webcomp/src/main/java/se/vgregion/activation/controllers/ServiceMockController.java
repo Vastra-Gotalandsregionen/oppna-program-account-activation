@@ -30,46 +30,46 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import se.vgregion.account.services.OneTimePasswordService;
 import se.vgregion.activation.domain.OneTimePassword;
-import se.vgregion.dao.domain.patterns.repository.Repository;
 
 @Controller
 @RequestMapping("/accounts")
 public class ServiceMockController {
 
-    private Repository<OneTimePassword, UUID> repository;
+    private OneTimePasswordService accountService;
 
     @Autowired
-    public ServiceMockController(Repository repository) {
-        this.repository = repository;
+    public ServiceMockController(OneTimePasswordService service) {
+        this.accountService = service;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public @ResponseBody
     Collection<OneTimePassword> getAllOneTimePassword() {
-        return repository.findAll();
+        return accountService.getAllAccounts();
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
-    public OneTimePassword createOneTimePassword(@RequestBody OneTimePassword password) {
-        return repository.store(password);
+    @RequestMapping(method = RequestMethod.POST, headers = "content-type=application/json")
+    public OneTimePassword createOneTimePassword(@RequestBody OneTimeAccountDTO account) {
+        return accountService.createAccount(account.getVgrId());
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public @ResponseBody
     OneTimePassword getOneTimePassword(@PathVariable("id") UUID id) {
-        return repository.find(id);
+        return accountService.getAccount(id);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void removeOneTimePassword(@PathVariable("id") UUID id) {
-        repository.remove(id);
-    }
+    // @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    // public void removeOneTimePassword(@PathVariable("id") UUID id) {
+    // accountService.removeAccount(id);
+    // }
 
     @RequestMapping(value = "/{id}/valid", method = RequestMethod.GET)
     public @ResponseBody
     Boolean validateOneTimePassword(@PathVariable("id") UUID id) {
-        OneTimePassword password = repository.find(id);
+        OneTimePassword password = accountService.getAccount(id);
         return password.isValid();
     }
 

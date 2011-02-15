@@ -16,9 +16,9 @@
       <res-auth>Container</res-auth>
   </resource-ref>
 
-  <listener>
-    <listener-class>com.liferay.portal.kernel.servlet.PortletContextListener</listener-class>
-  </listener>
+<!--  <listener>-->
+<!--    <listener-class>com.liferay.portal.kernel.servlet.PortletContextListener</listener-class>-->
+<!--  </listener>-->
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>

@@ -5,6 +5,4 @@
 
   <import resource="classpath*:local-jpa-configuration.xml" />
 
-  <bean id="oneTimePasswordRepository" class="se.vgregion.activation.persistence.jpa.JpaOneTimePasswordRepository" />
-
 </beans>
