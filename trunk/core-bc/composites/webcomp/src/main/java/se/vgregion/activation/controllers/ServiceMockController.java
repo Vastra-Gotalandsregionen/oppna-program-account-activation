@@ -19,38 +19,64 @@
 
 package se.vgregion.activation.controllers;
 
+import java.util.Collection;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import se.vgregion.activation.domain.OneTimePassword;
+import se.vgregion.dao.domain.patterns.repository.Repository;
+
 @Controller
+@RequestMapping("/accounts")
 public class ServiceMockController {
 
-    @RequestMapping("/test")
+    private Repository<OneTimePassword, UUID> repository;
+
+    @Autowired
+    public ServiceMockController(Repository repository) {
+        this.repository = repository;
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public @ResponseBody
-    Test myService() {
-        return new Test();
+    Collection<OneTimePassword> getAllOneTimePassword() {
+        return repository.findAll();
     }
 
-    public static class Test {
-        private String fName = "Anders";
-        private String lName = "Asplund";
-
-        public String getfName() {
-            return fName;
-        }
-
-        public void setfName(String fName) {
-            this.fName = fName;
-        }
-
-        public String getlName() {
-            return lName;
-        }
-
-        public void setlName(String lName) {
-            this.lName = lName;
-        }
-
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public OneTimePassword createOneTimePassword(@RequestBody OneTimePassword password) {
+        return repository.store(password);
     }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public @ResponseBody
+    OneTimePassword getOneTimePassword(@PathVariable("id") UUID id) {
+        return repository.find(id);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void removeOneTimePassword(@PathVariable("id") UUID id) {
+        repository.remove(id);
+    }
+
+    @RequestMapping(value = "/{id}/valid", method = RequestMethod.GET)
+    public @ResponseBody
+    Boolean validateOneTimePassword(@PathVariable("id") UUID id) {
+        OneTimePassword password = repository.find(id);
+        return password.isValid();
+    }
+
+    // @RequestMapping(value = "/{id}/reactivate", method = RequestMethod.PUT)
+    // public @ResponseBody
+    // void reactivateOneTimePassword(@PathVariable("id") UUID id) {
+    // repository.reactivate(id);
+    // }
+
 }
