@@ -4,11 +4,9 @@ import java.io.Serializable;
 import java.util.UUID;
 
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
 
 import se.vgregion.dao.domain.patterns.valueobject.AbstractValueObject;
 
-@Embeddable
 public class PublicHash extends AbstractValueObject implements Serializable {
     private static final long serialVersionUID = 1L;
 
