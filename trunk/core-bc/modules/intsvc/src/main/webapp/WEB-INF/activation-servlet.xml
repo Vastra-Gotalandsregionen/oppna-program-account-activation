@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+  xsi:schemaLocation="http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <!-- <import resource="classpath*:activation-service-configuration.xml"/> -->
+
+  <import resource="classpath:META-INF/cxf/cxf.xml" />
+  <import resource="classpath:META-INF/cxf/cxf-extension-jaxrs-binding.xml" />
+  <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+  <jaxrs:server id="activationService" address="/">
+    <jaxrs:serviceBeans>
+      <ref bean="activationController" />
+    </jaxrs:serviceBeans>
+    <jaxrs:providers>
+      <ref bean="jaxbProvider" />
+    </jaxrs:providers>
+  </jaxrs:server>
+
+  <bean id="activationController" class="se.vgregion.activation.controllers.ServiceMockController">
+    <constructor-arg ref="accountService" />
+  </bean>
+
+  <bean id="accountService" class="se.vgregion.account.services.AccountService">
+    <constructor-arg ref="oneTimePasswordRepo" />
+  </bean>
+
+  <bean id="oneTimePasswordRepo" class="se.vgregion.dao.domain.patterns.repository.db.jpa.DefaultJpaRepository" />
+<!--  <bean id="oneTimePasswordRepo" class="se.vgregion.dao.domain.patterns.repository.inmemory.InMemoryRepository" />-->
+
+  <bean id="jaxbProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
+
+
+  <!-- Create some dummy passwords at startup -->
+
+  <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <property name="targetObject" ref="accountService" />
+    <property name="targetMethod" value="createAccount" />
+    <property name="arguments">
+      <value>ex_vgrId1</value>
+    </property>
+  </bean>
+
+  <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <property name="targetObject" ref="accountService" />
+    <property name="targetMethod" value="createAccount" />
+    <property name="arguments">
+      <value>ex_vgrId2</value>
+    </property>
+  </bean>
+
+  <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <property name="targetObject" ref="accountService" />
+    <property name="targetMethod" value="createAccount" />
+    <property name="arguments">
+      <value>ex_vgrId3</value>
+    </property>
+  </bean>
+</beans>

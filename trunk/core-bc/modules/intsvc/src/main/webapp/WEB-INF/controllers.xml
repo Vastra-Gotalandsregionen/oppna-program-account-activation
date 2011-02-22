@@ -25,5 +25,29 @@
 <!--   <bean id="oneTimePasswordRepo" class="se.vgregion.dao.domain.patterns.repository.db.jpa.DefaultJpaRepository" /> -->
   <bean id="oneTimePasswordRepo" class="se.vgregion.dao.domain.patterns.repository.inmemory.InMemoryRepository" />
 
+  <!-- Create some dummy passwords at startup -->
 
+<!--  <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">-->
+<!--    <property name="targetObject" ref="accountService" />-->
+<!--    <property name="targetMethod" value="createAccount" />-->
+<!--    <property name="arguments">-->
+<!--      <value>ex_vgrId1</value>-->
+<!--    </property>-->
+<!--  </bean>-->
+<!---->
+<!--  <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">-->
+<!--    <property name="targetObject" ref="accountService" />-->
+<!--    <property name="targetMethod" value="createAccount" />-->
+<!--    <property name="arguments">-->
+<!--      <value>ex_vgrId2</value>-->
+<!--    </property>-->
+<!--  </bean>-->
+<!---->
+<!--  <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">-->
+<!--    <property name="targetObject" ref="accountService" />-->
+<!--    <property name="targetMethod" value="createAccount" />-->
+<!--    <property name="arguments">-->
+<!--      <value>ex_vgrId3</value>-->
+<!--    </property>-->
+<!--  </bean>-->
 </beans>
