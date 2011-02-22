@@ -26,6 +26,7 @@ import java.util.Collection;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -64,10 +65,11 @@ public class ServiceMockController {
         }
     }
 
-    // @POST
-    // public String createOneTimePassword(OneTimeAccountDTO account) {
-    // return accountService.createAccount(account.getVgrId()).toString();
-    // }
+    @POST
+    public String createOneTimePassword(OneTimeAccountDTO account) {
+        System.out.println("ServiceMockController.createOneTimePassword()");
+        return accountService.createAccount(account.getVgrId()).toString();
+    }
 
     @GET
     @Path("/{id}")
