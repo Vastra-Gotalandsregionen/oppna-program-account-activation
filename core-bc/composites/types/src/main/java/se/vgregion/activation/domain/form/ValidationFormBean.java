@@ -3,26 +3,26 @@ package se.vgregion.activation.domain.form;
 import java.io.Serializable;
 
 public class ValidationFormBean implements Serializable {
-    private String onetimeToken;
+    private String oneTimePassword;
 
-    private String userIdentifier;
+    private String vgrId;
 
     private String userPassword;
 
-    public String getOnetimeToken() {
-        return onetimeToken;
+    public String getOneTimePassword() {
+        return oneTimePassword;
     }
 
-    public void setOnetimeToken(String onetimeToken) {
-        this.onetimeToken = onetimeToken;
+    public void setOneTimePassword(String oneTimePassword) {
+        this.oneTimePassword = oneTimePassword;
     }
 
-    public String getUserIdentifier() {
-        return userIdentifier;
+    public String getVgrId() {
+        return vgrId;
     }
 
-    public void setUserIdentifier(String userIdentifier) {
-        this.userIdentifier = userIdentifier;
+    public void setVgrId(String vgrId) {
+        this.vgrId = vgrId;
     }
 
     public String getUserPassword() {

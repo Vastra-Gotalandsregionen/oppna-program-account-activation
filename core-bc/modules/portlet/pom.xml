@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!-- This is the Web-app Maven POM. Template version: 1.5-SNAPSHOT Generation time : 2011-02-11 11:58:05 CET -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>se.vgregion.oppna-program-account-activation</groupId>
@@ -35,9 +35,9 @@
 
   <dependencies>
     <!--<dependency>-->
-      <!--<groupId>${project.groupId}</groupId>-->
-      <!--<artifactId>oppna-program-account-activation-core-bc-composite-webcomp</artifactId>-->
-      <!--<version>${project.version}</version>-->
+    <!--<groupId>${project.groupId}</groupId>-->
+    <!--<artifactId>oppna-program-account-activation-core-bc-composite-webcomp</artifactId>-->
+    <!--<version>${project.version}</version>-->
     <!--</dependency>-->
     <dependency>
       <groupId>${project.groupId}</groupId>
@@ -102,18 +102,27 @@
     </dependency>
 
     <dependency>
+      <groupId>se.vgregion.daoframework</groupId>
+      <artifactId>dao-framework-jpa-spring</artifactId>
+      <version>3.5-SNAPSHOT</version>
+      <scope>runtime</scope>
+    </dependency>
+
+    <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-mapper-asl</artifactId>
-      <version>1.5.3</version>
     </dependency>
     <dependency>
       <groupId>postgresql</groupId>
       <artifactId>postgresql</artifactId>
       <version>8.4-701.jdbc4</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-entitymanager</artifactId>
+      <version>3.6.0.Final</version>
+      <scope>runtime</scope>
     </dependency>
 
   </dependencies>
