@@ -7,6 +7,8 @@ import java.util.Date;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +31,7 @@ public class OneTimePassword extends AbstractEntity<PublicHash> implements Seria
 
     private String vgrId;
 
-    // @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date expire;
 
     private boolean used;
