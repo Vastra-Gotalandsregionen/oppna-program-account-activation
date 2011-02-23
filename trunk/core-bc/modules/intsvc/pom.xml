@@ -39,43 +39,67 @@
       <artifactId>oppna-program-account-activation-core-bc-composite-svc</artifactId>
       <version>${project.version}</version>
     </dependency>
-
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>oppna-program-account-activation-core-bc-composite-types</artifactId>
+      <version>${project.version}</version>
+    </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>oppna-program-account-activation-core-bc-composite-dtos</artifactId>
       <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>javax.ws.rs</groupId>
+      <artifactId>jsr311-api</artifactId>
+      <version>1.1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-beans</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
       <groupId>se.vgregion.daoframework</groupId>
       <artifactId>dao-framework-jpa-spring</artifactId>
       <version>3.5-SNAPSHOT</version>
+      <scope>runtime</scope>
     </dependency>
-
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-    </dependency>
-
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-frontend-jaxrs</artifactId>
       <version>2.3.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.abdera</groupId>
-      <artifactId>abdera-extensions-json</artifactId>
-      <version>1.1.1</version>
+      <scope>runtime</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.codehaus.jackson</groupId>
       <artifactId>jackson-jaxrs</artifactId>
       <version>1.6.4</version>
+      <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>postgresql</groupId>
       <artifactId>postgresql</artifactId>
       <version>8.4-702.jdbc4</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-entitymanager</artifactId>
+      <scope>runtime</scope>
     </dependency>
   </dependencies>
 
