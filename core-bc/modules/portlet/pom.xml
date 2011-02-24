@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!-- This is the Web-app Maven POM. Template version: 1.5-SNAPSHOT Generation time : 2011-02-11 11:58:05 CET -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>se.vgregion.oppna-program-account-activation</groupId>
@@ -34,11 +34,11 @@
   </build>
 
   <dependencies>
-    <!--<dependency>-->
-    <!--<groupId>${project.groupId}</groupId>-->
-    <!--<artifactId>oppna-program-account-activation-core-bc-composite-webcomp</artifactId>-->
-    <!--<version>${project.version}</version>-->
-    <!--</dependency>-->
+    <!--<dependency> -->
+    <!--<groupId>${project.groupId}</groupId> -->
+    <!--<artifactId>oppna-program-account-activation-core-bc-composite-webcomp</artifactId> -->
+    <!--<version>${project.version}</version> -->
+    <!--</dependency> -->
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>oppna-program-account-activation-core-bc-composite-svc</artifactId>
@@ -111,7 +111,7 @@
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
-    </dependency>
+    </dependency>   
     <dependency>
       <groupId>postgresql</groupId>
       <artifactId>postgresql</artifactId>
@@ -127,8 +127,8 @@
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-validator</artifactId>
-      <!--<version>4.0.2.GA</version>-->
-      <version>4.1.0.Final</version>
+      <version>4.0.2.GA</version>
+<!--      <version>4.1.0.Final</version>-->
     </dependency>
 
   </dependencies>
