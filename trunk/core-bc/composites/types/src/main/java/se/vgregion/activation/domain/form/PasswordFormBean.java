@@ -1,7 +1,10 @@
 package se.vgregion.activation.domain.form;
 
+import se.vgregion.activation.domain.validation.CheckPassword;
+
 import java.io.Serializable;
 
+@CheckPassword
 public class PasswordFormBean implements Serializable {
     private String vgrId;
 

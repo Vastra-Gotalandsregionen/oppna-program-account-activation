@@ -3,6 +3,8 @@ package se.vgregion.activation.portlet.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +19,7 @@ import se.vgregion.activation.domain.form.PasswordFormBean;
 import se.vgregion.activation.domain.form.ValidationFormBean;
 
 import javax.portlet.ActionResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 
 @Controller
@@ -64,7 +67,7 @@ public class ActivationController {
     public ModelAndView showPasswordForm(ModelMap model,
                                          @RequestParam("oneTimePassword") String oneTimePassword,
                                          @RequestParam("vgrId") String vgrId) {
-        System.out.println("b: "+oneTimePassword);
+        System.out.println("b: " + oneTimePassword);
 
         PublicHash publicHash = new PublicHash(oneTimePassword);
         OneTimePassword account = accountService.getAccount(publicHash);
@@ -104,7 +107,7 @@ public class ActivationController {
                                  ModelMap model) throws IOException {
 
         String oneTimePassword = validationFormBean.getOneTimePassword();
-        System.out.println("a: "+oneTimePassword);
+        System.out.println("a: " + oneTimePassword);
         response.setRenderParameter("oneTimePassword", oneTimePassword);
 
         PublicHash publicHash = new PublicHash(oneTimePassword);
@@ -120,8 +123,18 @@ public class ActivationController {
     }
 
     @ActionMapping("activate")
-    public void activate(@ModelAttribute("passwordFormBean") PasswordFormBean passwordFormBean,
+    public void activate(@ModelAttribute("passwordFormBean") @Valid PasswordFormBean passwordFormBean,
+                         BindingResult result,
                          ActionResponse response) {
+
+        if (result.hasErrors()) {
+            for (ObjectError err : result.getAllErrors()) {
+                System.out.println(err.toString());
+            }
+            response.setRenderParameter("password", "true");
+            return;
+        }
+
         callSetPassword(passwordFormBean.getPassword());
 
         response.setRenderParameter("success", "true");
@@ -132,7 +145,12 @@ public class ActivationController {
         return "successForm";
     }
 
+    @RenderMapping(params = {"password"})
+    public String password() {
+        return "passwordForm";
+    }
+
     private void callSetPassword(String newPassword) {
-        System.out.println("pw: "+ newPassword);
+        System.out.println("pw: " + newPassword);
     }
 }
