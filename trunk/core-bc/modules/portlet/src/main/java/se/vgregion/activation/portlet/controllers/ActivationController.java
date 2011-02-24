@@ -1,45 +1,51 @@
 package se.vgregion.activation.portlet.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.io.IOException;
+
+import javax.portlet.ActionResponse;
+
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
+
 import se.vgregion.account.services.AccountService;
-import se.vgregion.activation.domain.ActivationValidationResponse;
 import se.vgregion.activation.domain.OneTimePassword;
 import se.vgregion.activation.domain.PublicHash;
 import se.vgregion.activation.domain.form.PasswordFormBean;
 import se.vgregion.activation.domain.form.ValidationFormBean;
 
-import javax.portlet.ActionResponse;
-import javax.validation.Valid;
-import java.io.IOException;
-
 @Controller
 @RequestMapping("VIEW")
 public class ActivationController {
 
-    @Autowired
-    AccountService accountService;
+    private AccountService accountService;
+    private PasswordValidator validator;
 
+    public ActivationController(AccountService accountService, PasswordValidator validator) {
+        this.accountService = accountService;
+        this.validator = validator;
+    }
 
     /**
      * Gatekeeper that validates if accessing password form should be possible.
-     *
-     * @param userIdentifier  - vgrid or email adress, needed for Domino validation,
-     *                        not used by #onetime password validation.
-     * @param validationToken - #onetime code or Domino user password.
+     * 
+     * @param userIdentifier
+     *            - vgrid or email adress, needed for Domino validation, not used by #onetime password validation.
+     * @param validationToken
+     *            - #onetime code or Domino user password.
      * @return password form or error form.
      */
     @RenderMapping
-    public ModelAndView showOneTimePasswordForm(ModelMap model, @ModelAttribute("validationFormBean") ValidationFormBean validationFormBean) {
+    public ModelAndView showOneTimePasswordForm(ModelMap model,
+            @ModelAttribute("validationFormBean") ValidationFormBean validationFormBean) {
         System.out.println("Validation");
 
         System.out.println(validationFormBean == null ? "null" : validationFormBean.getOneTimePassword());
@@ -52,9 +58,8 @@ public class ActivationController {
         return new ModelAndView("validationForm", model);
     }
 
-    @RenderMapping(params = {"oneTimePassword"})
-    public ModelAndView showPasswordForm(ModelMap model,
-                                         @ModelAttribute("oneTimePassword") String oneTimePassword) {
+    @RenderMapping(params = { "oneTimePassword" })
+    public ModelAndView showPasswordForm(ModelMap model, @ModelAttribute("oneTimePassword") String oneTimePassword) {
 
         PublicHash publicHash = new PublicHash(oneTimePassword);
         String vgrId = accountService.getAccount(publicHash).getVgrId();
@@ -63,10 +68,9 @@ public class ActivationController {
         return new ModelAndView("passwordForm", model);
     }
 
-    @RenderMapping(params = {"oneTimePassword", "vgrId"})
-    public ModelAndView showPasswordForm(ModelMap model,
-                                         @RequestParam("oneTimePassword") String oneTimePassword,
-                                         @RequestParam("vgrId") String vgrId) {
+    @RenderMapping(params = { "oneTimePassword", "vgrId" })
+    public ModelAndView showPasswordForm(ModelMap model, @RequestParam("oneTimePassword") String oneTimePassword,
+            @RequestParam("vgrId") String vgrId) {
         System.out.println("b: " + oneTimePassword);
 
         PublicHash publicHash = new PublicHash(oneTimePassword);
@@ -103,8 +107,7 @@ public class ActivationController {
 
     @ActionMapping("validation")
     public void validationAction(@ModelAttribute("validationFormBean") ValidationFormBean validationFormBean,
-                                 ActionResponse response,
-                                 ModelMap model) throws IOException {
+            ActionResponse response, ModelMap model) throws IOException {
 
         String oneTimePassword = validationFormBean.getOneTimePassword();
         System.out.println("a: " + oneTimePassword);
@@ -123,29 +126,37 @@ public class ActivationController {
     }
 
     @ActionMapping("activate")
-    public void activate(@ModelAttribute("passwordFormBean") @Valid PasswordFormBean passwordFormBean,
-                         BindingResult result,
-                         ActionResponse response) {
-
-        if (result.hasErrors()) {
-            for (ObjectError err : result.getAllErrors()) {
-                System.out.println(err.toString());
-            }
-            response.setRenderParameter("password", "true");
-            return;
-        }
+    public void activate(@ModelAttribute PasswordFormBean passwordFormBean, BindingResult result,
+            ActionResponse response, Model model) {
 
         callSetPassword(passwordFormBean.getPassword());
 
-        response.setRenderParameter("success", "true");
+        System.out.println(ToStringBuilder.reflectionToString(result));
+
+        validator.validate(passwordFormBean, result);
+
+        System.out.println(ToStringBuilder.reflectionToString(result));
+
+        // TODO Validation works but errors needs to live over the next render request??
+        // TODO If time, try to get @Valid to work instead of old-school-validation
+        // TODO Try to bind the error msg to <form:errors> tag in form.
+
+        if (result.hasErrors()) {
+            System.out.println("FELFELFEL!!!!");
+        }
+        // model.addAttribute("passwordFormBean", passwordFormBean);
+        response.setRenderParameter("oneTimePassword", "apa");
+        response.setRenderParameter("vgrId", "ex_apa");
+
+        // response.setRenderParameter("success", "true");
     }
 
-    @RenderMapping(params = {"success"})
+    @RenderMapping(params = { "success" })
     public String success() {
         return "successForm";
     }
 
-    @RenderMapping(params = {"password"})
+    @RenderMapping(params = { "password" })
     public String password() {
         return "passwordForm";
     }

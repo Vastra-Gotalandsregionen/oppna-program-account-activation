@@ -6,6 +6,8 @@ import java.io.Serializable;
 
 @CheckPassword
 public class PasswordFormBean implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String vgrId;
 
     private String password;

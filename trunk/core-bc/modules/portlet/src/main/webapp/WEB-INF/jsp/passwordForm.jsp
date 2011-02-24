@@ -1,17 +1,27 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="portlet" uri="http://java.sun.com/portlet_2_0" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet"%>
+<%@ taglib uri="http://liferay.com/tld/aui" prefix="aui"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
-<portlet:actionURL var="activate" name="activate" escapeXml="false"/>
-<form:form method="POST" commandName="passwordFormBean" action="${activate}">
 
-    <form:hidden path="vgrId" id="vgrId" />
-
-    Nytt l√∂senord: <form:password path="password" id="password" cssClass="text" cssErrorClass="text validation-error" /><br/>
-
-    Upprepa l√∂senordet: <form:password path="passwordCheck" id="passwordCheck"  cssClass="text" cssErrorClass="text validation-error" /><br/>
-
-    <input type="submit" value="Spara"/>
-
-</form:form>
+<jsp:useBean id="passwordFormBean" type="se.vgregion.activation.domain.form.PasswordFormBean" scope="request" />
+<portlet:actionURL var="activate" name="activate" escapeXml="false" />
+<spring:hasBindErrors name="passwordFormBean">
+  <c:forEach var="err" items="${errors.globalErrors}">
+      <font color="red"><c:out value="${err}" /></br></font>
+  </c:forEach>
+</spring:hasBindErrors>
+<aui:form action="<%= activate %>" method="post">
+  <aui:fieldset>
+    <aui:input type="hidden" name="vgrId" value="${passwordFormBean.vgrId}" />
+    <aui:input autocomplete="off" label="new-password" type="password" name="password"
+      value="${passwordFormBean.password}" helpMessage="Skriv in ett nytt lˆsenord"
+      suffix="${passwordFormBean.vgrId}" />
+    <form:errors path="password" />
+    <aui:input autocomplete="off" label="enter-again" type="password" name="passwordCheck"
+      value="${passwordFormBean.passwordCheck}" helpMessage="Repetera ditt lˆsenord" />
+  </aui:fieldset>
+  <aui:button-row>
+    <aui:button type="submit" value="save" />
+  </aui:button-row>
+</aui:form>

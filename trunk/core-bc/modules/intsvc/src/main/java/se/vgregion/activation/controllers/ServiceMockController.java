@@ -57,6 +57,7 @@ public class ServiceMockController {
     }
 
     @GET
+    // @Secured("ROLE_RESTCLIENT")
     public Collection<OneTimeAccountDTO> getAllOneTimePassword() {
         try {
             return toDTOCollection(accountService.getAllValidAccounts(), ui);
