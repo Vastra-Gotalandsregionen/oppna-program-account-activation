@@ -1,5 +1,6 @@
 package se.vgregion.activation.domain.validation;
 
+import org.apache.commons.lang.StringUtils;
 import se.vgregion.activation.domain.form.PasswordFormBean;
 
 import javax.validation.ConstraintValidator;
@@ -12,11 +13,11 @@ public class CheckPasswordValidator implements ConstraintValidator<CheckPassword
 
     @Override
     public boolean isValid(PasswordFormBean passwordFormBean, ConstraintValidatorContext constraintValidatorContext) {
-        System.out.println("Hahaha");
+        System.out.println("jsr-303-validation");
         if (passwordFormBean  == null) return false;
 
-        if (passwordFormBean.getVgrId() == null) return false;
-        if (passwordFormBean.getPassword() == null) return false;
+        if (StringUtils.isBlank(passwordFormBean.getVgrId())) return false;
+        if (StringUtils.isBlank(passwordFormBean.getPassword())) return false;
 
         return (passwordFormBean.getPassword().equals(passwordFormBean.getPasswordCheck()));
     }

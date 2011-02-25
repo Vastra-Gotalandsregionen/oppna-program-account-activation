@@ -10,12 +10,12 @@
   <!-- Enables the Spring MVC @Controller programming model -->
   <mvc:annotation-driven />
   <!-- <context:component-scan base-package="se.vgregion.activation.portlet.controllers"/> -->
-  <bean class="se.vgregion.activation.portlet.controllers.ActivationController">
-    <constructor-arg ref="passwordValidator" />
-    <constructor-arg ref="accountService" />
-  </bean>
 
-  <bean id="passwordValidator" class="se.vgregion.activation.portlet.controllers.PasswordValidator" />
+  <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+
+  <bean class="se.vgregion.activation.portlet.controllers.ActivationController"/>
+
+  <!--<bean id="passwordValidator" class="se.vgregion.activation.portlet.controllers.PasswordValidator" />-->
   <bean id="accountService" class="se.vgregion.account.services.AccountService" />
 
   <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
