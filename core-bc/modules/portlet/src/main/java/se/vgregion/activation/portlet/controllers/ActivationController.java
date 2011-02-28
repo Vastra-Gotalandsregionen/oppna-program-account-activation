@@ -94,9 +94,15 @@ public class ActivationController {
     public ModelAndView showPasswordForm(ModelMap model,
                                          @RequestParam("oneTimePassword") String oneTimePassword,
                                          @RequestParam("vgrId") String vgrId,
-                                         @ModelAttribute("passwordFormBean") PasswordFormBean passwordFormBean) {
+                                         @ModelAttribute("passwordFormBean") PasswordFormBean passwordFormBean,
+                                         BindingResult result
+                                         ) {
 
         System.out.println("b: " + oneTimePassword);
+
+        if (model.get("errors") != null) {
+            result.addAllErrors((BindingResult)model.get("errors"));
+        }
 
         if (passwordFormBean == null) {
             System.out.println("new Password-Form-Bean");
@@ -183,10 +189,15 @@ public class ActivationController {
         if (result.hasErrors()) {
             StringBuilder sb = new StringBuilder();
             for (ObjectError error : result.getGlobalErrors()) {
-                sb.append(error.getObjectName()+ " " + error.getDefaultMessage()+";");
+                sb.append("global: "+error.getObjectName()+ " " + error.getDefaultMessage()+";");
+            }
+            for (ObjectError error : result.getFieldErrors()) {
+                sb.append("filed: "+error.getObjectName()+ " " + error.getDefaultMessage()+";");
             }
             System.out.println("err: "+sb.toString());
             model.addAttribute("errorMessage", sb.toString());
+            model.addAttribute("org.springframework.validation.BindingResult.passwordFormBean", result);
+            model.addAttribute("errors", result);
 
             response.setRenderParameter("oneTimePassword", passwordFormBean.getOneTimePassword());
             response.setRenderParameter("vgrId", passwordFormBean.getVgrId());
