@@ -12,13 +12,21 @@ public class CheckPasswordValidator implements ConstraintValidator<CheckPassword
     }
 
     @Override
-    public boolean isValid(PasswordFormBean passwordFormBean, ConstraintValidatorContext constraintValidatorContext) {
+    public boolean isValid(PasswordFormBean passwordFormBean, ConstraintValidatorContext context) {
         System.out.println("jsr-303-validation");
         if (passwordFormBean  == null) return false;
 
         if (StringUtils.isBlank(passwordFormBean.getVgrId())) return false;
         if (StringUtils.isBlank(passwordFormBean.getPassword())) return false;
 
-        return (passwordFormBean.getPassword().equals(passwordFormBean.getPasswordCheck()));
+        if (!passwordFormBean.getPassword().equals(passwordFormBean.getPasswordCheck())) {
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate("{vgr.accoutactivation.password}")
+                    .addNode("passwordCheck")
+                    .addConstraintViolation();
+            return false;
+        }
+
+        return true;
     }
 }
