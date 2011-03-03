@@ -1,12 +1,13 @@
-package se.vgregion.activation.domain.validation;
+package se.vgregion.activation.portlet.controllers.validators;
 
-import se.vgregion.activation.domain.validation.FieldMatch;
+import se.vgregion.activation.portlet.controllers.validators.FieldMatch;
+
 import org.apache.commons.beanutils.BeanUtils;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Object> {
+public class FieldMatchValidator_303 implements ConstraintValidator<FieldMatch, Object> {
     private String firstFieldName;
     private String secondFieldName;
 

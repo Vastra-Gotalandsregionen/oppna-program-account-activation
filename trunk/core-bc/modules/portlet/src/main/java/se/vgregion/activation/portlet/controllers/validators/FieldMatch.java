@@ -1,4 +1,4 @@
-package se.vgregion.activation.domain.validation;
+package se.vgregion.activation.portlet.controllers.validators;
 
 
 import javax.validation.Constraint;
@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
  */
 @Target({TYPE, ANNOTATION_TYPE})
 @Retention(RUNTIME)
-@Constraint(validatedBy = FieldMatchValidator.class)
+@Constraint(validatedBy = FieldMatchValidator_303.class)
 @Documented
 public @interface FieldMatch
 {

@@ -1,17 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="portlet" uri="http://java.sun.com/portlet_2_0" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
 
-<portlet:actionURL var="validation" name="validation" escapeXml="false"/>
-<form:form method="POST" commandName="validationFormBean" action="${validation}">
+<portlet:renderURL var="validation" escapeXml="false"/>
 
-
-
-    Engångs lösenord: <form:password path="oneTimePassword" id="oneTimePassword" cssClass="text" cssErrorClass="text validation-error" /><br/>
-
-    <input type="submit" value="Fortsätt"/>
-
-
-
-</form:form>
+<aui:form action="<%= validation %>" method="post">
+    <aui:fieldset>
+        <aui:input autocomplete="off" label="current-password" type="password" name="oneTimePassword" helpMessage="Skriv in ditt engångslösenord"/>
+    </aui:fieldset>
+    <aui:button-row>
+        <aui:button type="submit" value="Fortsätt"/>
+    </aui:button-row>
+</aui:form>
