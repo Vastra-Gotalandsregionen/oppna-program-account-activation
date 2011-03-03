@@ -1,8 +1,10 @@
-package se.vgregion.activation.domain.form;
+package se.vgregion.activation.portlet.controllers.formbeans;
 
 import java.io.Serializable;
 
 public class ValidationFormBean implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String oneTimePassword;
 
     private String vgrId;

@@ -52,7 +52,11 @@
       <groupId>com.sun.portal</groupId>
       <artifactId>portlet-container</artifactId>
     </dependency>
-
+    <dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <version>1.0.0.GA</version>
+    </dependency>
     <dependency>
       <groupId>org.codehaus.jackson</groupId>
       <artifactId>jackson-jaxrs</artifactId>
@@ -111,7 +115,7 @@
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
-    </dependency>   
+    </dependency>
     <dependency>
       <groupId>postgresql</groupId>
       <artifactId>postgresql</artifactId>
@@ -121,14 +125,12 @@
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-entitymanager</artifactId>
-      <!--<version>3.6.0.Final</version>-->
       <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-validator</artifactId>
       <version>4.0.2.GA</version>
-<!--      <version>4.1.0.Final</version>-->
     </dependency>
 
   </dependencies>
