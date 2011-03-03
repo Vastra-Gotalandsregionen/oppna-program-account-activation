@@ -1,4 +1,4 @@
-package se.vgregion.activation.portlet.controllers;
+package se.vgregion.activation.controllers;
 
 import javax.annotation.Resource;
 import javax.portlet.ActionResponse;
@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import se.vgregion.account.services.AccountService;
 import se.vgregion.activation.domain.OneTimePassword;
 import se.vgregion.activation.domain.PublicHash;
-import se.vgregion.activation.portlet.controllers.formbeans.PasswordFormBean;
-import se.vgregion.activation.portlet.controllers.formbeans.ValidationFormBean;
-import se.vgregion.activation.portlet.controllers.validators.FieldMatchValidator;
+import se.vgregion.activation.formbeans.PasswordFormBean;
+import se.vgregion.activation.formbeans.ValidationFormBean;
+import se.vgregion.activation.validators.FieldMatchValidator;
 
 @Controller
 @RequestMapping("VIEW")
@@ -74,50 +74,6 @@ public class ActivationController {
         return new ModelAndView("passwordForm", model);
     }
 
-    /**
-     * Gatekeeper that validates if accessing password-form should be possible.
-     * 
-     * @param vgrId
-     *            - userIdentifier or email adress, needed for Domino validation, not used by #onetime password
-     *            validation.
-     * @param oneTimePassword
-     *            - validation-token.
-     * @return password form or error form.
-     */
-    // @RenderMapping(params = { "oneTimePassword", "vgrId" })
-    // public ModelAndView showPasswordForm(ModelMap model, @RequestParam("oneTimePassword") String
-    // oneTimePassword,
-    // @RequestParam("vgrId") String vgrId,
-    // @ModelAttribute("passwordFormBean") PasswordFormBean passwordFormBean, BindingResult result) {
-    //
-    // System.out.println("b: " + oneTimePassword);
-    //
-    // if (model.get("errors") != null) {
-    // result.addAllErrors((BindingResult) model.get("errors"));
-    // }
-    //
-    // if (passwordFormBean == null) {
-    // System.out.println("new Password-Form-Bean");
-    // passwordFormBean = new PasswordFormBean();
-    // passwordFormBean.setVgrId(vgrId);
-    // passwordFormBean.setOneTimePassword(oneTimePassword);
-    // }
-    //
-    // PublicHash publicHash = new PublicHash(oneTimePassword);
-    // OneTimePassword account = accountService.getAccount(publicHash);
-    //
-    // // if (vgrId != oneTimePassword.vgrId) then (were to?)
-    // if (!validateOneTimePassword(vgrId, account, model)) {
-    // return new ModelAndView("errorForm", model);
-    // }
-    //
-    // System.out.println("Aktivation");
-    //
-    // model.addAttribute("passwordFormBean", passwordFormBean);
-    //
-    // return new ModelAndView("passwordForm", model);
-    // }
-
     private boolean validateOneTimePassword(String vgrId, OneTimePassword account, ModelMap model) {
         if (account == null) {
             model.addAttribute("errorMessage", "Activation code does not exist");
@@ -134,34 +90,6 @@ public class ActivationController {
         }
         return true;
     }
-
-    // @ActionMapping("validation")
-    // public void validationAction(@ModelAttribute ValidationFormBean validationFormBean, BindingResult result,
-    // ActionResponse response, ModelMap model) throws IOException {
-    //
-    // System.out.println("validation: " + ToStringBuilder.reflectionToString(result));
-    //
-    // String oneTimePassword = validationFormBean.getOneTimePassword();
-    // System.out.println("a: " + oneTimePassword);
-    // response.setRenderParameter("oneTimePassword", oneTimePassword);
-    //
-    // PublicHash publicHash = new PublicHash(oneTimePassword);
-    // OneTimePassword account = accountService.getAccount(publicHash);
-    //
-    // if (account == null) {
-    // response.setRenderParameter("vgrId", "");
-    // } else {
-    // String vgrId = account.getVgrId();
-    //
-    // PasswordFormBean passwordFormBean = new PasswordFormBean();
-    // passwordFormBean.setVgrId(vgrId);
-    // passwordFormBean.setOneTimePassword(oneTimePassword);
-    //
-    // model.addAttribute("passwordFormBean", passwordFormBean);
-    //
-    // response.setRenderParameter("vgrId", vgrId);
-    // }
-    // }
 
     @ActionMapping("activate")
     public void activate(@ModelAttribute PasswordFormBean passwordFormBean, BindingResult result,

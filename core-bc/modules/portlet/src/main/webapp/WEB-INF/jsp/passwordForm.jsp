@@ -4,7 +4,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 
-<jsp:useBean id="passwordFormBean" type="se.vgregion.activation.portlet.controllers.formbeans.PasswordFormBean" scope="request"/>
+<jsp:useBean id="passwordFormBean" type="se.vgregion.activation.formbeans.PasswordFormBean" scope="request"/>
 <portlet:actionURL var="activate" name="activate" escapeXml="false"/>
 
 <aui:form action="<%= activate %>" method="post">

@@ -12,9 +12,9 @@
 
   <mvc:resources mapping="/resources/**" location="classpath:/resources/" />
 
-  <context:component-scan base-package="se.vgregion.activation.portlet.controllers" />
+  <context:component-scan base-package="se.vgregion.activation.controllers" />
 
-  <bean class="se.vgregion.activation.portlet.controllers.validators.FieldMatchValidator" />
+  <bean class="se.vgregion.activation.validators.FieldMatchValidator" />
 
   <bean id="accountService" class="se.vgregion.account.services.AccountService" />
 
