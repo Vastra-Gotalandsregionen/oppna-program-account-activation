@@ -1,4 +1,4 @@
-package se.vgregion.activation.portlet.controllers.validators;
+package se.vgregion.activation.validators;
 
 
 import javax.validation.Constraint;

@@ -52,6 +52,10 @@ Generation time : 2011-02-11 11:58:05 CET
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc-portlet</artifactId>
+    </dependency>
   </dependencies>
 
 </project>

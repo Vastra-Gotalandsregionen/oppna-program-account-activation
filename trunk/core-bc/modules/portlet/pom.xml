@@ -34,33 +34,15 @@
   </build>
 
   <dependencies>
-    <!--<dependency> -->
-    <!--<groupId>${project.groupId}</groupId> -->
-    <!--<artifactId>oppna-program-account-activation-core-bc-composite-webcomp</artifactId> -->
-    <!--<version>${project.version}</version> -->
-    <!--</dependency> -->
+    <dependency> 
+    <groupId>${project.groupId}</groupId> 
+    <artifactId>oppna-program-account-activation-core-bc-composite-webcomp</artifactId> 
+    <version>${project.version}</version> 
+    </dependency> 
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>oppna-program-account-activation-core-bc-composite-svc</artifactId>
       <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>javax.portlet</groupId>
-      <artifactId>portlet-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.sun.portal</groupId>
-      <artifactId>portlet-container</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>javax.validation</groupId>
-      <artifactId>validation-api</artifactId>
-      <version>1.0.0.GA</version>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-jaxrs</artifactId>
-      <version>1.5.3</version>
     </dependency>
 
     <dependency>
@@ -70,6 +52,19 @@
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>jstl</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.portlet</groupId>
+      <artifactId>portlet-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.portal</groupId>
+      <artifactId>portlet-container</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
@@ -93,16 +88,7 @@
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
-      <artifactId>spring-context-support</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.springframework</groupId>
       <artifactId>spring-tx</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-test</artifactId>
     </dependency>
 
     <dependency>
@@ -111,28 +97,17 @@
       <version>3.5-SNAPSHOT</version>
       <scope>runtime</scope>
     </dependency>
-
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>postgresql</groupId>
-      <artifactId>postgresql</artifactId>
-      <version>8.4-701.jdbc4</version>
-    </dependency>
-
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-entitymanager</artifactId>
       <scope>runtime</scope>
     </dependency>
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-validator</artifactId>
-      <version>4.0.2.GA</version>
-    </dependency>
 
+    <dependency>
+      <groupId>postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>8.4-701.jdbc4</version>
+    </dependency>
   </dependencies>
 
 </project>

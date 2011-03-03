@@ -1,6 +1,6 @@
-package se.vgregion.activation.portlet.controllers.validators;
+package se.vgregion.activation.validators;
 
-import se.vgregion.activation.portlet.controllers.validators.FieldMatch;
+import se.vgregion.activation.validators.FieldMatch;
 
 import org.apache.commons.beanutils.BeanUtils;
 

@@ -1,10 +1,10 @@
-package se.vgregion.activation.portlet.controllers.validators;
+package se.vgregion.activation.validators;
 
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import se.vgregion.activation.portlet.controllers.formbeans.PasswordFormBean;
+import se.vgregion.activation.formbeans.PasswordFormBean;
 
 public class FieldMatchValidator implements Validator {
     @Override

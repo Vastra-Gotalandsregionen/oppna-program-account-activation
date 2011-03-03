@@ -1,4 +1,4 @@
-package se.vgregion.activation.portlet.controllers.formbeans;
+package se.vgregion.activation.formbeans;
 
 public class ActivationValidationResponse {
     private final boolean valid;
