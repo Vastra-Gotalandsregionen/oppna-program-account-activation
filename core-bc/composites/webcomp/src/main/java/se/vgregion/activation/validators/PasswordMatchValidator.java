@@ -6,7 +6,7 @@ import org.springframework.validation.Validator;
 
 import se.vgregion.activation.formbeans.PasswordFormBean;
 
-public class FieldMatchValidator implements Validator {
+public class PasswordMatchValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {
         return PasswordFormBean.class.equals(clazz);
@@ -14,8 +14,8 @@ public class FieldMatchValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        System.out.println("FieldMatchValidator.validate()");
         PasswordFormBean form = (PasswordFormBean) target;
+
         String password = form.getPassword();
         String passwordCheck = form.getPasswordCheck();
 
