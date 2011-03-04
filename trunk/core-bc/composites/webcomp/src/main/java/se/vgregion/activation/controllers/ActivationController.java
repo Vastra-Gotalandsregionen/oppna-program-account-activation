@@ -34,8 +34,13 @@ public class ActivationController {
         binder.setValidator(accountValidator);
     }
 
+    public ActivationController() {
+        System.out.println("ActivationController.ActivationController()");
+    }
+
     @RenderMapping
     public String showOneTimePasswordForm() {
+        System.out.println("ActivationController.showOneTimePasswordForm()");
         return "validationForm";
     }
 
