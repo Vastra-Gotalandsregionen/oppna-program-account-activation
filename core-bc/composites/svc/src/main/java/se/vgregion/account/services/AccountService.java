@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import se.vgregion.activation.domain.OneTimePassword;
@@ -19,7 +18,6 @@ public class AccountService {
         // To make CGLIB happy
     }
 
-    @Autowired
     public AccountService(JpaRepository<OneTimePassword, PublicHash, PublicHash> repository) {
         this.repository = repository;
     }
@@ -53,6 +51,5 @@ public class AccountService {
         account.reactivate();
         repository.store(account);
     }
-
 
 }

@@ -1,6 +1,7 @@
 package se.vgregion.activation.validators;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -10,7 +11,7 @@ import se.vgregion.activation.domain.PublicHash;
 import se.vgregion.activation.formbeans.PasswordFormBean;
 
 public class AccountValidator implements Validator {
-    @Autowired
+    @Resource
     AccountService accountService;
 
     @Override
