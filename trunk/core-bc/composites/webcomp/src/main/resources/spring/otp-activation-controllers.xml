@@ -5,9 +5,18 @@
                            http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/context
                            http://www.springframework.org/schema/context/spring-context.xsd">
-                           
-  <bean class="se.vgregion.activation.controllers.ActivationController" />
-  <bean class="se.vgregion.activation.validators.PasswordMatchValidator" />
-  <bean class="se.vgregion.activation.validators.AccountValidator" />
 
+  <bean class="se.vgregion.activation.controllers.AccountActivationController">
+    <constructor-arg name="otpLoginValidator">
+      <bean class="se.vgregion.activation.validators.OTPLoginValidator" />
+    </constructor-arg>
+    <constructor-arg name="dominoLoginValidator">
+      <bean class="se.vgregion.activation.validators.DominoLoginValidator" />
+    </constructor-arg>
+    <constructor-arg name="passwordMatchValidator">
+      <bean class="se.vgregion.activation.validators.PasswordMatchValidator" />
+    </constructor-arg>
+  </bean>
+
+  <bean class="se.vgregion.activation.controllers.LoginController" />
 </beans>
