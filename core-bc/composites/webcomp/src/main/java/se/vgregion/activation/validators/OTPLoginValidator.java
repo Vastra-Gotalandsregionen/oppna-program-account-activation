@@ -10,7 +10,7 @@ import se.vgregion.activation.domain.OneTimePassword;
 import se.vgregion.activation.domain.PublicHash;
 import se.vgregion.activation.formbeans.PasswordFormBean;
 
-public class AccountValidator implements Validator {
+public class OTPLoginValidator implements Validator {
     @Resource
     AccountService accountService;
 
