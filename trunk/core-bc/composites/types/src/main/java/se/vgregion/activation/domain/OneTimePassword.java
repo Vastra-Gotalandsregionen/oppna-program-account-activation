@@ -34,16 +34,18 @@ public class OneTimePassword extends AbstractEntity<PublicHash> implements Seria
     @Temporal(TemporalType.TIMESTAMP)
     private Date expire;
 
-    private boolean used;
+    private boolean invalid;
+
+    private String customUrl;
 
     public OneTimePassword() {
         publicHash = PublicHash.generate();
         activate();
     }
 
-    public OneTimePassword(String vgrId) {
-        this();
+    public OneTimePassword(String vgrId, String customUrl) {
         this.vgrId = vgrId;
+        this.customUrl = customUrl;
     }
 
     public PublicHash getId() {
@@ -56,6 +58,10 @@ public class OneTimePassword extends AbstractEntity<PublicHash> implements Seria
 
     public String getVgrId() {
         return vgrId;
+    }
+
+    public String getCustomUrl() {
+        return customUrl;
     }
 
     /**
@@ -89,14 +95,14 @@ public class OneTimePassword extends AbstractEntity<PublicHash> implements Seria
      * @return false if the account has been invalidated, true otherwise.
      */
     public boolean isValid() {
-        return !used;
+        return !invalid;
     }
 
     /**
      * Invalidates the account which makes it invalid to use. This action can not be reverted.
      */
     public void invalidate() {
-        used = true;
+        invalid = true;
     }
 
     /**

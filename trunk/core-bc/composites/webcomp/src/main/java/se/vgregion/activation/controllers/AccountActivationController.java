@@ -3,6 +3,7 @@ package se.vgregion.activation.controllers;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.portlet.ActionResponse;
 
 import org.springframework.stereotype.Controller;
@@ -16,15 +17,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
+import se.vgregion.account.services.AccountService;
+import se.vgregion.activation.domain.PublicHash;
 import se.vgregion.activation.formbeans.PasswordFormBean;
 
 @Controller
 @RequestMapping(value = "VIEW")
 public class AccountActivationController {
 
-    protected Validator passwordMatchValidator;
-    protected Validator otpLoginValidator;
-    protected Validator dominoLoginValidator;
+    private Validator passwordMatchValidator;
+    private Validator otpLoginValidator;
+    private Validator dominoLoginValidator;
+
+    @Resource
+    private AccountService accountService;
 
     @InitBinder("passwordFormBean")
     public void initBinder(WebDataBinder binder) {
@@ -98,7 +104,10 @@ public class AccountActivationController {
             model.addAttribute("errors", result);
             response.setRenderParameters(renderParamters);
         } else {
+
             callSetPassword(passwordFormBean.getPassword());
+            accountService.invalidate(new PublicHash(passwordFormBean.getOneTimePassword()));
+
             response.setRenderParameter("success", "true");
         }
     }
