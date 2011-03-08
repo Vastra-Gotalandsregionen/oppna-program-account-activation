@@ -22,9 +22,13 @@ public class AccountService {
         this.repository = repository;
     }
 
-    @Transactional
     public PublicHash createAccount(String vgrid) {
-        OneTimePassword account = new OneTimePassword(vgrid);
+        return createAccount(vgrid, null);
+    }
+
+    @Transactional
+    public PublicHash createAccount(String vgrid, String customUrl) {
+        OneTimePassword account = new OneTimePassword(vgrid, customUrl);
         return repository.store(account).getPublicHash();
     }
 
@@ -41,7 +45,8 @@ public class AccountService {
         return repository.find(publicHash);
     }
 
-    public void removeAccount(PublicHash publicHash) {
+    @Transactional
+    public void remove(PublicHash publicHash) {
         repository.remove(publicHash);
     }
 
@@ -49,6 +54,13 @@ public class AccountService {
     public void reactivate(PublicHash publicHash) {
         OneTimePassword account = repository.find(publicHash);
         account.reactivate();
+        repository.store(account);
+    }
+
+    @Transactional
+    public void invalidate(PublicHash publicHash) {
+        OneTimePassword account = repository.find(publicHash);
+        account.invalidate();
         repository.store(account);
     }
 
