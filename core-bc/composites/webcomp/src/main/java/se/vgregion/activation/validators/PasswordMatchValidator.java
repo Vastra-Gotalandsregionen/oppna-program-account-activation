@@ -19,10 +19,12 @@ public class PasswordMatchValidator implements Validator {
         String password = form.getPassword();
         String passwordCheck = form.getPasswordCheck();
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "required", "FELFELFEL1");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "passwordCheck", "required", "FELFELFEL2");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "code.missing",
+                "Lösenord får inte lämnas tomt");
+
         if (password != null && !password.equals(passwordCheck)) {
-            errors.rejectValue("passwordCheck", "fieldmatch", "FELFELFEL3");
+            errors.rejectValue("passwordCheck", "code.fieldmatch",
+                    "Dina lösenord stämmer inte överrens. Försök igen.");
         }
     }
 }

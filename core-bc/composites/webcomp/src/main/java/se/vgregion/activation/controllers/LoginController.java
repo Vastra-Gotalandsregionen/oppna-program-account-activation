@@ -19,7 +19,7 @@ public class LoginController {
         return "otpLogin";
     }
 
-    @RenderMapping(params = { "loginType=vgrId" })
+    @RenderMapping(params = { "loginType=domino" })
     public String showDominoPasswordForm() {
         return "dominoLogin";
     }

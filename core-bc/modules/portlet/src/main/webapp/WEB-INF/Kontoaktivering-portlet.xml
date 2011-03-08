@@ -12,14 +12,15 @@
         http://www.springframework.org/schema/tx/spring-tx.xsd">
 
   <import resource="applicationContext.xml" />
-  
+
   <!-- Enable annotation driven controllers, validation etc... -->
   <mvc:resources mapping="/resources/**" location="classpath:/resources/" />
   <mvc:annotation-driven />
   <tx:annotation-driven />
 
-  <!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources/ 
-    directory -->
+  <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+    <property name="basename" value="i18n.activation-messages" />
+  </bean>
 
   <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
     <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
