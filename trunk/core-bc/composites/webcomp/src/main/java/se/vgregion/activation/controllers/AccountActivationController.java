@@ -74,7 +74,11 @@ public class AccountActivationController {
         // Always validate login password.
         validator.validate(passwordFormBean, result);
         if (result.hasErrors()) {
-            return "errorForm";
+            if ("domino".equals(passwordFormBean.getLoginType())) {
+                return "dominoLogin";
+            } else {
+                return "otpLogin";
+            }
         }
 
         // Workaround to get the errors form validation in actionrequest
@@ -87,7 +91,9 @@ public class AccountActivationController {
 
     private void setNewPassword(@ModelAttribute PasswordFormBean passwordFormBean, BindingResult result,
             ActionResponse response, Model model, Map<String, String[]> renderParamters) {
+
         passwordMatchValidator.validate(passwordFormBean, result);
+
         if (result.hasErrors()) {
             model.addAttribute("errors", result);
             response.setRenderParameters(renderParamters);

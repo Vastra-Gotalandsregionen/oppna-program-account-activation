@@ -17,6 +17,8 @@ public class PasswordFormBean implements Serializable {
     // @NotNull
     private String passwordCheck;
 
+    private String loginType;
+
     public String getVgrId() {
         return vgrId;
     }
@@ -55,5 +57,13 @@ public class PasswordFormBean implements Serializable {
 
     public void setOneTimePassword(String oneTimePassword) {
         this.oneTimePassword = oneTimePassword;
+    }
+
+    public String getLoginType() {
+        return loginType;
+    }
+
+    public void setLoginType(String loginType) {
+        this.loginType = loginType;
     }
 }

@@ -7,7 +7,9 @@
 
 <aui:form action="<%= validation %>" method="post">
     <aui:fieldset>
-        <aui:input autocomplete="off" label="current-password" type="password" name="oneTimePassword" helpMessage="Skriv in ditt engångslösenord"/>
+        <aui:input type="hidden" name="loginType" value="otp" />
+        <aui:input autocomplete="off" label="one-time-password" type="text" name="oneTimePassword" helpMessage="Skriv in din aktiveringskod"/>
+        <form:errors path="passwordFormBean.oneTimePassword" cssClass="portlet-msg-error"/>
     </aui:fieldset>
     <aui:button-row>
         <aui:button type="submit" value="Fortsätt"/>
