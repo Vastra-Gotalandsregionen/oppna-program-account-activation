@@ -89,7 +89,7 @@ public class ServiceMockController {
     @DELETE
     @Path("/{id}")
     public void removeOneTimePassword(@PathParam("id") PublicHash id) {
-        accountService.removeAccount(id);
+        accountService.remove(id);
     }
 
     @GET

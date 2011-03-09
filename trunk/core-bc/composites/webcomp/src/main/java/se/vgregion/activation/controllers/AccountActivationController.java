@@ -79,6 +79,7 @@ public class AccountActivationController {
 
         // Always validate login password.
         validator.validate(passwordFormBean, result);
+
         if (result.hasErrors()) {
             if ("domino".equals(passwordFormBean.getLoginType())) {
                 return "dominoLogin";
@@ -104,17 +105,16 @@ public class AccountActivationController {
             model.addAttribute("errors", result);
             response.setRenderParameters(renderParamters);
         } else {
-
             callSetPassword(passwordFormBean.getPassword());
-            accountService.invalidate(new PublicHash(passwordFormBean.getOneTimePassword()));
-
             response.setRenderParameter("success", "true");
         }
     }
 
     @RenderMapping(params = { "success" })
-    public String success(Model model) {
+    public String success(@ModelAttribute PasswordFormBean passwordFormBean, Model model) {
         model.asMap().clear();
+        PublicHash publicHash = new PublicHash(passwordFormBean.getOneTimePassword());
+        model.addAttribute("url", accountService.getCustomUrl(publicHash));
         return "successForm";
     }
 

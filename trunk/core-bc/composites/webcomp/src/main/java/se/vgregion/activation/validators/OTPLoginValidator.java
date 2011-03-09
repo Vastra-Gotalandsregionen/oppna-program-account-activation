@@ -25,7 +25,7 @@ public class OTPLoginValidator implements Validator {
         PasswordFormBean form = (PasswordFormBean) target;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "oneTimePassword", "code.missing",
-                "Aktiveringskod saknas");
+                "Activation code is missing");
 
         if (!errors.hasErrors()) {
             OneTimePassword account = accountService.getAccount(new PublicHash(form.getOneTimePassword()));
