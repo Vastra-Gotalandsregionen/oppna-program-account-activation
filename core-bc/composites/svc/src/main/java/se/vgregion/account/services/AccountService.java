@@ -37,12 +37,16 @@ public class AccountService {
     }
 
     public Collection<OneTimePassword> getAllValidAccounts() {
-        return repository.findByQuery("SELECT a FROM OneTimePassword a WHERE a.used=?1 AND a.expire > ?2",
+        return repository.findByQuery("SELECT a FROM OneTimePassword a WHERE a.invalid=?1 AND a.expire > ?2",
                 new Object[] { Boolean.FALSE, new Date() });
     }
 
     public OneTimePassword getAccount(PublicHash publicHash) {
         return repository.find(publicHash);
+    }
+
+    public String getCustomUrl(PublicHash publicHash) {
+        return getAccount(publicHash).getCustomUrl();
     }
 
     @Transactional
