@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import se.vgregion.activation.domain.OneTimePassword;
@@ -12,6 +14,7 @@ import se.vgregion.dao.domain.patterns.repository.db.jpa.JpaRepository;
 
 public class AccountService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AccountService.class);
     private JpaRepository<OneTimePassword, PublicHash, PublicHash> repository;
 
     public AccountService() {
@@ -22,14 +25,11 @@ public class AccountService {
         this.repository = repository;
     }
 
-    public PublicHash createAccount(String vgrid) {
-        return createAccount(vgrid, null);
-    }
-
     @Transactional
     public PublicHash createAccount(String vgrid, String customUrl) {
         OneTimePassword account = new OneTimePassword(vgrid, customUrl);
-        return repository.store(account).getPublicHash();
+        account = repository.store(account);
+        return account.getPublicHash();
     }
 
     public Collection<OneTimePassword> getAllAccounts() {

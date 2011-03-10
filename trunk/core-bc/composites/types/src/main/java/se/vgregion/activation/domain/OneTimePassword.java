@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -29,6 +30,7 @@ public class OneTimePassword extends AbstractEntity<PublicHash> implements Seria
     // @Version
     // private Long version;
 
+    @Column(unique = true)
     private String vgrId;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -38,14 +40,19 @@ public class OneTimePassword extends AbstractEntity<PublicHash> implements Seria
 
     private String customUrl;
 
-    public OneTimePassword() {
-        publicHash = PublicHash.generate();
-        activate();
+    OneTimePassword() {
+        // To make JPA happy
+    }
+
+    public OneTimePassword(String vgrId) {
+        this(vgrId, "");
     }
 
     public OneTimePassword(String vgrId, String customUrl) {
         this.vgrId = vgrId;
         this.customUrl = customUrl;
+        publicHash = PublicHash.generate();
+        activate();
     }
 
     public PublicHash getId() {

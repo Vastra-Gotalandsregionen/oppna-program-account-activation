@@ -35,7 +35,10 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 
 import se.vgregion.account.services.AccountService;
 import se.vgregion.activation.api.OneTimeAccountDTO;
@@ -46,6 +49,7 @@ import se.vgregion.activation.domain.PublicHash;
 @Produces("application/json")
 public class ServiceMockController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServiceMockController.class);
     @Context
     UriInfo ui;
 
@@ -68,8 +72,12 @@ public class ServiceMockController {
 
     @POST
     public String createOneTimePassword(OneTimeAccountDTO account) {
-        System.out.println("ServiceMockController.createOneTimePassword()");
-        return accountService.createAccount(account.getVgrId()).toString();
+        try {
+            return accountService.createAccount(account.getVgrId(), account.getCustomUrl().toString()).toString();
+        } catch (DataAccessException e) {
+            LOGGER.warn("Failed to create account.");
+            throw new WebApplicationException(e, 500);
+        }
     }
 
     @GET

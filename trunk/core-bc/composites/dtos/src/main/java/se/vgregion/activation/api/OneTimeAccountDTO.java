@@ -9,6 +9,7 @@ public class OneTimeAccountDTO implements Serializable {
     private String vgrId;
     private String id;
     private URL link;
+    private URL customUrl;
 
     public OneTimeAccountDTO() {
     }
@@ -41,6 +42,14 @@ public class OneTimeAccountDTO implements Serializable {
 
     public void setLink(URL link) {
         this.link = link;
+    }
+
+    public void setCustomUrl(URL customUrl) {
+        this.customUrl = customUrl;
+    }
+
+    public URL getCustomUrl() {
+        return customUrl;
     }
 
 }
