@@ -1,3 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-Ditt konto är nu aktiverat, återgå till <a href="${url}">källsystemet</a>.
+<p>
+  Ditt konto är nu aktiverat, återgå till
+  <c:choose>
+    <c:when test="${empty postbackUrl}"><a href="/">källsystemet</a>.</c:when>
+    <c:otherwise><a href="${postbackUrl}">källsystemet</a>.</c:otherwise>
+  </c:choose>
+</p>

@@ -114,7 +114,7 @@ public class AccountActivationController {
     public String success(@ModelAttribute PasswordFormBean passwordFormBean, Model model) {
         model.asMap().clear();
         PublicHash publicHash = new PublicHash(passwordFormBean.getOneTimePassword());
-        model.addAttribute("url", accountService.getCustomUrl(publicHash));
+        model.addAttribute("postbackUrl", accountService.getCustomUrl(publicHash));
         return "successForm";
     }
 
