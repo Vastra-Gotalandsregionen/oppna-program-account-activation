@@ -8,7 +8,7 @@
 
   <bean class="se.vgregion.activation.controllers.AccountActivationController">
     <constructor-arg name="otpLoginValidator">
-      <bean class="se.vgregion.activation.validators.OTPLoginValidator" />
+      <bean class="se.vgregion.activation.validators.AccountActivationLoginValidator" />
     </constructor-arg>
     <constructor-arg name="dominoLoginValidator">
       <bean class="se.vgregion.activation.validators.DominoLoginValidator" />

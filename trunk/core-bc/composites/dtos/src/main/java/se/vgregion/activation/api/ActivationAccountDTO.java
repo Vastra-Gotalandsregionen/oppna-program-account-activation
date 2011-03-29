@@ -3,7 +3,7 @@ package se.vgregion.activation.api;
 import java.io.Serializable;
 import java.net.URL;
 
-public class OneTimeAccountDTO implements Serializable {
+public class ActivationAccountDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String vgrId;
@@ -11,10 +11,10 @@ public class OneTimeAccountDTO implements Serializable {
     private URL link;
     private URL customUrl;
 
-    public OneTimeAccountDTO() {
+    public ActivationAccountDTO() {
     }
 
-    public OneTimeAccountDTO(String vgrId, String id, URL link) {
+    public ActivationAccountDTO(String vgrId, String id, URL link) {
         this.vgrId = vgrId;
         this.id = id;
         this.link = link;

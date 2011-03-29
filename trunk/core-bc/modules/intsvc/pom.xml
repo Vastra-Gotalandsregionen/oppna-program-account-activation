@@ -14,7 +14,7 @@
   <packaging>war</packaging>
   <name>${project.artifactId}</name>
   <build>
-    <finalName>${project.artifactId}</finalName>
+    <finalName>account-activation-service</finalName>
     <plugins>
       <plugin>
         <groupId>org.mortbay.jetty</groupId>

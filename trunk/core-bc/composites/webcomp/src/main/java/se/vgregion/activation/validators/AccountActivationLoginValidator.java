@@ -7,11 +7,11 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import se.vgregion.account.services.AccountService;
-import se.vgregion.activation.domain.OneTimePassword;
-import se.vgregion.activation.domain.PublicHash;
+import se.vgregion.activation.domain.ActivationAccount;
+import se.vgregion.activation.domain.ActivationCode;
 import se.vgregion.activation.formbeans.PasswordFormBean;
 
-public class OTPLoginValidator implements Validator {
+public class AccountActivationLoginValidator implements Validator {
     @Resource
     AccountService accountService;
 
@@ -28,7 +28,7 @@ public class OTPLoginValidator implements Validator {
                 "Activation code is missing");
 
         if (!errors.hasErrors()) {
-            OneTimePassword account = accountService.getAccount(new PublicHash(form.getOneTimePassword()));
+            ActivationAccount account = accountService.getAccount(new ActivationCode(form.getOneTimePassword()));
             if (account == null) {
                 errors.rejectValue("oneTimePassword", "code.illegal", "Felaktig aktiveringskod");
             } else if (!account.isValid()) {

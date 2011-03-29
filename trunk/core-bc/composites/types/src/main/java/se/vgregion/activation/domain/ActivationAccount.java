@@ -17,15 +17,15 @@ import org.slf4j.LoggerFactory;
 import se.vgregion.dao.domain.patterns.entity.AbstractEntity;
 
 @Entity
-@Table(name = "vgr_onetime_password")
-public class OneTimePassword extends AbstractEntity<PublicHash> implements Serializable {
+@Table(name = "vgr_activation_account")
+public class ActivationAccount extends AbstractEntity<ActivationCode> implements Serializable {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(OneTimePassword.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(ActivationAccount.class);
 
     private static final long serialVersionUID = 1L;
 
     @EmbeddedId
-    private PublicHash publicHash;
+    private ActivationCode activationCode;
 
     // @Version
     // private Long version;
@@ -40,27 +40,23 @@ public class OneTimePassword extends AbstractEntity<PublicHash> implements Seria
 
     private String customUrl;
 
-    OneTimePassword() {
-        // To make JPA happy
-    }
-
-    public OneTimePassword(String vgrId) {
+    public ActivationAccount(String vgrId) {
         this(vgrId, "");
     }
 
-    public OneTimePassword(String vgrId, String customUrl) {
+    public ActivationAccount(String vgrId, String customUrl) {
         this.vgrId = vgrId;
         this.customUrl = customUrl;
-        publicHash = PublicHash.generate();
+        activationCode = ActivationCode.generate();
         activate();
     }
 
-    public PublicHash getId() {
-        return publicHash;
+    public ActivationCode getId() {
+        return activationCode;
     }
 
-    public PublicHash getPublicHash() {
-        return publicHash;
+    public ActivationCode getActivationCode() {
+        return activationCode;
     }
 
     public String getVgrId() {
@@ -131,5 +127,9 @@ public class OneTimePassword extends AbstractEntity<PublicHash> implements Seria
         Calendar nextWeek = Calendar.getInstance();
         nextWeek.add(Calendar.WEEK_OF_YEAR, 1);
         expire = nextWeek.getTime();
+    }
+
+    ActivationAccount() {
+        // To make JPA happy
     }
 }

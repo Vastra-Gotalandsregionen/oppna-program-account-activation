@@ -1,1 +1,1 @@
-delete from vgr_onetime_password;
+delete from vgr_activation_account;

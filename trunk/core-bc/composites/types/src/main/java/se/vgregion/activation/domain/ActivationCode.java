@@ -7,17 +7,17 @@ import javax.persistence.Column;
 
 import se.vgregion.dao.domain.patterns.valueobject.AbstractValueObject;
 
-public class PublicHash extends AbstractValueObject implements Serializable {
+public class ActivationCode extends AbstractValueObject implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    public PublicHash() {
+    public ActivationCode() {
         // To make Hibernate happy
     }
 
-    @Column(name = "publicHash")
+    @Column(name = "activationCode")
     private String value;
 
-    public PublicHash(String value) {
+    public ActivationCode(String value) {
         this.value = value;
     }
 
@@ -25,7 +25,7 @@ public class PublicHash extends AbstractValueObject implements Serializable {
         return value;
     }
 
-    public static PublicHash generate() {
-        return new PublicHash(UUID.randomUUID().toString());
+    public static ActivationCode generate() {
+        return new ActivationCode(UUID.randomUUID().toString());
     }
 }
