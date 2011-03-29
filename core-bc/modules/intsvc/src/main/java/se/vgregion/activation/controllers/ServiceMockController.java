@@ -41,19 +41,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 
 import se.vgregion.account.services.AccountService;
-import se.vgregion.activation.api.OneTimeAccountDTO;
-import se.vgregion.activation.domain.OneTimePassword;
-import se.vgregion.activation.domain.PublicHash;
+import se.vgregion.activation.api.ActivationAccountDTO;
+import se.vgregion.activation.domain.ActivationAccount;
+import se.vgregion.activation.domain.ActivationCode;
 
 @Path("/accounts")
 @Produces("application/json")
 public class ServiceMockController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ServiceMockController.class);
-    @Context
-    UriInfo ui;
 
-    private AccountService accountService;
+    @Context
+    private UriInfo uriInfo;
+
+    private final AccountService accountService;
 
     @Autowired
     public ServiceMockController(AccountService service) {
@@ -61,17 +62,16 @@ public class ServiceMockController {
     }
 
     @GET
-    // @Secured("ROLE_RESTCLIENT")
-    public Collection<OneTimeAccountDTO> getAllOneTimePassword() {
+    public Collection<ActivationAccountDTO> getAllOneTimePassword() {
         try {
-            return toDTOCollection(accountService.getAllValidAccounts(), ui);
+            return toDTOCollection(accountService.getAllValidAccounts(), uriInfo);
         } catch (MalformedURLException e) {
             throw new WebApplicationException(500);
         }
     }
 
     @POST
-    public String createOneTimePassword(OneTimeAccountDTO account) {
+    public String createOneTimePassword(ActivationAccountDTO account) {
         try {
             return accountService.createAccount(account.getVgrId(), account.getCustomUrl().toString()).toString();
         } catch (DataAccessException e) {
@@ -82,13 +82,13 @@ public class ServiceMockController {
 
     @GET
     @Path("/{id}")
-    public OneTimeAccountDTO getOneTimePassword(@PathParam("id") PublicHash id) {
-        OneTimePassword account = accountService.getAccount(id);
+    public ActivationAccountDTO getOneTimePassword(@PathParam("id") ActivationCode id) {
+        ActivationAccount account = accountService.getAccount(id);
         if (account == null) {
             throw new WebApplicationException(404);
         }
         try {
-            return toDTO(account, ui);
+            return toDTO(account, uriInfo);
         } catch (MalformedURLException e) {
             throw new WebApplicationException(500);
         }
@@ -96,14 +96,14 @@ public class ServiceMockController {
 
     @DELETE
     @Path("/{id}")
-    public void removeOneTimePassword(@PathParam("id") PublicHash id) {
+    public void removeOneTimePassword(@PathParam("id") ActivationCode id) {
         accountService.remove(id);
     }
 
     @GET
     @Path("/{id}/validate")
-    public Boolean validateOneTimePassword(@PathParam("id") PublicHash id) {
-        OneTimePassword account = accountService.getAccount(id);
+    public Boolean validateOneTimePassword(@PathParam("id") ActivationCode id) {
+        ActivationAccount account = accountService.getAccount(id);
         if (account == null) {
             throw new WebApplicationException(404);
         }
@@ -112,7 +112,7 @@ public class ServiceMockController {
 
     @PUT
     @Path("/{id}/reactivate")
-    public void reactivateOneTimePassword(@PathParam("id") PublicHash id) {
+    public void reactivateOneTimePassword(@PathParam("id") ActivationCode id) {
         accountService.reactivate(id);
     }
 }

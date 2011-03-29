@@ -3,6 +3,6 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
 	version="1.0">
   <persistence-unit name="activation">
-    <class>se.vgregion.activation.domain.OneTimePassword</class>
+    <class>se.vgregion.activation.domain.ActivationAccount</class>
   </persistence-unit>
 </persistence>

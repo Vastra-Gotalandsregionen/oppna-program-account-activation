@@ -18,7 +18,7 @@ import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import se.vgregion.account.services.AccountService;
-import se.vgregion.activation.domain.PublicHash;
+import se.vgregion.activation.domain.ActivationCode;
 import se.vgregion.activation.formbeans.PasswordFormBean;
 
 @Controller
@@ -26,7 +26,7 @@ import se.vgregion.activation.formbeans.PasswordFormBean;
 public class AccountActivationController {
 
     private Validator passwordMatchValidator;
-    private Validator otpLoginValidator;
+    private Validator accountActivationLoginValidator;
     private Validator dominoLoginValidator;
 
     @Resource
@@ -35,13 +35,13 @@ public class AccountActivationController {
     @InitBinder("passwordFormBean")
     public void initBinder(WebDataBinder binder) {
         binder.setValidator(passwordMatchValidator);
-        binder.setValidator(otpLoginValidator);
+        binder.setValidator(accountActivationLoginValidator);
         binder.setValidator(dominoLoginValidator);
     }
 
     public AccountActivationController(Validator otpLoginValidator, Validator dominoLoginValidator,
             Validator passwordMatchValidator) {
-        this.otpLoginValidator = otpLoginValidator;
+        this.accountActivationLoginValidator = otpLoginValidator;
         this.passwordMatchValidator = passwordMatchValidator;
         this.dominoLoginValidator = dominoLoginValidator;
     }
@@ -49,7 +49,7 @@ public class AccountActivationController {
     @RenderMapping(params = { "oneTimePassword" })
     public String showPasswordFormForOTP(@ModelAttribute PasswordFormBean passwordFormBean, BindingResult result,
             Model model) {
-        return vadlidateAndShowForm(otpLoginValidator, passwordFormBean, result, model);
+        return vadlidateAndShowForm(accountActivationLoginValidator, passwordFormBean, result, model);
     }
 
     @ActionMapping(params = { "oneTimePassword" })
@@ -113,7 +113,7 @@ public class AccountActivationController {
     @RenderMapping(params = { "success" })
     public String success(@ModelAttribute PasswordFormBean passwordFormBean, Model model) {
         model.asMap().clear();
-        PublicHash publicHash = new PublicHash(passwordFormBean.getOneTimePassword());
+        ActivationCode publicHash = new ActivationCode(passwordFormBean.getOneTimePassword());
         model.addAttribute("postbackUrl", accountService.getCustomUrl(publicHash));
         return "successForm";
     }
