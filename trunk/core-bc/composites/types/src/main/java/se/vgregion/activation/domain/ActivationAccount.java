@@ -80,7 +80,18 @@ public class ActivationAccount extends AbstractEntity<ActivationCode> implements
     }
 
     public Date getExpireDate() {
+        if (expire == null) {
+            return null;
+        }
         return new Date(expire.getTime());
+    }
+
+    public void setExpireDate(Date expire) {
+        if (expire == null) {
+            expire = null;
+        } else {
+            this.expire = new Date(expire.getTime());
+        }
     }
 
     /**
