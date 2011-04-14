@@ -6,6 +6,8 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
   <context:annotation-config />
+  
+  <!-- Uses by default transaction bean with name transactionManager -->
   <tx:annotation-driven />
 
 

@@ -71,9 +71,9 @@ public class ActivationAccountTest {
     @Test
     public void shouldBeInvalidAfterInvalidation() throws Exception {
         ActivationAccount account = new ActivationAccount();
-        assertTrue(account.isValid());
-        account.invalidate();
-        assertFalse(account.isValid());
+        assertFalse(account.isUsed());
+        account.invactivate();
+        assertTrue(account.isUsed());
     }
 
 }

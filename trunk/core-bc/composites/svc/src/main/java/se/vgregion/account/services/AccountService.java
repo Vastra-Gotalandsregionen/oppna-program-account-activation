@@ -17,7 +17,7 @@ public interface AccountService {
 
     void remove(ActivationCode activationCode);
 
-    void reactivate(ActivationCode activationCode);
+    void reactivate(ActivationAccount activationAccount);
 
-    void invalidate(ActivationCode activationCode);
+    void inactivate(ActivationAccount activationAccount);
 }

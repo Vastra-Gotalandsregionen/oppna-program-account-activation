@@ -24,7 +24,6 @@ import static se.vgregion.activation.controllers.DTOAssembler.*;
 import java.net.MalformedURLException;
 import java.util.Collection;
 
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -47,9 +46,9 @@ import se.vgregion.activation.domain.ActivationCode;
 
 @Path("/accounts")
 @Produces("application/json")
-public class ServiceMockController {
+public class ActivationCodeService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ServiceMockController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ActivationCodeService.class);
 
     @Context
     private UriInfo uriInfo;
@@ -57,7 +56,7 @@ public class ServiceMockController {
     private final AccountService accountService;
 
     @Autowired
-    public ServiceMockController(AccountService service) {
+    public ActivationCodeService(AccountService service) {
         this.accountService = service;
     }
 
@@ -94,25 +93,14 @@ public class ServiceMockController {
         }
     }
 
-    @DELETE
-    @Path("/{id}")
-    public void removeOneTimePassword(@PathParam("id") ActivationCode id) {
-        accountService.remove(id);
-    }
-
-    @GET
-    @Path("/{id}/validate")
-    public Boolean validateOneTimePassword(@PathParam("id") ActivationCode id) {
+    @PUT
+    @Path("/{id}/inactivate")
+    public void inactivateActivationCode(@PathParam("id") ActivationCode id) {
         ActivationAccount account = accountService.getAccount(id);
         if (account == null) {
             throw new WebApplicationException(404);
         }
-        return account.isValid();
+        accountService.inactivate(account);
     }
 
-    @PUT
-    @Path("/{id}/reactivate")
-    public void reactivateOneTimePassword(@PathParam("id") ActivationCode id) {
-        accountService.reactivate(id);
-    }
 }
