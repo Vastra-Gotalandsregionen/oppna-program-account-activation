@@ -36,7 +36,7 @@ public class ActivationAccount extends AbstractEntity<ActivationCode> implements
     @Temporal(TemporalType.TIMESTAMP)
     private Date expire;
 
-    private boolean invalid;
+    private boolean used;
 
     private String customUrl;
 
@@ -95,42 +95,31 @@ public class ActivationAccount extends AbstractEntity<ActivationCode> implements
     }
 
     /**
-     * Verifies if the account is active or not.
-     * 
-     * @return false if the account has been invalidated or has expired, true otherwise.
-     */
-    public boolean isActive() {
-        return !(isValid() || hasExpired());
-    }
-
-    /**
      * Verifies if the account is valid or not.
      * 
      * @return false if the account has been invalidated, true otherwise.
      */
-    public boolean isValid() {
-        return !invalid;
+    public boolean isUsed() {
+        return used;
     }
 
     /**
      * Invalidates the account which makes it invalid to use. This action can not be reverted.
      */
-    public void invalidate() {
-        invalid = true;
+    public void invactivate() {
+        used = true;
     }
 
     /**
-     * If account is inactive, reactivates the account by reseting the date to expire with one week from now.
+     * If account is inactive, reactivates the account by reseting the date to expire in one week from now.
      */
     public void reactivate() {
-        if (isActive()) {
-            if (isValid()) {
-                LOGGER.debug("Account is already active and can not be reactivated");
-            } else {
-                LOGGER.debug("Account has been used and can not be reactivated");
-            }
-        } else {
+        if (isUsed()) {
+            LOGGER.debug("Account has been used and can not be reactivated");
+        } else if (hasExpired()) {
             activate();
+        } else {
+            LOGGER.debug("Account is already active and can not be reactivated");
         }
     }
 

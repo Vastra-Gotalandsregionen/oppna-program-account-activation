@@ -44,7 +44,7 @@ public class AccountServiceImp implements AccountService {
      */
     @Override
     public Collection<ActivationAccount> getAllValidAccounts() {
-        return repository.findByQuery("SELECT a FROM ActivationAccount a WHERE a.invalid=?1 AND a.expire > ?2",
+        return repository.findByQuery("SELECT a FROM ActivationAccount a WHERE a.used=?1 AND a.expire > ?2",
                 new Object[] { Boolean.FALSE, new Date() });
     }
 
@@ -86,8 +86,7 @@ public class AccountServiceImp implements AccountService {
      */
     @Override
     @Transactional
-    public void reactivate(ActivationCode activationCode) {
-        ActivationAccount account = repository.find(activationCode);
+    public void reactivate(ActivationAccount account) {
         account.reactivate();
         repository.store(account);
     }
@@ -99,9 +98,8 @@ public class AccountServiceImp implements AccountService {
      */
     @Override
     @Transactional
-    public void invalidate(ActivationCode activationCode) {
-        ActivationAccount account = repository.find(activationCode);
-        account.invalidate();
+    public void inactivate(ActivationAccount account) {
+        account.invactivate();
         repository.store(account);
     }
 

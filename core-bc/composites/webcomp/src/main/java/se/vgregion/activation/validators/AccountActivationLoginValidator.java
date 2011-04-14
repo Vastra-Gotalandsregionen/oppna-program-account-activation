@@ -31,7 +31,7 @@ public class AccountActivationLoginValidator implements Validator {
             ActivationAccount account = accountService.getAccount(new ActivationCode(form.getOneTimePassword()));
             if (account == null) {
                 errors.rejectValue("oneTimePassword", "code.illegal", "Felaktig aktiveringskod");
-            } else if (!account.isValid()) {
+            } else if (account.isUsed()) {
                 errors.rejectValue("oneTimePassword", "code.invalid", "Aktiveringskoden har redan använts");
             } else if (account.hasExpired()) {
                 errors.rejectValue("oneTimePassword", "code.expired", "Aktiveringskoden är för gammal");
