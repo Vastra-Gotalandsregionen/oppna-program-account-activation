@@ -13,21 +13,26 @@ import se.vgregion.activation.domain.ActivationAccount;
 
 public final class DTOAssembler {
     static ActivationAccountDTO toDTO(final ActivationAccount account, UriInfo ui) throws MalformedURLException {
+        return toDTO(account, ui, "");
+    }
+
+    static ActivationAccountDTO toDTO(final ActivationAccount account, UriInfo ui, String pathSuffix)
+            throws MalformedURLException {
         ActivationAccountDTO dto = null;
         if (account != null) {
-            URL link = new URL(ui.getBaseUri() + ui.getPath() + "/" + account.getId().getValue());
+            URL link = new URL(ui.getBaseUri().toString() + ui.getPath() + pathSuffix);
             dto = new ActivationAccountDTO(account.getVgrId(), account.getActivationCode().getValue(), link);
         }
         return dto;
     }
 
-    static Collection<ActivationAccountDTO> toDTOCollection(final Collection<ActivationAccount> allAccounts, UriInfo ui)
-            throws MalformedURLException {
+    static Collection<ActivationAccountDTO> toDTOCollection(final Collection<ActivationAccount> allAccounts,
+            UriInfo ui) throws MalformedURLException {
         Collection<ActivationAccountDTO> dtoCollection = Collections.emptySet();
         if (allAccounts != null) {
             dtoCollection = new HashSet<ActivationAccountDTO>(allAccounts.size());
             for (ActivationAccount account : allAccounts) {
-                dtoCollection.add(toDTO(account, ui));
+                dtoCollection.add(toDTO(account, ui, "/" + account.getId().getValue()));
             }
         }
         return dtoCollection;

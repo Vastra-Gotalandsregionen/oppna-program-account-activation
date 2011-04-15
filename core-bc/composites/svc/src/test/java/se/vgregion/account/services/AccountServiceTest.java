@@ -17,8 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import se.vgregion.activation.domain.ActivationAccount;
 import se.vgregion.activation.domain.ActivationCode;
 
-@ContextConfiguration({ "classpath:spring/test-jpa-configuration.xml",
-        "classpath:spring/account-activation-svc.xml" })
+@ContextConfiguration({ "classpath:spring/datasource-config.xml", "classpath:spring/account-activation-svc.xml" })
 public class AccountServiceTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Resource
@@ -35,6 +34,7 @@ public class AccountServiceTest extends AbstractTransactionalJUnit4SpringContext
     @Before
     public void setUp() throws Exception {
         executeSqlScript("classpath:dbsetup/test-data.sql", false);
+
     }
 
     @After
@@ -100,5 +100,14 @@ public class AccountServiceTest extends AbstractTransactionalJUnit4SpringContext
         assertTrue(account.hasExpired());
         service.reactivate(account);
         assertFalse(account.hasExpired());
+    }
+
+    @Test
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    public void shouldInactivateAccount() throws Exception {
+        ActivationAccount account = service.getAccount(VALID_ACTIVATION_CODE);
+        assertFalse(account.isUsed());
+        service.inactivate(account);
+        assertTrue(account.isUsed());
     }
 }

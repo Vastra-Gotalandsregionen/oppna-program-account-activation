@@ -6,10 +6,9 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
   <context:annotation-config />
-  
+
   <!-- Uses by default transaction bean with name transactionManager -->
   <tx:annotation-driven />
-
 
   <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
     <property name="entityManagerFactory" ref="entityManagerFactory" />
@@ -18,20 +17,19 @@
   <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
     <property name="dataSource" ref="dataSource" />
     <property name="persistenceXmlLocation" value="classpath:META-INF/activation-persistence.xml"></property>
-    <property name="jpaVendorAdapter">
-      <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
-    </property>
-    <property name="jpaDialect">
-        <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />
-    </property>
+    <property name="jpaVendorAdapter" ref="jpaVendor" />
     <property name="jpaPropertyMap">
       <map>
-        <entry key="hibernate.show_sql" value="true" />
-        <entry key="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
-        <entry key="hibernate.hbm2ddl.auto" value="create" />
-        <entry key="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider" />
+        <entry key="hibernate.format_sql" value="${hibernate.vendor.showsql}" />
       </map>
     </property>
+  </bean>
+  
+  <bean id="jpaVendor" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+    <property name="database" value="${hibernate.vendor.database}" />
+    <property name="databasePlatform" value="${hibernate.vendor.databaseDialect}" />
+    <property name="generateDdl" value="${hibernate.vendor.generateDdl}" />
+    <property name="showSql" value="${hibernate.vendor.showsql}" />
   </bean>
 
   <bean id="dataSource" abstract="true" />

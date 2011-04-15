@@ -13,7 +13,7 @@ import se.vgregion.activation.domain.ActivationAccount;
 import se.vgregion.activation.domain.ActivationCode;
 import se.vgregion.dao.domain.patterns.repository.db.jpa.JpaRepository;
 
-@Service
+@Service("accountService")
 public class AccountServiceImp implements AccountService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountServiceImp.class);

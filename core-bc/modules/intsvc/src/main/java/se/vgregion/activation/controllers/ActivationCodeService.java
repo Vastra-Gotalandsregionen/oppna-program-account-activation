@@ -44,7 +44,7 @@ import se.vgregion.activation.api.ActivationAccountDTO;
 import se.vgregion.activation.domain.ActivationAccount;
 import se.vgregion.activation.domain.ActivationCode;
 
-@Path("/accounts")
+@Path("/activation-codes")
 @Produces("application/json")
 public class ActivationCodeService {
 
