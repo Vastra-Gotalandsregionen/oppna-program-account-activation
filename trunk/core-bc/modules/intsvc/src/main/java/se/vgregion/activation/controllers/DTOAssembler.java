@@ -20,7 +20,10 @@ public final class DTOAssembler {
             throws MalformedURLException {
         ActivationAccountDTO dto = null;
         if (account != null) {
-            URL link = new URL(ui.getBaseUri().toString() + ui.getPath() + pathSuffix);
+            String base = ui.getBaseUri().toString();
+            if (!base.endsWith("/")) base += "/";
+
+            URL link = new URL(base + ui.getPath() + pathSuffix);
             dto = new ActivationAccountDTO(account.getVgrId(), account.getActivationCode().getValue(), link);
         }
         return dto;
@@ -32,7 +35,7 @@ public final class DTOAssembler {
         if (allAccounts != null) {
             dtoCollection = new HashSet<ActivationAccountDTO>(allAccounts.size());
             for (ActivationAccount account : allAccounts) {
-                dtoCollection.add(toDTO(account, ui, "/" + account.getId().getValue()));
+                dtoCollection.add(toDTO(account, ui, account.getId().getValue()));
             }
         }
         return dtoCollection;
