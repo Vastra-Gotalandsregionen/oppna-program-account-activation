@@ -1,6 +1,6 @@
 -----------------------------------------
 Path:
-/accounts
+/activation-codes
 -----------------------------------------
 @Get - Fetch all valid activation codes
 -> Collection<ActivationAccountDTO>
@@ -13,7 +13,7 @@ ActivationAccountDTO -> String
 
 -----------------------------------------
 Path:
-/accounts/{id}
+/activation-codes/{id}
 -----------------------------------------
 @Get - Fetch by ActivationCode
 ActivationCode -> ActivationAccountDTO
@@ -24,9 +24,13 @@ ActivationCode -> Void
 
 
 
+
+
+
 -----------------------------------------
+/* not yet implemented */
 Path:
-/accounts/{id}/validate
+/activation-codes/{id}/validate
 -----------------------------------------
 @GET - Is ActivationCode valid
 ActivationCode -> Boolean
@@ -36,8 +40,9 @@ ActivationCode -> Boolean
 
 
 -----------------------------------------
+/* not yet implemented */
 Path:
-/accounts/{id}/reactivate
+/activation-codes/{id}/reactivate
 -----------------------------------------
 @PUT - Reactivate suspended ActivationCode
 ActivationCode -> Void
