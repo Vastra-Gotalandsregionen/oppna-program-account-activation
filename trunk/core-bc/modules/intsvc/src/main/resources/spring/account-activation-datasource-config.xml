@@ -5,7 +5,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
   <import resource="classpath:spring/jpa-connector.xml" />
-  <import resource="classpath:spring/jpa-connector-${db.connector:jndi}.xml" />
+  <import resource="classpath:spring/jpa-connector-jndi.xml" />
   
   <context:property-placeholder location="classpath:datasource.properties" ignore-resource-not-found="true" ignore-unresolvable="true" />
     
