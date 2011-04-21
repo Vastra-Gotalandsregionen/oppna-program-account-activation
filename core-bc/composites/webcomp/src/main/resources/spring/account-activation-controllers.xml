@@ -19,4 +19,9 @@
   </bean>
 
   <bean class="se.vgregion.activation.controllers.LoginController" />
+
+  <!-- Message bus -->
+  <bean id="messageBus" class="com.liferay.portal.kernel.messaging.MessageBusUtil"
+        factory-method="getMessageBus"/>
+
 </beans>

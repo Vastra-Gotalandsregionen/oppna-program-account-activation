@@ -6,6 +6,9 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.portlet.ActionResponse;
 
+import com.liferay.portal.kernel.messaging.Message;
+import com.liferay.portal.kernel.messaging.MessageBus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +21,8 @@ import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import se.vgregion.account.services.AccountService;
+import se.vgregion.activation.domain.ActivateUser;
+import se.vgregion.activation.domain.ActivationAccount;
 import se.vgregion.activation.domain.ActivationCode;
 import se.vgregion.activation.formbeans.PasswordFormBean;
 
@@ -31,6 +36,9 @@ public class AccountActivationController {
 
     @Resource
     private AccountService accountService;
+
+    @Autowired
+    private MessageBus messageBus;
 
     @InitBinder("passwordFormBean")
     public void initBinder(WebDataBinder binder) {
@@ -105,7 +113,7 @@ public class AccountActivationController {
             model.addAttribute("errors", result);
             response.setRenderParameters(renderParamters);
         } else {
-            callSetPassword(passwordFormBean.getPassword());
+            callSetPassword(passwordFormBean);
             response.setRenderParameter("success", "true");
         }
     }
@@ -118,7 +126,18 @@ public class AccountActivationController {
         return "successForm";
     }
 
-    private void callSetPassword(String newPassword) {
-        System.out.println("pw: " + newPassword);
+    private void callSetPassword(PasswordFormBean passwordFormBean) {
+        String activationCode = passwordFormBean.getOneTimePassword();
+        ActivationAccount activationAccount = accountService.getAccount(new ActivationCode(activationCode));
+
+        ActivateUser activateUser = new ActivateUser(activationAccount.getVgrId(),
+                                                     passwordFormBean.getOneTimePassword(),
+                                                     passwordFormBean.getPassword());
+        Message message = new Message();
+        message.setPayload(activateUser);
+
+        messageBus.sendMessage("vgr/account_activation", message);
+
+        System.out.println("pw: " + passwordFormBean.getPassword());
     }
 }
