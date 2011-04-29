@@ -24,7 +24,9 @@ public final class DTOAssembler {
             if (!base.endsWith("/")) base += "/";
 
             URL link = new URL(base + ui.getPath() + pathSuffix);
-            dto = new ActivationAccountDTO(account.getVgrId(), account.getActivationCode().getValue(), link);
+            URL customUrl = new URL(account.getCustomUrl());
+
+            dto = new ActivationAccountDTO(account.getVgrId(), account.getActivationCode().getValue(), link, customUrl, account.getCustomMessage(), account.currentStatus().name());
         }
         return dto;
     }

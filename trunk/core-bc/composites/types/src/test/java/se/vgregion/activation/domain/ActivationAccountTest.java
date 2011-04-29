@@ -10,6 +10,7 @@ import org.junit.Test;
 public class ActivationAccountTest {
     private static final String VGR_ID = "ex_vgrid";
     private static final String CUSTOM_URL = "http://example.com";
+    private static final String CUSTOM_MESSAGE = "Custom message";
 
     @Test
     public void shouldConstructActivationAccountWithVgrId() throws Exception {
@@ -19,7 +20,7 @@ public class ActivationAccountTest {
 
     @Test
     public void shouldConstructActivationAccountWithVgrIdAndCustomUrl() throws Exception {
-        ActivationAccount account = new ActivationAccount(VGR_ID, CUSTOM_URL);
+        ActivationAccount account = new ActivationAccount(VGR_ID, CUSTOM_URL, CUSTOM_MESSAGE);
         assertEquals(CUSTOM_URL, account.getCustomUrl());
         shouldConstructActivationAccount(account);
     }
@@ -72,7 +73,7 @@ public class ActivationAccountTest {
     public void shouldBeInvalidAfterInvalidation() throws Exception {
         ActivationAccount account = new ActivationAccount();
         assertFalse(account.isUsed());
-        account.invactivate();
+        account.inactivate();
         assertTrue(account.isUsed());
     }
 

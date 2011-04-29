@@ -8,6 +8,7 @@ import org.springframework.validation.Validator;
 
 import se.vgregion.account.services.AccountService;
 import se.vgregion.activation.domain.ActivationAccount;
+import se.vgregion.activation.domain.ActivationAccountStatus;
 import se.vgregion.activation.domain.ActivationCode;
 import se.vgregion.activation.formbeans.PasswordFormBean;
 
@@ -25,16 +26,19 @@ public class AccountActivationLoginValidator implements Validator {
         PasswordFormBean form = (PasswordFormBean) target;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "oneTimePassword", "code.missing",
-                "Activation code is missing");
+                                                  "Activation code is missing");
 
         if (!errors.hasErrors()) {
             ActivationAccount account = accountService.getAccount(new ActivationCode(form.getOneTimePassword()));
             if (account == null) {
                 errors.rejectValue("oneTimePassword", "code.illegal", "Felaktig aktiveringskod");
-            } else if (account.isUsed()) {
-                errors.rejectValue("oneTimePassword", "code.invalid", "Aktiveringskoden har redan använts");
-            } else if (account.hasExpired()) {
-                errors.rejectValue("oneTimePassword", "code.expired", "Aktiveringskoden är för gammal");
+            } else {
+                ActivationAccountStatus status = account.currentStatus();
+                if (status == ActivationAccountStatus.INVALID) {
+                    errors.rejectValue("oneTimePassword", status.toString(), "Aktiveringskoden har redan använts");
+                } else if (status == ActivationAccountStatus.EXPIRED) {
+                    errors.rejectValue("oneTimePassword", status.toString(), "Aktiveringskoden är för gammal");
+                }
             }
         }
     }
