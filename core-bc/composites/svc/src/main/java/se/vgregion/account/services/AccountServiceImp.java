@@ -31,8 +31,8 @@ public class AccountServiceImp implements AccountService {
      */
     @Override
     @Transactional
-    public ActivationCode createAccount(String vgrid, String customUrl) {
-        ActivationAccount account = new ActivationAccount(vgrid, customUrl);
+    public ActivationCode createAccount(String vgrid, String customUrl, String customMessage) {
+        ActivationAccount account = new ActivationAccount(vgrid, customUrl, customMessage);
         account = repository.store(account);
         return account.getActivationCode();
     }
@@ -99,7 +99,7 @@ public class AccountServiceImp implements AccountService {
     @Override
     @Transactional
     public void inactivate(ActivationAccount account) {
-        account.invactivate();
+        account.inactivate();
         repository.store(account);
     }
 

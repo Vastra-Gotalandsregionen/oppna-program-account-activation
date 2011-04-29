@@ -10,34 +10,39 @@ public class ActivationAccountDTO implements Serializable {
     private String id;
     private URL link;
     private URL customUrl;
+    private String customMessage;
+    private String status;
 
     public ActivationAccountDTO() {
     }
 
-    public ActivationAccountDTO(String vgrId, String id, URL link) {
+    public ActivationAccountDTO(String vgrId, String id, URL link, URL customUrl, String customMessage, String status) {
         this.vgrId = vgrId;
         this.id = id;
         this.link = link;
+        this.customUrl = customUrl;
+        this.customMessage = customMessage;
+        this.status = status;
     }
 
     public String getVgrId() {
         return vgrId;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public URL getLink() {
-        return link;
-    }
-
     public void setVgrId(String vgrId) {
         this.vgrId = vgrId;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public void setId(String id) {
         this.id = id;
+    }
+
+    public URL getLink() {
+        return link;
     }
 
     public void setLink(URL link) {
@@ -52,4 +57,19 @@ public class ActivationAccountDTO implements Serializable {
         return customUrl;
     }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getCustomMessage() {
+        return customMessage;
+    }
+
+    public void setCustomMessage(String customMessage) {
+        this.customMessage = customMessage;
+    }
 }

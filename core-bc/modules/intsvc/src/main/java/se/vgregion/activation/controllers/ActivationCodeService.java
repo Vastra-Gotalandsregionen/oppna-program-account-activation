@@ -72,7 +72,7 @@ public class ActivationCodeService {
     @POST
     public String createOneTimePassword(ActivationAccountDTO account) {
         try {
-            return accountService.createAccount(account.getVgrId(), account.getCustomUrl().toString()).toString();
+            return accountService.createAccount(account.getVgrId(), account.getCustomUrl().toString(), account.getCustomMessage()).toString();
         } catch (DataAccessException e) {
             LOGGER.warn("Failed to create account.");
             throw new WebApplicationException(e, 500);

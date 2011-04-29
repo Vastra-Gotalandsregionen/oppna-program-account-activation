@@ -40,13 +40,16 @@ public class ActivationAccount extends AbstractEntity<ActivationCode> implements
 
     private String customUrl;
 
+    private String customMessage;
+
     public ActivationAccount(String vgrId) {
-        this(vgrId, "");
+        this(vgrId, "", "");
     }
 
-    public ActivationAccount(String vgrId, String customUrl) {
+    public ActivationAccount(String vgrId, String customUrl, String customMessage) {
         this.vgrId = vgrId;
         this.customUrl = customUrl;
+        this.customMessage = customMessage;
         activationCode = ActivationCode.generate();
         activate();
     }
@@ -65,6 +68,10 @@ public class ActivationAccount extends AbstractEntity<ActivationCode> implements
 
     public String getCustomUrl() {
         return customUrl;
+    }
+
+    public String getCustomMessage() {
+        return customMessage;
     }
 
     /**
@@ -103,10 +110,18 @@ public class ActivationAccount extends AbstractEntity<ActivationCode> implements
         return used;
     }
 
+    public ActivationAccountStatus currentStatus() {
+        if (isUsed()) return ActivationAccountStatus.INVALID;
+
+        if (hasExpired()) return ActivationAccountStatus.EXPIRED;
+
+        return ActivationAccountStatus.OK;
+    }
+
     /**
      * Invalidates the account which makes it invalid to use. This action can not be reverted.
      */
-    public void invactivate() {
+    public void inactivate() {
         used = true;
     }
 
@@ -129,7 +144,7 @@ public class ActivationAccount extends AbstractEntity<ActivationCode> implements
         expire = nextWeek.getTime();
     }
 
-    ActivationAccount() {
+    protected ActivationAccount() {
         // To make JPA happy
     }
 }

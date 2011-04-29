@@ -51,7 +51,7 @@ public class AccountServiceTest extends AbstractTransactionalJUnit4SpringContext
     @Rollback(false)
     public void shouldCreateAndReturnANewAccount() throws Exception {
 
-        ActivationCode code = service.createAccount(TEST_VGRID, EXAMPLE_URL);
+        ActivationCode code = service.createAccount(TEST_VGRID, EXAMPLE_URL, "");
         assertNotNull(code);
 
         ActivationAccount account = service.getAccount(code);
@@ -89,8 +89,8 @@ public class AccountServiceTest extends AbstractTransactionalJUnit4SpringContext
     @Test(expected = HibernateJdbcException.class)
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void shouldFailToCreateAccountWithExistingVgrId() {
-        service.createAccount(TEST_VGRID, EXAMPLE_URL);
-        service.createAccount(TEST_VGRID, EXAMPLE_URL);
+        service.createAccount(TEST_VGRID, EXAMPLE_URL, "");
+        service.createAccount(TEST_VGRID, EXAMPLE_URL, "");
     }
 
     @Test
