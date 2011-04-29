@@ -6,5 +6,5 @@
   <spring:message code="${message}" text="${message}" />
 </p>
 <p>
-    <a href="<portlet:renderURL/>">Tillbaka</a>
+    <a href="http://portalen.vgregion.se">Tillbaka</a>
 </p>
