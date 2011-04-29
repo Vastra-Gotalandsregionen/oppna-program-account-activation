@@ -15,6 +15,18 @@
 
 
   <dependencies>
+    <!-- TEST -->
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-api-mockito</artifactId>
+      <version>1.4.8</version>
+      <scope>test</scope>
+    </dependency>
+    
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>oppna-program-account-activation-core-bc-composite-svc</artifactId>
@@ -26,11 +38,16 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>oppna-program-account-activation-core-bc-composite-schema</artifactId>
-      <version>${project.version}</version>
-      <!--<scope>provided</scope>-->
+      <groupId>se.vgregion.icc.sd.portal</groupId>
+      <artifactId>portal-schemas</artifactId>
+      <version>1.0.2</version>
     </dependency>
+    <dependency>
+      <groupId>se.vgregion.icc.sd.portal</groupId>
+      <artifactId>portal-schemas</artifactId>
+      <version>1.0.2</version>
+    </dependency>
+
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>

@@ -24,7 +24,7 @@ public class PasswordMatchValidator implements Validator {
 
         if (password != null && !password.equals(passwordCheck)) {
             errors.rejectValue("passwordCheck", "code.fieldmatch",
-                    "Dina lösenord stämmer inte överrens. Försök igen.");
+                    "Dina lösenord stämmer inte överens. Försök igen.");
         }
     }
 }

@@ -1,18 +1,13 @@
 package se.vgregion.activation.controllers;
 
-import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.portlet.ActionResponse;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.messaging.MessageBus;
+import com.liferay.portal.kernel.messaging.MessageBusException;
+import com.liferay.portal.kernel.messaging.MessageBusUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,13 +18,25 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
-
 import se.vgregion.account.services.AccountService;
+import se.vgregion.activation.ActivateUserFailedException;
 import se.vgregion.activation.domain.ActivationAccount;
 import se.vgregion.activation.domain.ActivationCode;
-import se.vgregion.activation.dto.ActivateUser;
-import se.vgregion.activation.dto.ActivateUserResponse;
 import se.vgregion.activation.formbeans.PasswordFormBean;
+import se.vgregion.portal.ActivateUser;
+import se.vgregion.portal.ActivateUserResponse;
+import se.vgregion.portal.StatusCode;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.portlet.ActionResponse;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "VIEW")
@@ -41,9 +48,6 @@ public class AccountActivationController {
 
     @Resource
     private AccountService accountService;
-
-    @Autowired
-    private MessageBus messageBus;
 
     @InitBinder("passwordFormBean")
     public void initBinder(WebDataBinder binder) {
@@ -104,7 +108,7 @@ public class AccountActivationController {
         // Workaround to get the errors form validation in actionrequest
         if (model.asMap().get("errors") != null) {
             model.addAttribute("org.springframework.validation.BindingResult.passwordFormBean",
-                               model.asMap().get("errors"));
+                    model.asMap().get("errors"));
         }
         return "passwordMatchForm";
     }
@@ -118,8 +122,19 @@ public class AccountActivationController {
             model.addAttribute("errors", result);
             response.setRenderParameters(renderParamters);
         } else {
-            callSetPassword(passwordFormBean);
-            response.setRenderParameter("success", "true");
+            try {
+                callSetPassword(passwordFormBean);
+
+                //If callSetPassword does not throw exception
+                response.setRenderParameter("success", "true");
+            } catch (ActivateUserFailedException e) {
+                response.setRenderParameter("failure", "true");
+                model.addAttribute("message", e.getMessage());
+            } catch (MessageBusException e) {
+                response.setRenderParameter("failure", "true");
+                model.addAttribute("message", "timeout-message");
+            }
+
         }
     }
 
@@ -131,7 +146,12 @@ public class AccountActivationController {
         return "successForm";
     }
 
-    private void callSetPassword(PasswordFormBean passwordFormBean) {
+    @RenderMapping(params = {"failure"})
+    public String failure(@ModelAttribute PasswordFormBean passwordFormBean, Model model) {
+        return "failureForm";
+    }
+
+    private void callSetPassword(PasswordFormBean passwordFormBean) throws ActivateUserFailedException, MessageBusException {
         String activationCode = passwordFormBean.getOneTimePassword();
         ActivationAccount activationAccount = accountService.getAccount(new ActivationCode(activationCode));
 
@@ -142,16 +162,33 @@ public class AccountActivationController {
 
         Message message = new Message();
         message.setPayload(marshal(activateUser));
+        message.setResponseDestinationName("vgr/account_activation.REPLY");
 
-        messageBus.sendMessage("vgr/account_activation", message);
+        String response = (String) MessageBusUtil.sendSynchronousMessage("vgr/account_activation", message, 3000);
+        ActivateUserResponse activateUserResponse = unmarshal(response);
+        if (activateUserResponse.getStatusCode() != StatusCode.SUCCESS) {
+            throw new ActivateUserFailedException(activateUserResponse.getMessage());
+        }
 
         System.out.println("pw: " + passwordFormBean.getPassword());
+    }
+
+    private ActivateUserResponse unmarshal(String xml) {
+        try {
+            JAXBContext jc = JAXBContext.newInstance("se.vgregion.portal");
+            //Create marshaller
+            Unmarshaller m = jc.createUnmarshaller();
+            //Marshal object into file.
+            return (ActivateUserResponse) m.unmarshal(new StringReader(xml));
+        } catch (JAXBException e) {
+            throw new RuntimeException("Failed to serialize message", e);
+        }
     }
 
     private String marshal(ActivateUser activateUser) {
         StringWriter sw = new StringWriter();
         try {
-            JAXBContext jc = JAXBContext.newInstance("se.vgregion.activation.dto");
+            JAXBContext jc = JAXBContext.newInstance("se.vgregion.portal");
             //Create marshaller
             Marshaller m = jc.createMarshaller();
             //Marshal object into file.

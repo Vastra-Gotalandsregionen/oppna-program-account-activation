@@ -10,7 +10,7 @@
 
 <aui:form action="<%= activate %>" method="post">
   <aui:fieldset>
-    <aui:input type="hidden" name="vgrId" value="${passwordFormBean.vgrId}"/>
+    <aui:input type="hidden" name="vgrId" value="${passwordFormBean.vgrId}" />
     <aui:input type="hidden" name="oneTimePassword" value="${passwordFormBean.oneTimePassword}"/>
     <aui:input type="hidden" name="dominoPassword" value="${passwordFormBean.dominoPassword}"/>
     <aui:input autocomplete="off" label="new-password" type="password" name="password" value="${passwordFormBean.password}" helpMessage="Skriv in ett nytt lösenord"/>
@@ -19,6 +19,6 @@
     <form:errors path="passwordFormBean.passwordCheck" cssClass="portlet-msg-error" />
   </aui:fieldset>
   <aui:button-row>
-    <aui:button type="submit" value="save"/>
+    <aui:button type="submit" value="Spara"/>
   </aui:button-row>
 </aui:form>
