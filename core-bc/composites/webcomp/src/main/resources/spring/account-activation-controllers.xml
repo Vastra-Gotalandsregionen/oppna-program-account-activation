@@ -20,8 +20,10 @@
 
   <bean class="se.vgregion.activation.controllers.LoginController" />
 
-  <!-- Message bus -->
-  <bean id="messageBus" class="com.liferay.portal.kernel.messaging.MessageBusUtil"
-        factory-method="getMessageBus"/>
+  <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+    <property name="basename" value="classpath:i18n/activation-messages"/>
+    <property name="fileEncodings" value="UTF-8"/>
+    <property name="defaultEncoding" value="UTF-8"/>
+  </bean>
 
 </beans>
