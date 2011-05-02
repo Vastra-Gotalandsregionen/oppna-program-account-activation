@@ -22,6 +22,29 @@
       <keywords>konto aktivering portalkatalog</keywords>
     </portlet-info>
   </portlet>
+
+  <portlet>
+    <portlet-name>CreateAccount</portlet-name>
+    <display-name>Inbjudan till Portalkatalogen</display-name>
+    <portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+    <expiration-cache>0</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+    </supports>
+    <supported-locale>sv</supported-locale>
+    <resource-bundle>i18n.activation-messages</resource-bundle>
+    <portlet-info>
+      <title>CreateAccount</title>
+      <short-title>CreateAccount</short-title>
+      <keywords>konto skapa inbjudan portalkatalog</keywords>
+    </portlet-info>
+  </portlet>
+
+  <user-attribute>
+    <description>User Login ID</description>
+    <name>user.login.id</name>
+  </user-attribute>
 </portlet-app>
 
 
