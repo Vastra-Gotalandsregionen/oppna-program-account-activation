@@ -24,6 +24,7 @@ import se.vgregion.activation.domain.ActivationAccount;
 import se.vgregion.activation.domain.ActivationCode;
 import se.vgregion.activation.formbeans.PasswordFormBean;
 import se.vgregion.portal.ActivateUserResponse;
+import se.vgregion.portal.ActivateUserStatusCodeType;
 
 import javax.portlet.ActionResponse;
 import javax.xml.bind.JAXBContext;
@@ -60,7 +61,7 @@ public class AccountActivationControllerTest {
                     @Override
                     public String answer(InvocationOnMock invocation) throws Throwable {
                         return "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><activateUserResponse>" +
-                                "<userId>theuserid</userId><statusCode>Success</statusCode><message>The message" +
+                                "<userId>theuserid</userId><statusCode>SUCCESS</statusCode><message>The message" +
                                 "</message></activateUserResponse>";
                     }
                 });
@@ -111,7 +112,7 @@ public class AccountActivationControllerTest {
                     public String answer(InvocationOnMock invocation) throws Throwable {
                         //Note: <statusCode>Error</statusCode>
                         return "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><activateUserResponse>" +
-                                "<userId>theuserid</userId><statusCode>Error</statusCode><message>The message" +
+                                "<userId>theuserid</userId><statusCode>ERROR</statusCode><message>The message" +
                                 "</message></activateUserResponse>";
                     }
                 });
@@ -147,8 +148,9 @@ public class AccountActivationControllerTest {
     public void testMarshalActivateUserResponse() {
         ActivateUserResponse res = new ActivateUserResponse();
         res.setMessage("The message");
-        res.setStatusCode(se.vgregion.portal.StatusCode.SUCCESS);
+        res.setStatusCode(ActivateUserStatusCodeType.SUCCESS);
         res.setUserId("theuserid");
+
         StringWriter sw = new StringWriter();
         try {
             JAXBContext jc = JAXBContext.newInstance("se.vgregion.portal");
@@ -160,7 +162,7 @@ public class AccountActivationControllerTest {
             throw new RuntimeException("Failed to serialize message", e);
         }
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><activateUserResponse>" +
-                                "<userId>theuserid</userId><statusCode>Success</statusCode><message>The message" +
+                                "<userId>theuserid</userId><statusCode>SUCCESS</statusCode><message>The message" +
                                 "</message></activateUserResponse>", sw.toString());
     }
 

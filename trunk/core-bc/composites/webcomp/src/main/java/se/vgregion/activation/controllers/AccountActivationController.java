@@ -25,7 +25,7 @@ import se.vgregion.activation.domain.ActivationCode;
 import se.vgregion.activation.formbeans.PasswordFormBean;
 import se.vgregion.portal.ActivateUser;
 import se.vgregion.portal.ActivateUserResponse;
-import se.vgregion.portal.StatusCode;
+import se.vgregion.portal.ActivateUserStatusCodeType;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -159,6 +159,7 @@ public class AccountActivationController {
         activateUser.setUserId(activationAccount.getVgrId());
         activateUser.setActivationCode(passwordFormBean.getOneTimePassword());
         activateUser.setUserPassword(passwordFormBean.getPassword());
+        activateUser.setUserMail("");
 
         Message message = new Message();
         message.setPayload(marshal(activateUser));
@@ -166,7 +167,7 @@ public class AccountActivationController {
 
         String response = (String) MessageBusUtil.sendSynchronousMessage("vgr/account_activation", message, 3000);
         ActivateUserResponse activateUserResponse = unmarshal(response);
-        if (activateUserResponse.getStatusCode() != StatusCode.SUCCESS) {
+        if (activateUserResponse.getStatusCode() != ActivateUserStatusCodeType.SUCCESS) {
             throw new ActivateUserFailedException(activateUserResponse.getMessage());
         }
 
