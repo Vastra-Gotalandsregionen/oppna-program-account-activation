@@ -25,19 +25,19 @@ public class AccountActivationLoginValidator implements Validator {
     public void validate(Object target, Errors errors) {
         PasswordFormBean form = (PasswordFormBean) target;
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "oneTimePassword", "code.missing",
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "activationCode", "code.missing",
                                                   "Activation code is missing");
 
         if (!errors.hasErrors()) {
-            ActivationAccount account = accountService.getAccount(new ActivationCode(form.getOneTimePassword()));
+            ActivationAccount account = accountService.getAccount(new ActivationCode(form.getActivationCode()));
             if (account == null) {
-                errors.rejectValue("oneTimePassword", "code.illegal", "Felaktig aktiveringskod");
+                errors.rejectValue("activationCode", "code.illegal", "Felaktig aktiveringskod");
             } else {
                 ActivationAccountStatus status = account.currentStatus();
                 if (status == ActivationAccountStatus.INVALID) {
-                    errors.rejectValue("oneTimePassword", status.toString(), "Aktiveringskoden har redan använts");
+                    errors.rejectValue("activationCode", status.toString(), "Aktiveringskoden har redan använts");
                 } else if (status == ActivationAccountStatus.EXPIRED) {
-                    errors.rejectValue("oneTimePassword", status.toString(), "Aktiveringskoden är för gammal");
+                    errors.rejectValue("activationCode", status.toString(), "Aktiveringskoden är för gammal");
                 }
             }
         }

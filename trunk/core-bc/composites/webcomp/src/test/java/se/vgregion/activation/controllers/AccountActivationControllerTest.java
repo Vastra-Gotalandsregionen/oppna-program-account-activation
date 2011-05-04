@@ -135,7 +135,7 @@ public class AccountActivationControllerTest {
         when(accountService.getAccount(Matchers.<ActivationCode>any())).thenReturn(activationAccount);
 
         PasswordFormBean passwordFormBean = new PasswordFormBean();
-        passwordFormBean.setOneTimePassword("1234");
+        passwordFormBean.setActivationCode("1234");
         passwordFormBean.setPassword("newPassword");
         passwordFormBean.setVgrId("someVgrId");
 

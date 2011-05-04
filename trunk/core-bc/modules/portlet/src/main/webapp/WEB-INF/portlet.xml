@@ -6,8 +6,8 @@
   id="oppna-program-account-activation-core-bc-module-portlet">
 
   <portlet>
-    <portlet-name>Kontoaktivering</portlet-name>
-    <display-name>Kontoaktivering</display-name>
+    <portlet-name>ActivateAccount</portlet-name>
+    <display-name>ActivateAccount</display-name>
     <portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
     <expiration-cache>0</expiration-cache>
     <supports>
@@ -35,8 +35,8 @@
     <supported-locale>sv</supported-locale>
     <resource-bundle>i18n.activation-messages</resource-bundle>
     <portlet-info>
-      <title>CreateAccount</title>
-      <short-title>CreateAccount</short-title>
+      <title>Skapa konto</title>
+      <short-title>Skapa konto</short-title>
       <keywords>konto skapa inbjudan portalkatalog</keywords>
     </portlet-info>
   </portlet>

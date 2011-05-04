@@ -8,7 +8,7 @@ public class PasswordFormBean implements Serializable {
 
     // @Size(min = 6)
     private String vgrId;
-    private String oneTimePassword;
+    private String activationCode;
     private String dominoPassword;
 
     // @Size(min = 6)
@@ -51,12 +51,12 @@ public class PasswordFormBean implements Serializable {
         this.dominoPassword = dominoPassword;
     }
 
-    public String getOneTimePassword() {
-        return oneTimePassword;
+    public String getActivationCode() {
+        return activationCode;
     }
 
-    public void setOneTimePassword(String oneTimePassword) {
-        this.oneTimePassword = oneTimePassword;
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
     }
 
     public String getLoginType() {
