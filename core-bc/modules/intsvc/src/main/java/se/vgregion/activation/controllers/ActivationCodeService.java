@@ -61,7 +61,7 @@ public class ActivationCodeService {
     }
 
     @GET
-    public Collection<ActivationAccountDTO> getAllOneTimePassword() {
+    public Collection<ActivationAccountDTO> getAllActivationCode() {
         try {
             return toDTOCollection(accountService.getAllValidAccounts(), uriInfo);
         } catch (MalformedURLException e) {
@@ -70,7 +70,7 @@ public class ActivationCodeService {
     }
 
     @POST
-    public String createOneTimePassword(ActivationAccountDTO account) {
+    public String createActivationCode(ActivationAccountDTO account) {
         try {
             return accountService.createAccount(account.getVgrId(), account.getCustomUrl().toString(), account.getCustomMessage()).toString();
         } catch (DataAccessException e) {
@@ -81,7 +81,7 @@ public class ActivationCodeService {
 
     @GET
     @Path("/{id}")
-    public ActivationAccountDTO getOneTimePassword(@PathParam("id") ActivationCode id) {
+    public ActivationAccountDTO getActivationCode(@PathParam("id") ActivationCode id) {
         ActivationAccount account = accountService.getAccount(id);
         if (account == null) {
             throw new WebApplicationException(404);

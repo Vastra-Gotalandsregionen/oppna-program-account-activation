@@ -38,7 +38,7 @@
   </servlet-mapping>
 
   <servlet>
-    <servlet-name>Kontoaktivering</servlet-name>
+    <servlet-name>ActivateAccount</servlet-name>
     <servlet-class>com.liferay.portal.kernel.servlet.PortletServlet</servlet-class>
     <init-param>
       <param-name>portlet-class</param-name>
@@ -48,8 +48,8 @@
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>Kontoaktivering</servlet-name>
-    <url-pattern>/Kontoaktivering/*</url-pattern>
+    <servlet-name>ActivateAccount</servlet-name>
+    <url-pattern>/ActivateAccount/*</url-pattern>
   </servlet-mapping>
 
   <servlet>

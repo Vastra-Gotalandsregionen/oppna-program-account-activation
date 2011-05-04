@@ -1,13 +1,8 @@
 package se.vgregion.activation.controllers;
 
 import com.liferay.portal.kernel.messaging.Message;
-import com.liferay.portal.kernel.messaging.MessageBus;
 import com.liferay.portal.kernel.messaging.MessageBusException;
 import com.liferay.portal.kernel.messaging.MessageBusUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
-import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,7 +22,6 @@ import se.vgregion.portal.ActivateUser;
 import se.vgregion.portal.ActivateUserResponse;
 import se.vgregion.portal.ActivateUserStatusCodeType;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.portlet.ActionResponse;
 import javax.xml.bind.JAXBContext;
@@ -63,17 +57,17 @@ public class AccountActivationController {
         this.dominoLoginValidator = dominoLoginValidator;
     }
 
-    @RenderMapping(params = {"oneTimePassword"})
+    @RenderMapping(params = {"activationCode"})
     public String showPasswordFormForOTP(@ModelAttribute PasswordFormBean passwordFormBean, BindingResult result,
                                          Model model) {
         return vadlidateAndShowForm(accountActivationLoginValidator, passwordFormBean, result, model);
     }
 
-    @ActionMapping(params = {"oneTimePassword"})
+    @ActionMapping(params = {"activationCode"})
     public void activateAccountWithOTP(@ModelAttribute PasswordFormBean passwordFormBean, BindingResult result,
                                        ActionResponse response, Model model) {
         Map<String, String[]> renderParams = new HashMap<String, String[]>();
-        renderParams.put("oneTimePassword", new String[]{passwordFormBean.getOneTimePassword()});
+        renderParams.put("activationCode", new String[]{passwordFormBean.getActivationCode()});
         setNewPassword(passwordFormBean, result, response, model, renderParams);
     }
 
@@ -141,7 +135,7 @@ public class AccountActivationController {
     @RenderMapping(params = {"success"})
     public String success(@ModelAttribute PasswordFormBean passwordFormBean, Model model) {
         model.asMap().clear();
-        ActivationCode publicHash = new ActivationCode(passwordFormBean.getOneTimePassword());
+        ActivationCode publicHash = new ActivationCode(passwordFormBean.getActivationCode());
         model.addAttribute("postbackUrl", accountService.getCustomUrl(publicHash));
         return "successForm";
     }
@@ -152,12 +146,12 @@ public class AccountActivationController {
     }
 
     private void callSetPassword(PasswordFormBean passwordFormBean) throws ActivateUserFailedException, MessageBusException {
-        String activationCode = passwordFormBean.getOneTimePassword();
+        String activationCode = passwordFormBean.getActivationCode();
         ActivationAccount activationAccount = accountService.getAccount(new ActivationCode(activationCode));
 
         ActivateUser activateUser = new ActivateUser();
         activateUser.setUserId(activationAccount.getVgrId());
-        activateUser.setActivationCode(passwordFormBean.getOneTimePassword());
+        activateUser.setActivationCode(passwordFormBean.getActivationCode());
         activateUser.setUserPassword(passwordFormBean.getPassword());
         activateUser.setUserMail("");
 

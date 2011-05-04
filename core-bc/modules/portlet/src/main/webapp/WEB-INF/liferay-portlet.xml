@@ -3,10 +3,11 @@
 
 <liferay-portlet-app>
   <portlet>
-    <portlet-name>Kontoaktivering</portlet-name>
-
+    <portlet-name>ActivateAccount</portlet-name>
     <action-url-redirect>true</action-url-redirect>
-
-    <instanceable>true</instanceable>
+  </portlet>
+  <portlet>
+    <portlet-name>CreateAccount</portlet-name>
+    <action-url-redirect>true</action-url-redirect>
   </portlet>
 </liferay-portlet-app>

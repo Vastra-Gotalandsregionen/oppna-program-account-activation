@@ -12,7 +12,7 @@
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-  <import resource="applicationContext.xml"/>
+  <import resource="activate-account/applicationContext.xml"/>
 
   <!-- Enable annotation driven controllers, validation etc... -->
   <mvc:resources mapping="/resources/**" location="classpath:/**"/>

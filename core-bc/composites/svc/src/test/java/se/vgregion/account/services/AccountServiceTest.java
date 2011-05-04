@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import se.vgregion.activation.domain.ActivationAccount;
 import se.vgregion.activation.domain.ActivationCode;
 
-@ContextConfiguration({ "classpath:spring/datasource-config.xml", "classpath:spring/account-activation-svc.xml" })
+@ContextConfiguration({ "classpath:spring/datasource-config.xml", "classpath:spring/activate-account-svc.xml" })
 public class AccountServiceTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Resource
