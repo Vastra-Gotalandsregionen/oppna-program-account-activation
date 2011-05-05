@@ -15,7 +15,7 @@
       <portlet-mode>view</portlet-mode>
     </supports>
     <supported-locale>sv</supported-locale>
-    <resource-bundle>i18n.activation-messages</resource-bundle>
+    <resource-bundle>i18n.activate-account-messages</resource-bundle>
     <portlet-info>
       <title>Kontoaktivering</title>
       <short-title>Kontoaktivering</short-title>
@@ -33,7 +33,7 @@
       <portlet-mode>view</portlet-mode>
     </supports>
     <supported-locale>sv</supported-locale>
-    <resource-bundle>i18n.activation-messages</resource-bundle>
+    <resource-bundle>i18n.create-account-messages</resource-bundle>
     <portlet-info>
       <title>Skapa konto</title>
       <short-title>Skapa konto</short-title>

@@ -1,16 +1,19 @@
 package se.vgregion.activation.formbeans;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class ExternalUserFormBean implements Serializable {
     private static final long serialVersionUID = 123423412434333L;
 
     private String name;
+    private String surname;
     private String email;
-    private String telephone;
-    private String structure;
+    private String phone;
+    private String[] externStructurePersonDn = {"", "", ""};
     private String userType;
-    private String sponsor;
+    private String sponsorVgrId;
+    private String sponsorFullName;
 
     public String getName() {
         return name;
@@ -18,6 +21,14 @@ public class ExternalUserFormBean implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getEmail() {
@@ -28,20 +39,20 @@ public class ExternalUserFormBean implements Serializable {
         this.email = email;
     }
 
-    public String getTelephone() {
-        return telephone;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public String getStructure() {
-        return structure;
+    public String[] getExternStructurePersonDn() {
+        return externStructurePersonDn;
     }
 
-    public void setStructure(String structure) {
-        this.structure = structure;
+    public void setExternStructurePersonDn(String[] externStructurePersonDn) {
+        this.externStructurePersonDn = externStructurePersonDn;
     }
 
     public String getUserType() {
@@ -52,11 +63,33 @@ public class ExternalUserFormBean implements Serializable {
         this.userType = userType;
     }
 
-    public String getSponsor() {
-        return sponsor;
+    public String getSponsorVgrId() {
+        return sponsorVgrId;
     }
 
-    public void setSponsor(String sponsor) {
-        this.sponsor = sponsor;
+    public void setSponsorVgrId(String sponsorVgrId) {
+        this.sponsorVgrId = sponsorVgrId;
+    }
+
+    public String getSponsorFullName() {
+        return sponsorFullName;
+    }
+
+    public void setSponsorFullName(String sponsorFullName) {
+        this.sponsorFullName = sponsorFullName;
+    }
+
+    @Override
+    public String toString() {
+        return "ExternalUserFormBean{" +
+                "name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", externStructurePersonDn=" + (externStructurePersonDn == null ? null : Arrays.asList(externStructurePersonDn)) +
+                ", userType='" + userType + '\'' +
+                ", sponsorVgrId='" + sponsorVgrId + '\'' +
+                ", sponsorFullName='" + sponsorFullName + '\'' +
+                '}';
     }
 }

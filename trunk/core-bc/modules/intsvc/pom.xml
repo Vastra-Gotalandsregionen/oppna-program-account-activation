@@ -119,7 +119,7 @@
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-entitymanager</artifactId>
-      <scope>runtime</scope>
+      <version>3.6.0.Final</version>
     </dependency>
   </dependencies>
 

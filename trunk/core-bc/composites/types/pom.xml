@@ -21,13 +21,14 @@
       <scope>runtime</scope>
     </dependency>
     <dependency>
-      <groupId>javax.persistence</groupId>
-      <artifactId>persistence-api</artifactId>
-    </dependency>
-    <dependency>
       <groupId>se.vgregion.daoframework</groupId>
       <artifactId>dao-framework</artifactId>
       <version>3.5-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-entitymanager</artifactId>
+      <version>3.6.0.Final</version>
     </dependency>
 
     <!-- <dependency> -->
