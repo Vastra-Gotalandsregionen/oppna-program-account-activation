@@ -60,7 +60,7 @@ public class AccountActivationController {
     @RenderMapping(params = {"activationCode"})
     public String showPasswordFormForOTP(@ModelAttribute PasswordFormBean passwordFormBean, BindingResult result,
                                          Model model) {
-        return vadlidateAndShowForm(accountActivationLoginValidator, passwordFormBean, result, model);
+        return validateAndShowForm(accountActivationLoginValidator, passwordFormBean, result, model);
     }
 
     @ActionMapping(params = {"activationCode"})
@@ -74,7 +74,7 @@ public class AccountActivationController {
     @RenderMapping(params = {"vgrId"})
     public String showPasswordFormForDominoUser(@ModelAttribute PasswordFormBean passwordFormBean,
                                                 BindingResult result, Model model) {
-        return vadlidateAndShowForm(dominoLoginValidator, passwordFormBean, result, model);
+        return validateAndShowForm(dominoLoginValidator, passwordFormBean, result, model);
     }
 
     @ActionMapping(params = {"vgrId"})
@@ -85,7 +85,7 @@ public class AccountActivationController {
         setNewPassword(passwordFormBean, result, response, model, renderParams);
     }
 
-    private String vadlidateAndShowForm(Validator validator, @ModelAttribute PasswordFormBean passwordFormBean,
+    private String validateAndShowForm(Validator validator, @ModelAttribute PasswordFormBean passwordFormBean,
                                         BindingResult result, Model model) {
 
         // Always validate login password.
