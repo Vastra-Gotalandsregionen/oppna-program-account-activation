@@ -7,6 +7,8 @@
                            http://www.springframework.org/schema/context/spring-context.xsd">
 
   <bean class="se.vgregion.activation.controllers.InviteController" />
+  
+  <bean class="se.vgregion.activation.validators.ExternalUserValidator" />
 
   <!--<bean class="se.vgregion.activation.controllers.AccountActivationController">-->
     <!--<constructor-arg name="otpLoginValidator">-->
