@@ -1,13 +1,17 @@
 package se.vgregion.activation.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import se.vgregion.activation.formbeans.ExternalUserFormBean;
+import se.vgregion.activation.validators.ExternalUserValidator;
 
 import javax.portlet.PortletRequest;
 import java.util.Map;
@@ -15,6 +19,14 @@ import java.util.Map;
 @Controller
 @RequestMapping("VIEW")
 public class InviteController {
+
+    @Autowired
+    private ExternalUserValidator externalUserValidator;
+
+    @InitBinder("externalUserFormBean")
+    public void initBinder(WebDataBinder binder) {
+        binder.setValidator(externalUserValidator);
+    }
 
     @RequestMapping
     public String showExternalUserInvite(@ModelAttribute ExternalUserFormBean externalUserFormBean, Model model,

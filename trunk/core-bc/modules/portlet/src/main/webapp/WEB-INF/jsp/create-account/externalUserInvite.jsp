@@ -5,6 +5,30 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<script>
+    AUI().ready('aui-autocomplete', 'externStructurePersonDn', function(A) {
+        //alert("hej2");
+
+        var instance = new A.AutoComplete({
+            dataSource: [
+                ['AL', 'Alabama', 'The Heart of Dixie'],
+                ['AK', 'Alaska', 'The Land of the Midnight Sun'],
+                ['AZ', 'Arizona', 'The Grand Canyon State']
+            ],
+            schema: {
+                resultFields: ['key', 'name', 'description']
+            },
+            matchKey: 'name',
+            delimChar: ',',
+            typeAhead: true,
+            contentBox: '#externStructurePersonDnDiv'
+//input: '#test',
+//uniqueName: '#test'
+        }).render();
+    });
+
+
+</script>
 
 <jsp:useBean id="externalUserFormBean" type="se.vgregion.activation.formbeans.ExternalUserFormBean" scope="request"/>
 <portlet:actionURL var="invite" name="invite" escapeXml="false"/>
@@ -15,13 +39,16 @@
         <aui:input type="text" label="surname" name="surname" value="${externalUserFormBean.surname}"/>
         <aui:input type="text" label="email" name="email" value="${externalUserFormBean.email}"/>
         <aui:input type="text" label="phone" name="phone" value="${externalUserFormBean.phone}"/>
-        <c:forEach items="${externalUserFormBean.externStructurePersonDn}" var="part" varStatus="counter">
+        <aui:input type="text" label="externStructurePersonDn" name="externStructurePersonDn"
+                   value="${externalUserFormBean.phone}"/>
+        <%--<c:forEach items="${externalUserFormBean.externStructurePersonDn}" var="part" varStatus="counter">
             <aui:input type="text" label="organization ${counter.index}" name="externStructurePersonDn[${counter.index}]"
                        value="${part}"/>
-        </c:forEach>
+        </c:forEach>--%>
         <aui:input type="text" label="user-type" name="userType" value="${externalUserFormBean.userType}"/>
 
-        <aui:input type="text" label="sponsor-full-name" name="sponsorFullName" value="${externalUserFormBean.sponsorFullName}"/>
+        <aui:input type="text" label="sponsor-full-name" name="sponsorFullName"
+                   value="${externalUserFormBean.sponsorFullName}"/>
         <aui:input type="text" label="sponsor-vgr-id" name="sponsorVgrId" value="${externalUserFormBean.sponsorVgrId}"/>
         <form:errors path="externalUserFormBean.sponsorVgrId" cssClass="portlet-msg-error"/>
     </aui:fieldset>

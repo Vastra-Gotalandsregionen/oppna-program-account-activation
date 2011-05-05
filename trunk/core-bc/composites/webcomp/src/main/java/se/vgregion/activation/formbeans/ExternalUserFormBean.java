@@ -10,7 +10,7 @@ public class ExternalUserFormBean implements Serializable {
     private String surname;
     private String email;
     private String phone;
-    private String[] externStructurePersonDn = {"", "", ""};
+    private String externStructurePersonDn;
     private String userType;
     private String sponsorVgrId;
     private String sponsorFullName;
@@ -47,11 +47,11 @@ public class ExternalUserFormBean implements Serializable {
         this.phone = phone;
     }
 
-    public String[] getExternStructurePersonDn() {
+    public String getExternStructurePersonDn() {
         return externStructurePersonDn;
     }
 
-    public void setExternStructurePersonDn(String[] externStructurePersonDn) {
+    public void setExternStructurePersonDn(String externStructurePersonDn) {
         this.externStructurePersonDn = externStructurePersonDn;
     }
 
