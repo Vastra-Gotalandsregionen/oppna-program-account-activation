@@ -6,6 +6,7 @@ import com.liferay.portal.kernel.messaging.MessageBusException;
 import com.liferay.portal.kernel.messaging.MessageBusUtil;
 import com.liferay.portal.kernel.messaging.sender.MessageSender;
 import com.liferay.portal.kernel.messaging.sender.SynchronousMessageSender;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -16,6 +17,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
@@ -23,6 +25,7 @@ import se.vgregion.account.services.AccountService;
 import se.vgregion.activation.domain.ActivationAccount;
 import se.vgregion.activation.domain.ActivationCode;
 import se.vgregion.activation.formbeans.PasswordFormBean;
+import se.vgregion.activation.util.JaxbUtil;
 import se.vgregion.portal.ActivateUserResponse;
 import se.vgregion.portal.ActivateUserStatusCodeType;
 
@@ -49,7 +52,13 @@ public class AccountActivationControllerTest {
     AccountService accountService;
     @InjectMocks
     AccountActivationController accountActivationController = new AccountActivationController(mock(Validator.class),
-            mock(Validator.class), mock(Validator.class));
+                                                                                              mock(Validator.class), mock(Validator.class));
+
+    @Before
+    public void setUp() throws Exception {
+        JaxbUtil jaxbUtil = new JaxbUtil("se.vgregion.portal");
+        ReflectionTestUtils.setField(accountActivationController, "jaxbUtil", jaxbUtil);
+    }
 
     @Test
     public void testSuccessfulActivateAccountWithOTP() throws Exception {
@@ -70,7 +79,7 @@ public class AccountActivationControllerTest {
 
         //Do
         accountActivationController.activateAccountAsDominoUser(passwordFormBean, mock(BindingResult.class),
-                actionResponse, mock(Model.class));
+                                                                actionResponse, mock(Model.class));
 
         //Then
         verify(actionResponse).setRenderParameter("success", "true");
@@ -94,7 +103,7 @@ public class AccountActivationControllerTest {
 
         //Do
         accountActivationController.activateAccountAsDominoUser(passwordFormBean, mock(BindingResult.class),
-                actionResponse, model);
+                                                                actionResponse, model);
 
         //Then
         verify(actionResponse).setRenderParameter("failure", "true");
@@ -122,7 +131,7 @@ public class AccountActivationControllerTest {
 
         //Do
         accountActivationController.activateAccountAsDominoUser(passwordFormBean, mock(BindingResult.class),
-                actionResponse, model);
+                                                                actionResponse, model);
 
         //Then
         verify(actionResponse).setRenderParameter("failure", "true");
@@ -162,8 +171,8 @@ public class AccountActivationControllerTest {
             throw new RuntimeException("Failed to serialize message", e);
         }
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><activateUserResponse>" +
-                                "<userId>theuserid</userId><statusCode>SUCCESS</statusCode><message>The message" +
-                                "</message></activateUserResponse>", sw.toString());
+                             "<userId>theuserid</userId><statusCode>SUCCESS</statusCode><message>The message" +
+                             "</message></activateUserResponse>", sw.toString());
     }
 
 

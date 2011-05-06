@@ -3,6 +3,7 @@ package se.vgregion.activation.controllers;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.messaging.MessageBusException;
 import com.liferay.portal.kernel.messaging.MessageBusUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +16,7 @@ import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import se.vgregion.account.services.AccountService;
 import se.vgregion.activation.ActivateUserFailedException;
+import se.vgregion.activation.util.JaxbUtil;
 import se.vgregion.activation.domain.ActivationAccount;
 import se.vgregion.activation.domain.ActivationCode;
 import se.vgregion.activation.formbeans.PasswordFormBean;
@@ -24,12 +26,6 @@ import se.vgregion.portal.ActivateUserStatusCodeType;
 
 import javax.annotation.Resource;
 import javax.portlet.ActionResponse;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.util.*;
 
 @Controller
@@ -42,6 +38,9 @@ public class AccountActivationController {
 
     @Resource
     private AccountService accountService;
+
+    @Autowired
+    private JaxbUtil jaxbUtil;
 
     @InitBinder("passwordFormBean")
     public void initBinder(WebDataBinder binder) {
@@ -156,11 +155,11 @@ public class AccountActivationController {
         activateUser.setUserMail("");
 
         Message message = new Message();
-        message.setPayload(marshal(activateUser));
+        message.setPayload(jaxbUtil.marshal(activateUser));
         message.setResponseDestinationName("vgr/account_activation.REPLY");
 
         String response = (String) MessageBusUtil.sendSynchronousMessage("vgr/account_activation", message, 3000);
-        ActivateUserResponse activateUserResponse = unmarshal(response);
+        ActivateUserResponse activateUserResponse = jaxbUtil.unmarshal(response);
         if (activateUserResponse.getStatusCode() != ActivateUserStatusCodeType.SUCCESS) {
             throw new ActivateUserFailedException(activateUserResponse.getMessage());
         }
@@ -168,29 +167,4 @@ public class AccountActivationController {
         System.out.println("pw: " + passwordFormBean.getPassword());
     }
 
-    private ActivateUserResponse unmarshal(String xml) {
-        try {
-            JAXBContext jc = JAXBContext.newInstance("se.vgregion.portal");
-            //Create marshaller
-            Unmarshaller m = jc.createUnmarshaller();
-            //Marshal object into file.
-            return (ActivateUserResponse) m.unmarshal(new StringReader(xml));
-        } catch (JAXBException e) {
-            throw new RuntimeException("Failed to serialize message", e);
-        }
-    }
-
-    private String marshal(ActivateUser activateUser) {
-        StringWriter sw = new StringWriter();
-        try {
-            JAXBContext jc = JAXBContext.newInstance("se.vgregion.portal");
-            //Create marshaller
-            Marshaller m = jc.createMarshaller();
-            //Marshal object into file.
-            m.marshal(activateUser, sw);
-        } catch (JAXBException e) {
-            throw new RuntimeException("Failed to serialize message", e);
-        }
-        return sw.toString();
-    }
 }

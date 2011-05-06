@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:context="http://www.springframework.org/schema/context"
-  xsi:schemaLocation="http://www.springframework.org/schema/beans
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/context
                            http://www.springframework.org/schema/context/spring-context.xsd">
 
   <bean class="se.vgregion.activation.controllers.AccountActivationController">
     <constructor-arg name="otpLoginValidator">
-      <bean class="se.vgregion.activation.validators.AccountActivationLoginValidator" />
+      <bean class="se.vgregion.activation.validators.AccountActivationLoginValidator"/>
     </constructor-arg>
     <constructor-arg name="dominoLoginValidator">
-      <bean class="se.vgregion.activation.validators.DominoLoginValidator" />
+      <bean class="se.vgregion.activation.validators.DominoLoginValidator"/>
     </constructor-arg>
     <constructor-arg name="passwordMatchValidator">
-      <bean class="se.vgregion.activation.validators.PasswordMatchValidator" />
+      <bean class="se.vgregion.activation.validators.PasswordMatchValidator"/>
     </constructor-arg>
   </bean>
 
-  <bean class="se.vgregion.activation.controllers.LoginController" />
+  <bean id="jaxbUtil" class="se.vgregion.activation.util.JaxbUtil">
+    <constructor-arg value="se.vgregion.portal"/>
+  </bean>
+
+  <bean class="se.vgregion.activation.controllers.LoginController"/>
 
   <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
     <property name="basename" value="classpath:i18n/activate-account-messages"/>

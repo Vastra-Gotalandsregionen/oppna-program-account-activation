@@ -40,11 +40,6 @@
     <dependency>
       <groupId>se.vgregion.icc.sd.portal</groupId>
       <artifactId>portal-schemas</artifactId>
-      <version>1.0.2</version>
-    </dependency>
-    <dependency>
-      <groupId>se.vgregion.icc.sd.portal</groupId>
-      <artifactId>portal-schemas</artifactId>
       <version>1.0.3</version>
     </dependency>
 
@@ -75,6 +70,10 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc-portlet</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
     </dependency>
 
     <dependency>
