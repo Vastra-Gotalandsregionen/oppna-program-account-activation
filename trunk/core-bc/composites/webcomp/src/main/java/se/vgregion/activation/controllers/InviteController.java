@@ -1,21 +1,23 @@
 package se.vgregion.activation.controllers;
 
+import com.liferay.portal.kernel.messaging.Message;
+import com.liferay.portal.kernel.messaging.MessageBusException;
+import com.liferay.portal.kernel.messaging.MessageBusUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
+import se.vgregion.activation.util.JaxbUtil;
 import se.vgregion.activation.formbeans.ExternalUserFormBean;
 import se.vgregion.activation.validators.ExternalUserValidator;
+import se.vgregion.portal.*;
 
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -25,6 +27,9 @@ public class InviteController {
     @Autowired
     private ExternalUserValidator externalUserValidator;
 
+    @Autowired
+    private JaxbUtil jaxbUtil;
+
     /*@InitBinder("externalUserFormBean")
     public void initBinder(WebDataBinder binder) {
         binder.setValidator(externalUserValidator);
@@ -32,7 +37,6 @@ public class InviteController {
 
     @RequestMapping
     public String showExternalUserInvite(@ModelAttribute ExternalUserFormBean externalUserFormBean,
-                                         BindingResult result,
                                          Model model,
                                          PortletRequest req) {
         if (externalUserFormBean.getSponsorVgrId() == null) {
@@ -65,19 +69,42 @@ public class InviteController {
                        BindingResult result,
                        Model model,
                        PortletRequest req, ActionResponse resp) {
-        // 1: loggedInUser
-        // 2: no outstanding invites
-        // 3: user already in PK
-
         // validate indata
         String loggedInUser = lookupLoggedin(req);
-        externalUserValidator.validate(externalUserFormBean, result);
+        externalUserValidator.validateWithLoggedInUser(externalUserFormBean, result, loggedInUser);
         if (result.hasErrors()) {
 //            model.addAttribute("org.springframework.validation.BindingResult.externalUserFormBean", result);
             model.addAttribute("errors", result);
             return;
         }
 
+        // call Mule
+        try {
+            CreateUserResponse createUserResponse =  callCreateUser(externalUserFormBean);
+
+            // ?: new user -> pw + invite
+            // ?: user already in PK -> has outstanding invite -> possible reinvite or pw + invite
+            // ?: user already in PK -> no outstanding invites -> direct invite
+
+        } catch (MessageBusException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private CreateUserResponse callCreateUser(ExternalUserFormBean externalUserFormBean) throws MessageBusException {
+        CreateUser createUser = new CreateUser();
+        createUser.setUserName(externalUserFormBean.getName());
+        createUser.setUserSurname(externalUserFormBean.getSurname());
+        createUser.setUserMail(externalUserFormBean.getEmail());
+
+        Message message = new Message();
+        message.setPayload(jaxbUtil.marshal(createUser));
+        message.setResponseDestinationName("vgr/account_create.REPLY");
+
+        String response = (String) MessageBusUtil.sendSynchronousMessage("vgr/account_create", message, 5000);
+        return jaxbUtil.unmarshal(response);
     }
 
     private String lookupLoggedin(PortletRequest req) {
