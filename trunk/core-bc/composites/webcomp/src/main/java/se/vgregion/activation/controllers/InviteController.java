@@ -11,6 +11,8 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
+import org.springframework.web.portlet.bind.annotation.ResourceMapping;
+import se.vgregion.account.services.StructureService;
 import se.vgregion.activation.util.JaxbUtil;
 import se.vgregion.activation.formbeans.ExternalUserFormBean;
 import se.vgregion.activation.validators.ExternalUserValidator;
@@ -18,6 +20,8 @@ import se.vgregion.portal.*;
 
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
+import javax.portlet.PortletResponse;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -29,6 +33,9 @@ public class InviteController {
 
     @Autowired
     private JaxbUtil jaxbUtil;
+
+    @Autowired
+    private StructureService structureService;
 
     /*@InitBinder("externalUserFormBean")
     public void initBinder(WebDataBinder binder) {
@@ -56,6 +63,11 @@ public class InviteController {
         return "externalUserInvite";
     }
 
+    @ResourceMapping
+    public @ResponseBody List<String> searchStructure(String query, PortletResponse res) {
+        return structureService.search(query);
+    }
+
     @ExceptionHandler(Exception.class)
     public ModelAndView handleException(Exception ex) {
         ex.printStackTrace();
@@ -80,7 +92,7 @@ public class InviteController {
 
         // call Mule
         try {
-            CreateUserResponse createUserResponse =  callCreateUser(externalUserFormBean);
+            CreateUserResponse createUserResponse = callCreateUser(externalUserFormBean);
 
             // ?: new user -> pw + invite
             // ?: user already in PK -> has outstanding invite -> possible reinvite or pw + invite

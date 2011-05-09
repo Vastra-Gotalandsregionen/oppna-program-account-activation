@@ -48,7 +48,7 @@
                 resultFields: ['key', 'name', 'description']
             },
             matchKey: 'name',
-            delimChar: ',',
+            //delimChar: '/',
             typeAhead: false,
             contentBox: '#<portlet:namespace />externStructurePersonDnDiv',
             input: '#<portlet:namespace />externStructurePersonDn'

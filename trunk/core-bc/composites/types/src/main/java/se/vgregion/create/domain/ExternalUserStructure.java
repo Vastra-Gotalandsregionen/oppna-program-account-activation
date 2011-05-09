@@ -12,13 +12,30 @@ public class ExternalUserStructure extends AbstractEntity<Long> implements Seria
     @GeneratedValue
     private Long id;
 
-    String name;
+    private String name;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    ExternalUserStructure parent;
+    private ExternalUserStructure parent;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public ExternalUserStructure getParent() {
+        return parent;
+    }
+
+    public void setParent(ExternalUserStructure parent) {
+        this.parent = parent;
+    }
 
     @Override
     public Long getId() {
         return null;
     }
+
 }
