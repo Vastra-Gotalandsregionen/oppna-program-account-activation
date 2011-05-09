@@ -8,13 +8,16 @@ import java.io.Serializable;
 @Entity(name = "vgr_external_user_structure")
 public class ExternalUserStructure extends AbstractEntity<Long> implements Serializable {
 
+    public ExternalUserStructure() {}
+
     @Id
     @GeneratedValue
     private Long id;
 
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    @JoinColumn
     private ExternalUserStructure parent;
 
     public String getName() {
@@ -35,7 +38,10 @@ public class ExternalUserStructure extends AbstractEntity<Long> implements Seria
 
     @Override
     public Long getId() {
-        return null;
+        return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

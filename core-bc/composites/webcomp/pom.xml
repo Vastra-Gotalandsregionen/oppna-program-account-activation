@@ -31,11 +31,23 @@
       <groupId>${project.groupId}</groupId>
       <artifactId>oppna-program-account-activation-core-bc-composite-svc</artifactId>
       <version>${project.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate-entitymanager</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>oppna-program-account-activation-core-bc-composite-types</artifactId>
       <version>${project.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate-entitymanager</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>se.vgregion.icc.sd.portal</groupId>
