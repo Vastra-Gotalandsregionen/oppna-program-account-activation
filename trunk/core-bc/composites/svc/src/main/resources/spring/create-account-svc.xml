@@ -17,7 +17,7 @@
 
   <bean id="structureService" class="se.vgregion.account.services.StructureService"/>
 
-  <bean id="structureQueryUtil" class="se.vgregion.account.services.util.StructureQueryUtil" />
+  <bean id="queryUtil" class="se.vgregion.account.services.util.StructureQueryUtil" />
 
 
 </beans>
