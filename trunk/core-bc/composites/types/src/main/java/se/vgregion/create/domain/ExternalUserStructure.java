@@ -1,11 +1,13 @@
 package se.vgregion.create.domain;
 
+import org.hibernate.annotations.Index;
 import se.vgregion.dao.domain.patterns.entity.AbstractEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity(name = "vgr_external_user_structure")
+@Entity
+@Table(name = "vgr_external_user_structure")
 public class ExternalUserStructure extends AbstractEntity<Long> implements Serializable {
 
     public ExternalUserStructure() {}

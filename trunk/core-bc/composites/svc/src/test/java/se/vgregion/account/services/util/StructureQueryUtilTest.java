@@ -19,17 +19,18 @@ public class StructureQueryUtilTest {
         String[] queryParts = {"apa ab"};
         String result = queryUtil.whereClause(queryParts);
 
-        assertEquals("where s.name like ?1", result);
+        assertEquals("where lower(s.name) like ?1", result);
 
         queryParts = new String[]{"apa ab", "bepa division"};
         result = queryUtil.whereClause(queryParts);
 
-        assertEquals("where s.parent.name = ?1 and s.name like ?2", result);
+        assertEquals("join s.parent s2 where lower(s2.name) = ?1 and lower(s.name) like ?2", result);
 
         queryParts = new String[]{"apa ab", "bepa division", "cepa unit"};
         result = queryUtil.whereClause(queryParts);
 
-        assertEquals("where s.parent.parent.name = ?1 and s.parent.name = ?2 and s.name like ?3", result);
+        assertEquals("join s.parent s2 join s.parent.parent s3 where lower(s3.name) = ?1 and lower(s2.name) = ?2 and " +
+                "lower(s.name) like ?3", result);
 
         queryParts = new String[]{};
         result = queryUtil.whereClause(queryParts);

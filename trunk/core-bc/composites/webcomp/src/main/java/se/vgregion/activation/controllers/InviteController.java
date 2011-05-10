@@ -3,6 +3,10 @@ package se.vgregion.activation.controllers;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.messaging.MessageBusException;
 import com.liferay.portal.kernel.messaging.MessageBusUtil;
+import org.codehaus.jackson.JsonFactory;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.MappingJsonFactory;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,11 +22,13 @@ import se.vgregion.activation.formbeans.ExternalUserFormBean;
 import se.vgregion.activation.validators.ExternalUserValidator;
 import se.vgregion.portal.*;
 
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletResponse;
+import javax.portlet.*;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 @RequestMapping("VIEW")
@@ -64,8 +70,15 @@ public class InviteController {
     }
 
     @ResourceMapping
-    public @ResponseBody List<String> searchStructure(String query, PortletResponse res) {
-        return structureService.search(query);
+    public void searchStructure(@RequestParam String query, ResourceResponse res) {
+        Set<String> structures = structureService.search(query);
+        try {
+            OutputStream outputStream = res.getPortletOutputStream();
+            res.setContentType("application/json");
+            new ObjectMapper().writeValue(outputStream, structures);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @ExceptionHandler(Exception.class)
@@ -129,4 +142,5 @@ public class InviteController {
         }
         return userId;
     }
+
 }

@@ -1,6 +1,5 @@
 package se.vgregion.activation.util;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import se.vgregion.portal.ActivateUser;

@@ -26,7 +26,7 @@
       <version>1.4.8</version>
       <scope>test</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>oppna-program-account-activation-core-bc-composite-svc</artifactId>
@@ -53,6 +53,12 @@
       <groupId>se.vgregion.icc.sd.portal</groupId>
       <artifactId>portal-schemas</artifactId>
       <version>1.0.3</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-entitymanager</artifactId>
+      <version>3.6.0.Final</version>
     </dependency>
 
     <dependency>
@@ -95,6 +101,13 @@
       <scope>provided</scope>
       <!--<classifier>ee</classifier>-->
     </dependency>
+
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
+      <version>1.5.3</version>
+    </dependency>
+
 
   </dependencies>
 
