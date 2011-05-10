@@ -16,13 +16,15 @@ public class StructureQueryUtil {
         int length = queryParts.length;
         for (int i = 0; i < length-1 ; i++) {
             String queryPart = queryParts[i];
-            whereClause.append("s.");
+            StringBuilder joinClause = new StringBuilder("join s");
             for (int j = length-1; j > i; j--) {
-                whereClause.append("parent.");
+                joinClause.append(".parent");
             }
-            whereClause.append("name = ?"+(i+1)+" and ");
+            joinClause.append(" s"+(length-i)+" ");
+            whereClause.insert(0, joinClause);
+            whereClause.append("lower(s"+(length-i)+".name) = ?"+(i+1)+" and ");
         }
-        whereClause.append("s.name like ?"+ length);
+        whereClause.append("lower(s.name) like ?"+ length);
 
         return whereClause.toString();
     }

@@ -35,20 +35,34 @@
     </aui:button-row>
 </aui:form>
 
+<portlet:resourceURL var="resourceUrl" escapeXml="false"/>
+
 <script type="text/javascript">
+
     AUI().ready('aui-autocomplete', function(A) {
 
         var instance = new A.AutoComplete({
-            dataSource: [
-                ['AL', 'Alabama', 'The Heart of Dixie'],
-                ['AK', 'Alaska', 'The Land of the Midnight Sun'],
-                ['AZ', 'Arizona', 'The Grand Canyon State']
-            ],
-            schema: {
-                resultFields: ['key', 'name', 'description']
+            dataSource: function(request) {
+                var items = null;
+                A.io.request('<%= resourceUrl %>&query=' + A.one('#<portlet:namespace />externStructurePersonDn').get('value'), {
+                    cache: false,
+                    sync: true,
+                    timeout: 1000,
+                    dataType: 'json',
+                    method: 'get',
+                    on: {
+                        success: function() {
+                            items = this.get('responseData');
+                        },
+                        failure: function() {
+                        }
+                    }
+                });
+
+                return items;
             },
-            matchKey: 'name',
-            //delimChar: '/',
+            dataSourceType: 'Function',
+            schemaType: 'json',
             typeAhead: false,
             contentBox: '#<portlet:namespace />externStructurePersonDnDiv',
             input: '#<portlet:namespace />externStructurePersonDn'
