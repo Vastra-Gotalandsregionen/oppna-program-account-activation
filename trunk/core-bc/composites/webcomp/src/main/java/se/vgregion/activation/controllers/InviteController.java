@@ -15,6 +15,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
+import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import se.vgregion.account.services.StructureService;
 import se.vgregion.activation.util.JaxbUtil;
@@ -60,6 +61,7 @@ public class InviteController {
             }
             externalUserFormBean.setSponsorVgrId(userId);
         }
+
         // Workaround to get the errors form validation in actionrequest
         Errors errors = (Errors) model.asMap().get("errors");
         if (errors != null) {
@@ -81,6 +83,16 @@ public class InviteController {
         }
     }
 
+    @RenderMapping(params = {"inviteError"})
+    public String inviteError() {
+        return "inviteError";
+    }
+
+    @RenderMapping(params = {"inviteTimeout"})
+    public String inviteTimeout() {
+        return "inviteTimeout";
+    }
+
     @ExceptionHandler(Exception.class)
     public ModelAndView handleException(Exception ex) {
         ex.printStackTrace();
@@ -93,12 +105,13 @@ public class InviteController {
     public void invite(@ModelAttribute ExternalUserFormBean externalUserFormBean,
                        BindingResult result,
                        Model model,
-                       PortletRequest req, ActionResponse resp) {
+                       PortletRequest req, ActionResponse response) {
         // validate indata
         String loggedInUser = lookupLoggedin(req);
         externalUserValidator.validateWithLoggedInUser(externalUserFormBean, result, loggedInUser);
+
+        // Workaround to preserve Spring validation errors
         if (result.hasErrors()) {
-//            model.addAttribute("org.springframework.validation.BindingResult.externalUserFormBean", result);
             model.addAttribute("errors", result);
             return;
         }
@@ -107,11 +120,20 @@ public class InviteController {
         try {
             CreateUserResponse createUserResponse = callCreateUser(externalUserFormBean);
 
-            // ?: new user -> pw + invite
-            // ?: user already in PK -> has outstanding invite -> possible reinvite or pw + invite
-            // ?: user already in PK -> no outstanding invites -> direct invite
+            CreateUserStatusCodeType statusCode = createUserResponse.getStatusCode();
+            if (statusCode == CreateUserStatusCodeType.NEW_USER) {
+                // ?: new user -> invite
+
+            } else if (statusCode == CreateUserStatusCodeType.EXISTING_USER) {
+                // ?: user already in PK -> no/has outstanding invite ->  invite
+            } else {
+                // error -> cannot invite
+                response.setRenderParameter("inviteError", "true");
+            }
 
         } catch (MessageBusException e) {
+            // ?: timeout try again later
+            response.setRenderParameter("inviteTimeout", "true");
             e.printStackTrace();
         }
 
@@ -126,11 +148,11 @@ public class InviteController {
 
         Message message = new Message();
         message.setPayload(jaxbUtil.marshal(createUser));
-        message.setResponseDestinationName("vgr/account_create.REPLY");
 
-        String response = (String) MessageBusUtil.sendSynchronousMessage("vgr/account_create", message, 5000);
+        String response = (String) MessageBusUtil.sendSynchronousMessage("vgr/account_create", message, 7000);
         return jaxbUtil.unmarshal(response);
     }
+
 
     private String lookupLoggedin(PortletRequest req) {
         Map<String, String> userInfo = (Map<String, String>) req.getAttribute(PortletRequest.USER_INFO);
