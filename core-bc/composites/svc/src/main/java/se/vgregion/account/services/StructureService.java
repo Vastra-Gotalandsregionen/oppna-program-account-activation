@@ -13,7 +13,7 @@ import java.util.TreeSet;
 
 public class StructureService {
     @Autowired
-    @Qualifier(value = "externalUserStructureRepository")
+    @Qualifier("externalUserStructureRepository")
     private JpaRepository<ExternalUserStructure, Long, Long> structureRepository;
 
     @Value("${max.results:10}")
