@@ -1,11 +1,9 @@
 package se.vgregion.create.domain;
 
+import org.hibernate.annotations.Index;
 import se.vgregion.dao.domain.patterns.entity.AbstractEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * User: pabe
@@ -13,7 +11,7 @@ import javax.persistence.Table;
  * Time: 15:34
  */
 @Entity
-@Table(name = "vgr_activation_invite_preferences")
+@Table(name = "vgr_activation_invite_preferences", uniqueConstraints = @UniqueConstraint(columnNames = "title"))
 public class InvitePreferences extends AbstractEntity<Long> {
     @Id
     @GeneratedValue

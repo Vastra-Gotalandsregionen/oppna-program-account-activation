@@ -10,16 +10,13 @@
 
   <tx:annotation-driven/>
 
-  <bean id="externalUserStructureRepository"
-        class="se.vgregion.dao.domain.patterns.repository.db.jpa.DefaultJpaRepository">
-    <constructor-arg type="java.lang.Class" value="se.vgregion.create.domain.ExternalUserStructure"/>
-  </bean>
+  <bean id="externalUserStructureRepository" class="se.vgregion.account.services.repository.ExternalUserStructureRepositoryImpl" />
 
-  <bean id="invitePreferencesRepository" class="se.vgregion.dao.domain.patterns.repository.db.jpa.DefaultJpaRepository">
-    <constructor-arg type="java.lang.Class" value="se.vgregion.create.domain.InvitePreferences"/>
-  </bean>
+  <bean id="invitePreferencesRepository" class="se.vgregion.account.services.repository.InvitePreferencesRepositoryImpl" />
 
   <bean id="structureService" class="se.vgregion.account.services.StructureService"/>
+
+  <bean id="invitePreferencesService" class="se.vgregion.account.services.InvitePreferencesService"/>
 
   <bean id="queryUtil" class="se.vgregion.account.services.util.StructureQueryUtil"/>
 

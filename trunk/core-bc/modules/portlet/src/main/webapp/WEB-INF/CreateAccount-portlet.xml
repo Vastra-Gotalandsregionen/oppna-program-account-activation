@@ -13,7 +13,8 @@
         http://www.springframework.org/schema/tx/spring-tx.xsd">
 
   <import resource="applicationContext.xml"/>
-  <import resource="classpath*:spring/create-account-*.xml"/>
+  <import resource="classpath*:spring/create-account-controllers.xml"/>
+  <import resource="classpath*:spring/create-account-svc.xml"/>
 
   <!-- Enable annotation driven controllers, validation etc... -->
   <mvc:resources mapping="/resources/**" location="classpath:/**"/>

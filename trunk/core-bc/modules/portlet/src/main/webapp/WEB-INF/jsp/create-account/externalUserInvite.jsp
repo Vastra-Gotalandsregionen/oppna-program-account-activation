@@ -10,6 +10,12 @@
 
 <aui:form action="<%= invite %>" method="post">
     <aui:fieldset>
+        <aui:select label="invite" name="invite">
+            <c:forEach items="${invitePreferences}" var="prefs" >
+                <aui:option label="${prefs.title}" selected="${externalUserFormBean.invitePreferences.id eq prefs.id}" value="${prefs.id}" />
+            </c:forEach>
+        </aui:select>
+
         <aui:input type="text" label="name" name="name" value="${externalUserFormBean.name}"/>
         <form:errors path="externalUserFormBean.name" cssClass="portlet-msg-error"/>
         <aui:input type="text" label="surname" name="surname" value="${externalUserFormBean.surname}"/>

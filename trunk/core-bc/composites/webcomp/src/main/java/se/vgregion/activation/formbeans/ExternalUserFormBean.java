@@ -1,11 +1,14 @@
 package se.vgregion.activation.formbeans;
 
+import se.vgregion.create.domain.InvitePreferences;
+
 import java.io.Serializable;
 import java.util.Arrays;
 
 public class ExternalUserFormBean implements Serializable {
     private static final long serialVersionUID = 123423412434333L;
 
+    private InvitePreferences invitePreferences;
     private String name;
     private String surname;
     private String email;
@@ -14,6 +17,14 @@ public class ExternalUserFormBean implements Serializable {
     private String userType;
     private String sponsorVgrId;
     private String sponsorFullName;
+
+    public InvitePreferences getInvitePreferences() {
+        return invitePreferences;
+    }
+
+    public void setInvitePreferences(InvitePreferences invitePreferences) {
+        this.invitePreferences = invitePreferences;
+    }
 
     public String getName() {
         return name;

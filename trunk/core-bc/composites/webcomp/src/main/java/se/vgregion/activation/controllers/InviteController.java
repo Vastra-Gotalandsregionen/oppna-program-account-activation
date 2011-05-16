@@ -9,18 +9,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
+import se.vgregion.account.services.InvitePreferencesService;
 import se.vgregion.account.services.StructureService;
 import se.vgregion.activation.formbeans.ExternalUserFormBean;
 import se.vgregion.activation.util.JaxbUtil;
 import se.vgregion.activation.validators.ExternalUserValidator;
+import se.vgregion.create.domain.InvitePreferences;
 import se.vgregion.portal.CreateUser;
 import se.vgregion.portal.CreateUserResponse;
 import se.vgregion.portal.CreateUserStatusCodeType;
@@ -30,12 +30,16 @@ import javax.portlet.PortletRequest;
 import javax.portlet.ResourceResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 @Controller
 @RequestMapping("VIEW")
 public class InviteController {
+
+    @Autowired
+    private InvitePreferencesService invitePreferencesService;
 
     @Autowired
     private ExternalUserValidator externalUserValidator;
@@ -46,10 +50,10 @@ public class InviteController {
     @Autowired
     private StructureService structureService;
 
-    /*@InitBinder("externalUserFormBean")
+    @InitBinder("externalUserFormBean")
     public void initBinder(WebDataBinder binder) {
-        binder.setValidator(externalUserValidator);
-    }*/
+        binder.registerCustomEditor(InvitePreferences.class, new InvitePreferencesPropertyEditor());
+    }
 
     @RequestMapping
     public String showExternalUserInvite(@ModelAttribute ExternalUserFormBean externalUserFormBean,
@@ -63,6 +67,9 @@ public class InviteController {
             }
             externalUserFormBean.setSponsorVgrId(userId);
         }
+
+        List<InvitePreferences> invitePreferenceses = (List<InvitePreferences>) invitePreferencesService.findAll();
+        model.addAttribute("invitePreferences", invitePreferenceses);
 
         // Workaround to get the errors form validation in actionrequest
         Errors errors = (Errors) model.asMap().get("errors");
