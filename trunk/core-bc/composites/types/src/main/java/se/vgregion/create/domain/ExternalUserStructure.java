@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "vgr_external_user_structure")
+@Table(name = "vgr_activation_external_user_structure")
 public class ExternalUserStructure extends AbstractEntity<Long> implements Serializable {
 
     public ExternalUserStructure() {}

@@ -3,31 +3,33 @@ package se.vgregion.activation.controllers;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.messaging.MessageBusException;
 import com.liferay.portal.kernel.messaging.MessageBusUtil;
-import org.codehaus.jackson.JsonFactory;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.MappingJsonFactory;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import se.vgregion.account.services.StructureService;
-import se.vgregion.activation.util.JaxbUtil;
 import se.vgregion.activation.formbeans.ExternalUserFormBean;
+import se.vgregion.activation.util.JaxbUtil;
 import se.vgregion.activation.validators.ExternalUserValidator;
-import se.vgregion.portal.*;
+import se.vgregion.portal.CreateUser;
+import se.vgregion.portal.CreateUserResponse;
+import se.vgregion.portal.CreateUserStatusCodeType;
 
-import javax.portlet.*;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletRequest;
+import javax.portlet.ResourceResponse;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -164,5 +166,4 @@ public class InviteController {
         }
         return userId;
     }
-
 }

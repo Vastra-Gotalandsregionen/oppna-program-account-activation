@@ -28,6 +28,7 @@ public class StructureServiceTest extends AbstractTransactionalJUnit4SpringConte
     private StructureService structureService;
 
     @Autowired
+    @Qualifier("externalUserStructureRepository")
     private JpaRepository<ExternalUserStructure, Long, Long> repository;
 
     /*
