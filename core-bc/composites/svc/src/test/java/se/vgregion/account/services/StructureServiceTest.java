@@ -1,19 +1,16 @@
 package se.vgregion.account.services;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.util.ReflectionTestUtils;
+import se.vgregion.account.services.repository.ExternalUserStructureRepository;
 import se.vgregion.create.domain.ExternalUserStructure;
-import se.vgregion.dao.domain.patterns.repository.db.jpa.JpaRepository;
 
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -28,8 +25,7 @@ public class StructureServiceTest extends AbstractTransactionalJUnit4SpringConte
     private StructureService structureService;
 
     @Autowired
-    @Qualifier("externalUserStructureRepository")
-    private JpaRepository<ExternalUserStructure, Long, Long> repository;
+    private ExternalUserStructureRepository repository;
 
     /*
     Tree structure

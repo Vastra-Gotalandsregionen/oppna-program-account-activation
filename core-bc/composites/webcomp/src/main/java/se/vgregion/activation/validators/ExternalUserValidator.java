@@ -10,8 +10,6 @@ import javax.annotation.Resource;
 import java.util.regex.Pattern;
 
 public class ExternalUserValidator implements Validator {
-    @Resource
-    AccountService accountService;
 
     private final static Pattern EMAIL_PATTERN = Pattern.compile(".+@.+\\.[a-z]+");
 

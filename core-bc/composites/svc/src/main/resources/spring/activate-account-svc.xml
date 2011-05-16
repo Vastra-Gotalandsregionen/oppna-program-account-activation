@@ -8,8 +8,9 @@
                            http://www.springframework.org/schema/tx
                            http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-  <context:component-scan base-package="se.vgregion.account.services" />
   <tx:annotation-driven />
+
+  <bean class="se.vgregion.account.services.AccountServiceImp" />
 
   <bean id="activationAccountRepository" class="se.vgregion.dao.domain.patterns.repository.db.jpa.DefaultJpaRepository">
     <constructor-arg type="java.lang.Class" value="se.vgregion.activation.domain.ActivationAccount" />

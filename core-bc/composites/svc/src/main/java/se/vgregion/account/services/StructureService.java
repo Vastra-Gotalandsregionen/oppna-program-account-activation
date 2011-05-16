@@ -1,20 +1,19 @@
 package se.vgregion.account.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import se.vgregion.account.services.repository.ExternalUserStructureRepository;
 import se.vgregion.account.services.util.StructureQueryUtil;
 import se.vgregion.create.domain.ExternalUserStructure;
-import se.vgregion.dao.domain.patterns.repository.db.jpa.JpaRepository;
 
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 public class StructureService {
+
     @Autowired
-    @Qualifier("externalUserStructureRepository")
-    private JpaRepository<ExternalUserStructure, Long, Long> structureRepository;
+    private ExternalUserStructureRepository structureRepository;
 
     @Value("${max.results:10}")
     private int maxResults;
