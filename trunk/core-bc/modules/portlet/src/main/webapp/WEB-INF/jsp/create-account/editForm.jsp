@@ -18,7 +18,7 @@
 <portlet:renderURL var="renderUrl"/>
 
 <table id="prefsTable">
-    <c:forEach var="prefs" items="${invitePreferencesFormBean.invitePreferencesList}">
+    <c:forEach var="prefs" items="${invitePreferencesListFormBean.invitePreferencesList}">
         <tr>
             <td>${prefs.title}</td>
             <td><a href="<%= renderUrl %>&action=edit&preferencesId=${prefs.id}">Ändra</a></td>

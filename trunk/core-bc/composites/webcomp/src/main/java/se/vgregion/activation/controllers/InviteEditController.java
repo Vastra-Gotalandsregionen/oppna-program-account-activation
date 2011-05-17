@@ -1,16 +1,18 @@
 package se.vgregion.activation.controllers;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import se.vgregion.account.services.InvitePreferencesService;
-import se.vgregion.account.services.repository.InvitePreferencesRepository;
-import se.vgregion.account.services.repository.InvitePreferencesRepositoryImpl;
 import se.vgregion.activation.formbeans.InvitePreferencesFormBean;
+import se.vgregion.activation.formbeans.InvitePreferencesListFormBean;
+import se.vgregion.activation.validators.InvitePreferencesValidator;
 import se.vgregion.create.domain.InvitePreferences;
 
 import javax.portlet.ActionRequest;
@@ -31,13 +33,16 @@ public class InviteEditController {
     @Autowired
     private InvitePreferencesService invitePreferencesService;
 
+    @Autowired
+    private InvitePreferencesValidator validator;
+
     @RenderMapping
     public String edit(ModelMap model, RenderRequest request) {
 
-        if (!model.containsKey("invitePreferencesFormBean")) {
-            InvitePreferencesFormBean preferencesFormBean = new InvitePreferencesFormBean();
-            preferencesFormBean.setInvitePreferencesList((List<InvitePreferences>) invitePreferencesService.findAll());
-            model.addAttribute("invitePreferencesFormBean", preferencesFormBean);
+        if (!model.containsKey("invitePreferencesListFormBean")) {
+            InvitePreferencesListFormBean preferencesListFormBean = new InvitePreferencesListFormBean();
+            preferencesListFormBean.setInvitePreferencesList((List<InvitePreferences>) invitePreferencesService.findAll());
+            model.addAttribute("invitePreferencesListFormBean", preferencesListFormBean);
         }
 
         String message = request.getParameter("message");
@@ -45,37 +50,47 @@ public class InviteEditController {
             model.addAttribute("message", message);
         }
 
+        if (model.get("errors") != null) {
+            model.addAttribute("org.springframework.validation.BindingResult.passwordFormBean",
+                    model.get("errors"));
+            return "editPreferencesForm";
+        }
+
         return "editForm";
     }
 
     @RenderMapping(params = {"action=edit"})
-    public String editPreferences(ModelMap modelMap, RenderRequest request) {
+    public String editPreferences(ModelMap modelMap, RenderRequest request,
+                                  @ModelAttribute InvitePreferencesFormBean invitePreferencesFormBean) {
         Long id = Long.parseLong(request.getParameter("preferencesId"));
         InvitePreferences preferences = invitePreferencesService.find(id);
-        modelMap.addAttribute("preferences", preferences);
+        modelMap.addAttribute("invitePreferencesFormBean", preferences);
         return "editPreferencesForm";
     }
 
     @ActionMapping(params = {"action=save"})
-    public void savePreferences(ActionRequest request, ActionResponse response) {
-        String preferencesId = request.getParameter("preferencesId");
-        String title = request.getParameter("title");
-        String customMessage = request.getParameter("customMessage");
-        String customUrl = request.getParameter("customUrl");
+    public void savePreferences(ActionRequest request, ActionResponse response,
+                                @ModelAttribute InvitePreferencesFormBean invitePreferencesFormBean,
+                                BindingResult errors, Model model) {
 
         InvitePreferences preferences;
-        if (StringUtils.isBlank(preferencesId)) {
+        if (invitePreferencesFormBean.getId() == null) {
             preferences = new InvitePreferences();
         } else {
-            preferences = invitePreferencesService.find(Long.parseLong(preferencesId));
+            preferences = invitePreferencesService.find(invitePreferencesFormBean.getId());
         }
-        preferences.setTitle(title);
-        preferences.setCustomMessage(customMessage);
-        preferences.setCustomUrl(customUrl);
+        preferences.setTitle(invitePreferencesFormBean.getTitle());
+        preferences.setCustomMessage(invitePreferencesFormBean.getCustomMessage());
+        preferences.setCustomUrl(invitePreferencesFormBean.getCustomUrl());
 
-        invitePreferencesService.merge(preferences);
+        validator.validate(preferences, errors);
 
-        response.setRenderParameter("message", "Sparat!");
+        if (errors.hasErrors()) {
+            model.addAttribute("errors", errors);
+        } else {
+            invitePreferencesService.merge(preferences);
+            response.setRenderParameter("message", "Sparat!");
+        }
     }
 
     @RenderMapping(params = {"action=remove"})

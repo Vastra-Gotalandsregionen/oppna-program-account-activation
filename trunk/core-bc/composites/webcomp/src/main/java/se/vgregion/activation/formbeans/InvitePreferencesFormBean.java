@@ -1,9 +1,5 @@
 package se.vgregion.activation.formbeans;
 
-import se.vgregion.create.domain.InvitePreferences;
-
-import java.util.List;
-
 /**
  * User: pabe
  * Date: 2011-05-12
@@ -11,23 +7,40 @@ import java.util.List;
  */
 public class InvitePreferencesFormBean {
 
-    private List<InvitePreferences> invitePreferencesList;
+    private Long id;
+    private String title;
+    private String customMessage;
+    private String customUrl;
 
-    private InvitePreferences currentInvitePreferences;
-
-    public List<InvitePreferences> getInvitePreferencesList() {
-        return invitePreferencesList;
+    public Long getId() {
+        return id;
     }
 
-    public void setInvitePreferencesList(List<InvitePreferences> invitePreferencesList) {
-        this.invitePreferencesList = invitePreferencesList;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public InvitePreferences getCurrentInvitePreferences() {
-        return currentInvitePreferences;
+    public String getTitle() {
+        return title;
     }
 
-    public void setCurrentInvitePreferences(InvitePreferences currentInvitePreferences) {
-        this.currentInvitePreferences = currentInvitePreferences;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getCustomMessage() {
+        return customMessage;
+    }
+
+    public void setCustomMessage(String customMessage) {
+        this.customMessage = customMessage;
+    }
+
+    public String getCustomUrl() {
+        return customUrl;
+    }
+
+    public void setCustomUrl(String customUrl) {
+        this.customUrl = customUrl;
     }
 }
