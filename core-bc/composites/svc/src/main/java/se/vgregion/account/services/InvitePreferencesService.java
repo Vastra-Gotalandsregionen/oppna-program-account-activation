@@ -7,6 +7,7 @@ import se.vgregion.account.services.repository.InvitePreferencesRepository;
 import se.vgregion.create.domain.InvitePreferences;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * User: pabe
@@ -34,5 +35,17 @@ public class InvitePreferencesService {
     @Transactional
     public void remove(Long id) {
         invitePreferencesRepository.remove(id);
+    }
+
+    public InvitePreferences findByTitle(String title) {
+        List<InvitePreferences> list = (List<InvitePreferences>) invitePreferencesRepository.findByQuery("select p from InvitePreferences p where p.title = ?1",
+                new String[]{title});
+        if (list.size() == 0) {
+            return null;
+        } else if (list.size() > 1) {
+            throw new IllegalStateException("There should not exist more than one InvitePreferences with the same title.");
+        } else {
+            return list.get(0);
+        }
     }
 }

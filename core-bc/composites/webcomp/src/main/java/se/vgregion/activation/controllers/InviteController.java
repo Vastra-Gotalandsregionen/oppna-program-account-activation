@@ -132,12 +132,14 @@ public class InviteController {
             CreateUserStatusCodeType statusCode = createUserResponse.getStatusCode();
             if (statusCode == CreateUserStatusCodeType.NEW_USER) {
                 // ?: new user -> invite
+                response.setRenderParameter("success", "true");
 
             } else if (statusCode == CreateUserStatusCodeType.EXISTING_USER) {
                 // ?: user already in PK -> no/has outstanding invite ->  invite
+                response.setRenderParameter("success", "true");
             } else {
                 // error -> cannot invite
-                response.setRenderParameter("inviteError", "true");
+                response.setRenderParameter("failure", "true");
             }
 
         } catch (MessageBusException e) {
@@ -145,8 +147,11 @@ public class InviteController {
             response.setRenderParameter("inviteTimeout", "true");
             e.printStackTrace();
         }
+    }
 
-
+    @RenderMapping(params = {"success"})
+    public String success() {
+        return "success";
     }
 
     private CreateUserResponse callCreateUser(ExternalUserFormBean externalUserFormBean) throws MessageBusException {

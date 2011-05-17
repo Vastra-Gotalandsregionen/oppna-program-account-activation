@@ -15,6 +15,7 @@
   </bean>
 
   <bean class="se.vgregion.activation.validators.ExternalUserValidator" />
+  <bean class="se.vgregion.activation.validators.InvitePreferencesValidator" />
 
   <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
     <property name="basename" value="classpath:i18n/create-account-messages"/>

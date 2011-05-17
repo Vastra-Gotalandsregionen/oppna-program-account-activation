@@ -9,12 +9,14 @@
 <portlet:renderURL var="renderUrl" />
 
 <aui:form action="<%= actionUrl %>" method="post">
-    <aui:input name="preferencesId" value="${preferences.id}" type="hidden" />
+    <aui:input name="preferencesId" value="${invitePreferencesFormBean.id}" type="hidden" />
     <aui:input name="action" value="save" type="hidden" />
     <aui:fieldset>
-        <aui:input type="text" label="title" name="title" value="${preferences.title}"/>
-        <aui:input type="text" label="customMessage" name="customMessage" value="${preferences.customMessage}"/>
-        <aui:input type="text" label="customerUrl" name="customUrl" value="${preferences.customUrl}"/>
+        <aui:input type="text" label="title" name="title" value="${invitePreferencesFormBean.title}"/>
+        <form:errors path="invitePreferencesFormBean.title" cssClass="portlet-msg-error" />
+        <aui:input type="text" label="customMessage" name="customMessage" value="${invitePreferencesFormBean.customMessage}"/>
+        <aui:input type="text" label="customerUrl" name="customUrl" value="${invitePreferencesFormBean.customUrl}"/>
+        <form:errors path="invitePreferencesFormBean.customUrl" cssClass="portlet-msg-error" />
     </aui:fieldset>
     <aui:button-row>
         <aui:button type="submit" value="Spara"/>
