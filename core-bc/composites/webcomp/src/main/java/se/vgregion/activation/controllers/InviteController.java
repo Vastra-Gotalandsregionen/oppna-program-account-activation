@@ -61,11 +61,14 @@ public class InviteController {
                                          PortletRequest req) {
         if (externalUserFormBean.getSponsorVgrId() == null) {
             //Meaning first request
-            String userId = lookupLoggedin(req);
+            String userId = lookupP3PInfo(req, PortletRequest.P3PUserInfos.USER_LOGIN_ID);
             if (userId == null) {
                 throw new IllegalStateException("Du måste vara inloggad.");
             }
+            String sponsorName = lookupP3PInfo(req, PortletRequest.P3PUserInfos.USER_NAME_GIVEN);
+            String sponsorFamily = lookupP3PInfo(req, PortletRequest.P3PUserInfos.USER_NAME_FAMILY);
             externalUserFormBean.setSponsorVgrId(userId);
+            externalUserFormBean.setSponsorFullName(String.format("%s %s", sponsorName, sponsorFamily));
         }
 
         List<InvitePreferences> invitePreferenceses = (List<InvitePreferences>) invitePreferencesService.findAll();
@@ -116,7 +119,7 @@ public class InviteController {
                        Model model,
                        PortletRequest req, ActionResponse response) {
         // validate indata
-        String loggedInUser = lookupLoggedin(req);
+        String loggedInUser = lookupP3PInfo(req, PortletRequest.P3PUserInfos.USER_LOGIN_ID);
         externalUserValidator.validateWithLoggedInUser(externalUserFormBean, result, loggedInUser);
 
         // Workaround to preserve Spring validation errors
@@ -168,14 +171,14 @@ public class InviteController {
     }
 
 
-    private String lookupLoggedin(PortletRequest req) {
+    private String lookupP3PInfo(PortletRequest req, PortletRequest.P3PUserInfos p3pInfo) {
         Map<String, String> userInfo = (Map<String, String>) req.getAttribute(PortletRequest.USER_INFO);
-        String userId;
+        String info;
         if (userInfo != null) {
-            userId = userInfo.get(PortletRequest.P3PUserInfos.USER_LOGIN_ID.toString());
+            info = userInfo.get(p3pInfo.toString());
         } else {
             return null;
         }
-        return userId;
+        return info;
     }
 }

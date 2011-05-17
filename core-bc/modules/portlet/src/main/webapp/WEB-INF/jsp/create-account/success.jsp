@@ -10,5 +10,5 @@
     En inbjudan har skickats till ${externalUserFormBean.name}
 </p>
 <p>
-    <a href="renderUrl">Tillbaka</a>
+    <a href="${renderUrl}">Tillbaka</a>
 </p>
