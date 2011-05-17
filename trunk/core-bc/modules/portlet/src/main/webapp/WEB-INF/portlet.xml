@@ -52,6 +52,15 @@
     <description>User Login ID</description>
     <name>user.login.id</name>
   </user-attribute>
+  <user-attribute>
+    <description>User Family</description>
+    <name>user.name.family</name>
+  </user-attribute>
+  <user-attribute>
+    <description>User Name</description>
+    <name>user.name.given</name>
+  </user-attribute>
+
 </portlet-app>
 
 

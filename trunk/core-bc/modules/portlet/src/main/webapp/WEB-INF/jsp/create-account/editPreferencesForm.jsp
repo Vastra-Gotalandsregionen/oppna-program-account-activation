@@ -9,7 +9,7 @@
 <portlet:renderURL var="renderUrl" />
 
 <aui:form action="<%= actionUrl %>" method="post">
-    <aui:input name="preferencesId" value="${invitePreferencesFormBean.id}" type="hidden" />
+    <aui:input name="id" value="${invitePreferencesFormBean.id}" type="hidden" />
     <aui:input name="action" value="save" type="hidden" />
     <aui:fieldset>
         <aui:input type="text" label="title" name="title" value="${invitePreferencesFormBean.title}"/>

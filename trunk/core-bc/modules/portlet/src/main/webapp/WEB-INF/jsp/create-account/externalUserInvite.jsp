@@ -10,40 +10,64 @@
 
 <aui:form action="<%= invite %>" method="post">
     <aui:fieldset>
-        <aui:select label="invite" name="invite">
-            <c:forEach items="${invitePreferences}" var="prefs" >
-                <aui:option label="${prefs.title}" selected="${externalUserFormBean.invitePreferences.id eq prefs.id}" value="${prefs.id}" />
+        <aui:select label="invite" name="invite" onChange="javascript:toggleAttributesDiv(this)">
+            <aui:option label=""/>
+            <c:forEach items="${invitePreferences}" var="prefs">
+                <aui:option label="${prefs.title}" selected="${externalUserFormBean.invitePreferences.id eq prefs.id}"
+                            value="${prefs.id}"/>
             </c:forEach>
         </aui:select>
 
-        <aui:input type="text" label="name" name="name" value="${externalUserFormBean.name}"/>
-        <form:errors path="externalUserFormBean.name" cssClass="portlet-msg-error"/>
-        <aui:input type="text" label="surname" name="surname" value="${externalUserFormBean.surname}"/>
-        <form:errors path="externalUserFormBean.surname" cssClass="portlet-msg-error"/>
-        <aui:input type="text" label="email" name="email" value="${externalUserFormBean.email}"/>
-        <form:errors path="externalUserFormBean.email" cssClass="portlet-msg-error"/>
+        <div id="<portlet:namespace/>attributes">
+            <aui:input type="text" label="name" name="name" value="${externalUserFormBean.name}"/>
+            <form:errors path="externalUserFormBean.name" cssClass="portlet-msg-error"/>
+            <aui:input type="text" label="surname" name="surname" value="${externalUserFormBean.surname}"/>
+            <form:errors path="externalUserFormBean.surname" cssClass="portlet-msg-error"/>
+            <aui:input type="text" label="email" name="email" value="${externalUserFormBean.email}"/>
+            <form:errors path="externalUserFormBean.email" cssClass="portlet-msg-error"/>
 
-        <aui:input type="text" label="phone" name="phone" value="${externalUserFormBean.phone}"/>
-        <div id="<portlet:namespace />externStructurePersonDnDiv">
-            <aui:input id="externStructurePersonDn" type="text" label="externStructurePersonDn"
-                       name="externStructurePersonDn"
-                       value="${externalUserFormBean.externStructurePersonDn}"/>
+            <aui:input type="text" label="phone" name="phone" value="${externalUserFormBean.phone}"/>
+            <div id="<portlet:namespace />externStructurePersonDnDiv">
+                <aui:input id="externStructurePersonDn" type="text" label="externStructurePersonDn"
+                           name="externStructurePersonDn"
+                           value="${externalUserFormBean.externStructurePersonDn}"/>
+            </div>
+            <aui:input type="text" label="user-type" name="userType" value="${externalUserFormBean.userType}"/>
+
+            <div class="aui-field-label"><spring:message code="sponsor-full-name"/></div>
+            <div>${externalUserFormBean.sponsorFullName}</div>
+
+            <aui:input type="hidden" label="sponsor-full-name" name="sponsorFullName"
+                       value="${externalUserFormBean.sponsorFullName}"/>
+            <aui:input type="hidden" label="sponsor-vgr-id" name="sponsorVgrId"
+                       value="${externalUserFormBean.sponsorVgrId}"/>
+            <form:errors path="externalUserFormBean.sponsorVgrId" cssClass="portlet-msg-error"/>
+            <aui:button-row>
+                <aui:button type="submit" value="Bjud in"/>
+            </aui:button-row>
         </div>
-        <aui:input type="text" label="user-type" name="userType" value="${externalUserFormBean.userType}"/>
-
-        <aui:input type="text" label="sponsor-full-name" name="sponsorFullName"
-                   value="${externalUserFormBean.sponsorFullName}"/>
-        <aui:input type="text" label="sponsor-vgr-id" name="sponsorVgrId" value="${externalUserFormBean.sponsorVgrId}"/>
-        <form:errors path="externalUserFormBean.sponsorVgrId" cssClass="portlet-msg-error"/>
     </aui:fieldset>
-    <aui:button-row>
-        <aui:button type="submit" value="Bjud in"/>
-    </aui:button-row>
 </aui:form>
 
 <portlet:resourceURL var="resourceUrl" escapeXml="false"/>
 
 <script type="text/javascript">
+    var select = document.getElementById("<portlet:namespace/>invite")
+    toggleAttributesDiv(select);
+
+    function toggleAttributesDiv(select) {
+        var div = document.getElementById("<portlet:namespace/>attributes");
+        for (var i=0; i<select.length; i++){
+            if (select.options[i].selected) {
+				if (select.options[i].text == "") {
+					div.style.display = "none";
+				} else {
+					div.style.display = "block";
+				}
+				break;
+			}
+        }
+    }
 
     AUI().ready('aui-autocomplete', function(A) {
 

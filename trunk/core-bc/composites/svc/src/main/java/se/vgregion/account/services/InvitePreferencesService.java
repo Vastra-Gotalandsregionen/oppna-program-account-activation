@@ -1,12 +1,12 @@
 package se.vgregion.account.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.vgregion.account.services.repository.InvitePreferencesRepository;
 import se.vgregion.create.domain.InvitePreferences;
 
-import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -24,8 +24,16 @@ public class InvitePreferencesService {
         return invitePreferencesRepository.merge(invitePreferences);
     }
 
-    public Collection<InvitePreferences> findAll() {
-        return invitePreferencesRepository.findAll();
+    public List<InvitePreferences> findAll() {
+        List<InvitePreferences> preferenceses = (List<InvitePreferences>) invitePreferencesRepository.findAll();
+        Collections.sort(preferenceses, new Comparator<InvitePreferences>() {
+            @Override
+            public int compare(InvitePreferences o1, InvitePreferences o2) {
+                return o1.getTitle().compareTo(o2.getTitle());
+            }
+        });
+
+        return preferenceses;
     }
 
     public InvitePreferences find(Long id) {

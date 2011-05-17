@@ -41,7 +41,8 @@ public class InviteEditController {
 
         if (!model.containsKey("invitePreferencesListFormBean")) {
             InvitePreferencesListFormBean preferencesListFormBean = new InvitePreferencesListFormBean();
-            preferencesListFormBean.setInvitePreferencesList((List<InvitePreferences>) invitePreferencesService.findAll());
+            List<InvitePreferences> all = invitePreferencesService.findAll();
+            preferencesListFormBean.setInvitePreferencesList(all);
             model.addAttribute("invitePreferencesListFormBean", preferencesListFormBean);
         }
 
