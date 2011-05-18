@@ -23,4 +23,6 @@
     <property name="defaultEncoding" value="UTF-8"/>
   </bean>
 
+  <bean class="se.vgregion.activation.controllers.InvitePreferencesPropertyEditor"/>
+
 </beans>

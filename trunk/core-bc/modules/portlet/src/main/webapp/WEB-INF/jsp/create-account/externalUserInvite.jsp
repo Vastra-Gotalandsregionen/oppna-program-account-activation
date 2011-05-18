@@ -17,18 +17,19 @@
 
 <aui:form action="<%= invite %>" method="post">
     <aui:fieldset>
-        <aui:select label="invite" name="invite" onChange="javascript:toggleAttributesDiv(this)">
+        <aui:select label="inviteTo" name="invitePreferences" onChange="javascript:toggleAttributesDiv(this)">
             <aui:option label=""/>
             <c:forEach items="${invitePreferences}" var="prefs">
                 <aui:option label="${prefs.title}" selected="${externalUserFormBean.invitePreferences.id eq prefs.id}"
                             value="${prefs.id}"/>
             </c:forEach>
         </aui:select>
+        <form:errors path="externalUserFormBean.invitePreferences" cssClass="portlet-msg-error"/>
 
         <div id="<portlet:namespace/>attributes">
             <aui:input type="text" label="name" name="name" value="${externalUserFormBean.name}"/>
             <form:errors path="externalUserFormBean.name" cssClass="portlet-msg-error"/>
-            <aui:input type="text" label="name" name="middleName" value="${externalUserFormBean.middleName}"/>
+            <aui:input type="text" label="middleName" name="middleName" value="${externalUserFormBean.middleName}"/>
             <aui:input type="text" label="surname" name="surname" value="${externalUserFormBean.surname}"/>
             <form:errors path="externalUserFormBean.surname" cssClass="portlet-msg-error"/>
             <aui:input type="text" label="email" name="email" value="${externalUserFormBean.email}"/>
@@ -91,21 +92,4 @@
             input: '#<portlet:namespace />externStructurePersonDn'
         }).render();
     });
-
-    var select = document.getElementById("<portlet:namespace/>invite")
-    toggleAttributesDiv(select);
-
-    function toggleAttributesDiv(select) {
-        var div = document.getElementById("<portlet:namespace/>attributes");
-        for (var i=0; i<select.length; i++){
-            if (select.options[i].selected) {
-				if (select.options[i].text == "") {
-					div.style.display = "none";
-				} else {
-					div.style.display = "block";
-				}
-				break;
-			}
-        }
-    }
 </script>

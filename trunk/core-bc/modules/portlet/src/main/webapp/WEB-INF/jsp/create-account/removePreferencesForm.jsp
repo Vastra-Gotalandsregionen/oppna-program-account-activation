@@ -16,7 +16,7 @@
     <aui:fieldset>
         <aui:input disabled="true" type="text" label="title" name="title" value="${preferences.title}"/>
         <aui:input disabled="true" type="text" label="customMessage" name="customMessage" value="${preferences.customMessage}"/>
-        <aui:input disabled="true" type="text" label="customerUrl" name="customUrl" value="${preferences.customUrl}"/>
+        <aui:input disabled="true" type="text" label="customUrl" name="customUrl" value="${preferences.customUrl}"/>
     </aui:fieldset>
     <aui:button-row>
         <aui:button type="submit" value="Ta bort"/>

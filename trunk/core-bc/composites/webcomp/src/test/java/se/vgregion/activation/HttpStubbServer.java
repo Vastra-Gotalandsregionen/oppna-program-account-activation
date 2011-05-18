@@ -23,7 +23,7 @@ import java.io.PrintWriter;
 public class HttpStubbServer {
 
     public static void main(String[] args) throws Exception {
-        Server server = new Server(81);
+        Server server = new Server(8100);
         server.addHandler(new AbstractHandler() {
             @Override
             public void handle(String s, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, int i) throws IOException, ServletException {

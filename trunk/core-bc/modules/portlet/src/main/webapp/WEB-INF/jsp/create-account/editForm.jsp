@@ -9,6 +9,15 @@
     #prefsTable tr td {
         padding-right: 20px;
     }
+
+    a.buttonlink {
+        text-decoration: none;
+        color: #34404F;
+
+    }
+    .imglink {
+        padding-top: 4px;
+    }
 </style>
 
 <c:if test="${not empty message}">
@@ -20,15 +29,30 @@
 <table id="prefsTable">
     <c:forEach var="prefs" items="${invitePreferencesListFormBean.invitePreferencesList}">
         <tr>
-            <td>${prefs.title}</td>
-            <td><a href="<%= renderUrl %>&action=edit&preferencesId=${prefs.id}">Ändra</a></td>
-            <td><a href="<%= renderUrl %>&action=remove&preferencesId=${prefs.id}">Ta bort</a></td>
+            <td>
+                <b>${prefs.title}</b>
+            </td>
+            <td>
+                <a title="Ändra" href="<%= renderUrl %>&action=edit&preferencesId=${prefs.id}">
+                    <img class="imglink" src="/vgr-theme/images/dockbar/settings.png" />
+                </a>
+            </td>
+            <td>
+                <a title="Ta bort" href="<%= renderUrl %>&action=remove&preferencesId=${prefs.id}">
+                    <img class="imglink" src="/vgr-theme/images/common/close.png" />
+                </a>
+            </td>
         </tr>
     </c:forEach>
     <tr>
         <td></td>
         <td></td>
-        <td><a href="<%= renderUrl %>&action=add">Lägg till</a></td>
+        <td>
+            <a title="Lägg till" href="<%= renderUrl %>&action=add">
+                <img class="imglink" src="/vgr-theme/images/dock/add_content.png" />
+            </a>
+        </td>
+
     </tr>
 </table>
 
