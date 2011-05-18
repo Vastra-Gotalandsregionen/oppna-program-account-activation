@@ -52,23 +52,6 @@
 <portlet:resourceURL var="resourceUrl" escapeXml="false"/>
 
 <script type="text/javascript">
-    var select = document.getElementById("<portlet:namespace/>invite")
-    toggleAttributesDiv(select);
-
-    function toggleAttributesDiv(select) {
-        var div = document.getElementById("<portlet:namespace/>attributes");
-        for (var i=0; i<select.length; i++){
-            if (select.options[i].selected) {
-				if (select.options[i].text == "") {
-					div.style.display = "none";
-				} else {
-					div.style.display = "block";
-				}
-				break;
-			}
-        }
-    }
-
     AUI().ready('aui-autocomplete', function(A) {
 
         var instance = new A.AutoComplete({
@@ -99,5 +82,20 @@
         }).render();
     });
 
+    var select = document.getElementById("<portlet:namespace/>invite")
+    toggleAttributesDiv(select);
 
+    function toggleAttributesDiv(select) {
+        var div = document.getElementById("<portlet:namespace/>attributes");
+        for (var i=0; i<select.length; i++){
+            if (select.options[i].selected) {
+				if (select.options[i].text == "") {
+					div.style.display = "none";
+				} else {
+					div.style.display = "block";
+				}
+				break;
+			}
+        }
+    }
 </script>

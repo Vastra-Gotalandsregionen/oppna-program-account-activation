@@ -2,13 +2,12 @@ package se.vgregion.account.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.transaction.annotation.Transactional;
 import se.vgregion.account.services.repository.ExternalUserStructureRepository;
 import se.vgregion.account.services.util.StructureQueryUtil;
 import se.vgregion.create.domain.ExternalUserStructure;
 
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 public class StructureService {
 
@@ -21,7 +20,7 @@ public class StructureService {
     @Autowired
     private StructureQueryUtil queryUtil;
 
-    public Set<String> search(String query) {
+    public Collection<String> search(String query) {
         Set<String> replyList = new TreeSet<String>();
 
         if (query == null) {
@@ -31,7 +30,7 @@ public class StructureService {
         String[] queryParts = query.split("/");
         queryParts[queryParts.length - 1] += "%";
 
-        String joinWhereClause = queryUtil.whereClause(queryParts);
+        String joinWhereClause = queryUtil.whereClause(queryParts, true);
 
         List<ExternalUserStructure> result = (List<ExternalUserStructure>) structureRepository
                 .findByQuery("select s from ExternalUserStructure s " + joinWhereClause, queryParts);
@@ -43,7 +42,7 @@ public class StructureService {
             List<ExternalUserStructure> children = (List<ExternalUserStructure>) structureRepository
                     .findByQuery("select s from ExternalUserStructure s join s.parent s2 where s2 = ?1",
                             new Object[]{externalUserStructure});
-            if(replyList.add(base)) cnt++;
+            if (replyList.add(base)) cnt++;
             if (cnt >= maxResults) break;
             for (ExternalUserStructure child : children) {
                 if (replyList.add(base + "/" + child.getName())) cnt++;
@@ -52,5 +51,46 @@ public class StructureService {
         }
 
         return replyList;
+    }
+
+    @Transactional
+    public void storeExternStructurePersonDn(String externStructurePersonDn) {
+        String[] parts = externStructurePersonDn.split("/");
+
+        // iterate through parts until an existing parent is found
+        ExternalUserStructure parent = null;
+        int i = parts.length;
+        while (i > 0) {
+            parent = existingStructure(Arrays.copyOf(parts, i));
+            if (parent != null) break; // existing parent found
+            i--;
+        }
+
+        // create the children that were not found
+        for (int j=i; j < parts.length; j++) {
+            ExternalUserStructure child = new ExternalUserStructure();
+            child.setParent(parent);
+            child.setName(parts[j]);
+
+            structureRepository.persist(child);
+
+            parent = child;
+        }
+    }
+
+    private ExternalUserStructure existingStructure(String[] parts) {
+        String where = queryUtil.whereClause(parts, false);
+        List<ExternalUserStructure> result = (List<ExternalUserStructure>) structureRepository
+                .findByQuery("select s from ExternalUserStructure s " + where, parts);
+
+        if (result.size() == 1) {
+            return result.get(0);
+        } else {
+            return null;
+        }
+    }
+
+    public void setMaxResults(int maxResults) {
+        this.maxResults = maxResults;
     }
 }

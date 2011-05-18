@@ -11,6 +11,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import se.vgregion.account.services.repository.ExternalUserStructureRepository;
 import se.vgregion.create.domain.ExternalUserStructure;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -85,7 +86,7 @@ public class StructureServiceTest extends AbstractTransactionalJUnit4SpringConte
     @DirtiesContext
     public void testSearch_I() throws Exception {
         //when
-        Set<String> result = structureService.search("I");
+        Collection<String> result = structureService.search("I");
 
         //then
         assertEquals(1, result.size());
@@ -94,7 +95,7 @@ public class StructureServiceTest extends AbstractTransactionalJUnit4SpringConte
     @DirtiesContext
     public void testSearch_G() throws Exception {
         //when
-        Set<String> result = structureService.search("G");
+        Collection<String> result = structureService.search("G");
 
         //then
         assertEquals(2, result.size());
@@ -109,8 +110,8 @@ public class StructureServiceTest extends AbstractTransactionalJUnit4SpringConte
     @DirtiesContext
     public void testSearch_D() throws Exception {
         //when
-        ReflectionTestUtils.setField(structureService, "maxResults", 11);
-        Set<String> result = structureService.search("D");
+        structureService.setMaxResults(11);
+        Collection<String> result = structureService.search("D");
 
         //then
         for (String s : result) {
@@ -123,18 +124,18 @@ public class StructureServiceTest extends AbstractTransactionalJUnit4SpringConte
     @DirtiesContext
     public void testSearch_maxResults() throws Exception {
         //when
-        ReflectionTestUtils.setField(structureService, "maxResults", 10);
-        Set<String> result = structureService.search("D");
+        structureService.setMaxResults(9);
+        Collection<String> result = structureService.search("D");
 
         //then
-        assertEquals(10, result.size());
+        assertEquals(9, result.size());
     }
 
     @Test
     @DirtiesContext
     public void testSearch_F11111() throws Exception {
         //when
-        Set<String> result = structureService.search("F11111");
+        Collection<String> result = structureService.search("F11111");
 
         //then
         assertEquals(1, result.size());
@@ -145,7 +146,7 @@ public class StructureServiceTest extends AbstractTransactionalJUnit4SpringConte
     @DirtiesContext
     public void testSearch_S1_B11() throws Exception {
         //when
-        Set<String> result = structureService.search("S1/B11");
+        Collection<String> result = structureService.search("S1/B11");
 
         //then
         assertEquals(3, result.size());
@@ -159,12 +160,39 @@ public class StructureServiceTest extends AbstractTransactionalJUnit4SpringConte
     @DirtiesContext
     public void testSearch_S1_D12_D11() throws Exception {
         //when
-        Set<String> result = structureService.search("S1/D12/D11");
+        Collection<String> result = structureService.search("S1/D12/D11");
 
         //then
         assertEquals(2, result.size());
         Iterator<String> i = result.iterator();
         assertEquals("S1/D12/D112", i.next());
         assertEquals("S1/D12/D112/E1111", i.next());
+    }
+
+    @Test
+    @DirtiesContext
+    public void testStoreExternStructurePersonDn() throws Exception {
+        String newOrgStructure = "apa/bepa/cepa/dippa";
+        structureService.storeExternStructurePersonDn(newOrgStructure);
+
+        newOrgStructure = "apa/bepa/cepa/dippa/fippla";
+        structureService.storeExternStructurePersonDn(newOrgStructure);
+
+        Collection<String> result = structureService.search("apa");
+        assertEquals(2, result.size());
+
+        result = structureService.search("bepa");
+        assertEquals(2, result.size());
+
+        result = structureService.search("cepa");
+        assertEquals(2, result.size());
+
+        result = structureService.search("dip");
+        assertEquals(2, result.size());
+
+        result = structureService.search("fip");
+        assertEquals(1, result.size());
+
+
     }
 }

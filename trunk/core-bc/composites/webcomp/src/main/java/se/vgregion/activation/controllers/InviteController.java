@@ -30,6 +30,7 @@ import javax.portlet.PortletRequest;
 import javax.portlet.ResourceResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -85,7 +86,7 @@ public class InviteController {
 
     @ResourceMapping
     public void searchStructure(@RequestParam String query, ResourceResponse res) {
-        Set<String> structures = structureService.search(query);
+        Collection<String> structures = structureService.search(query);
         try {
             OutputStream outputStream = res.getPortletOutputStream();
             res.setContentType("application/json");
@@ -136,10 +137,11 @@ public class InviteController {
             if (statusCode == CreateUserStatusCodeType.NEW_USER) {
                 // ?: new user -> invite
                 response.setRenderParameter("success", "true");
-
+                structureService.storeExternStructurePersonDn(externalUserFormBean.getExternStructurePersonDn());
             } else if (statusCode == CreateUserStatusCodeType.EXISTING_USER) {
                 // ?: user already in PK -> no/has outstanding invite ->  invite
                 response.setRenderParameter("success", "true");
+                structureService.storeExternStructurePersonDn(externalUserFormBean.getExternStructurePersonDn());
             } else {
                 // error -> cannot invite
                 response.setRenderParameter("failure", "true");
