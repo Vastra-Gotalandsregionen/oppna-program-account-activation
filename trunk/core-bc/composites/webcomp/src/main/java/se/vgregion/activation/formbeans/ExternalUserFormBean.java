@@ -10,9 +10,11 @@ public class ExternalUserFormBean implements Serializable {
 
     private InvitePreferences invitePreferences;
     private String name;
+    private String middleName;
     private String surname;
     private String email;
     private String phone;
+    private String mobile;
     private String externStructurePersonDn;
     private String userType;
     private String sponsorVgrId;
@@ -32,6 +34,14 @@ public class ExternalUserFormBean implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
     }
 
     public String getSurname() {
@@ -56,6 +66,14 @@ public class ExternalUserFormBean implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
     public String getExternStructurePersonDn() {

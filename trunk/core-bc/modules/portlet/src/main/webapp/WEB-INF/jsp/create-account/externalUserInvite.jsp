@@ -5,6 +5,13 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<style type="text/css">
+    /* A fix to make the autoComplete combobox aligned with the select button */
+    .aui-combobox-content .aui-field .aui-field-content {
+        margin: 0;
+    }
+</style>
+
 <jsp:useBean id="externalUserFormBean" type="se.vgregion.activation.formbeans.ExternalUserFormBean" scope="request"/>
 <portlet:actionURL var="invite" name="invite" escapeXml="false"/>
 
@@ -21,12 +28,15 @@
         <div id="<portlet:namespace/>attributes">
             <aui:input type="text" label="name" name="name" value="${externalUserFormBean.name}"/>
             <form:errors path="externalUserFormBean.name" cssClass="portlet-msg-error"/>
+            <aui:input type="text" label="name" name="middleName" value="${externalUserFormBean.middleName}"/>
             <aui:input type="text" label="surname" name="surname" value="${externalUserFormBean.surname}"/>
             <form:errors path="externalUserFormBean.surname" cssClass="portlet-msg-error"/>
             <aui:input type="text" label="email" name="email" value="${externalUserFormBean.email}"/>
             <form:errors path="externalUserFormBean.email" cssClass="portlet-msg-error"/>
 
             <aui:input type="text" label="phone" name="phone" value="${externalUserFormBean.phone}"/>
+            <aui:input type="text" label="mobile" name="mobile" value="${externalUserFormBean.mobile}"/>
+
             <div id="<portlet:namespace />externStructurePersonDnDiv">
                 <aui:input id="externStructurePersonDn" type="text" label="externStructurePersonDn"
                            name="externStructurePersonDn"
