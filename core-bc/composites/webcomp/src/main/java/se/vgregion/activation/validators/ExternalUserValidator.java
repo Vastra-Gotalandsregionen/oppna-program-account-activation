@@ -20,7 +20,6 @@ public class ExternalUserValidator implements Validator {
 
     public void validateWithLoggedInUser(ExternalUserFormBean form, Errors errors, String loggedInUser) {
         // 1: loggedInUser
-
         if (form.getSponsorVgrId() == null) {
             errors.rejectValue("sponsorVgrId", "invalid.sponsorVgrId.empty", "No sponsor given");
             return;
@@ -45,6 +44,8 @@ public class ExternalUserValidator implements Validator {
 
         // 4: mandatory information provided
 
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "invitePreferences", "invalid.invitePreferences.missing",
+                "Invite must be specified");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "invalid.name.missing", "Name must be specified");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "surname", "invalid.surname.missing", "Surname must be specified");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "invalid.email.missing", "Email must be specified");

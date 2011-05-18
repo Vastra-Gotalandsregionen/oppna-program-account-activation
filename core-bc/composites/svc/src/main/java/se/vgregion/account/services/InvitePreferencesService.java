@@ -29,7 +29,7 @@ public class InvitePreferencesService {
         Collections.sort(preferenceses, new Comparator<InvitePreferences>() {
             @Override
             public int compare(InvitePreferences o1, InvitePreferences o2) {
-                return o1.getTitle().compareTo(o2.getTitle());
+                return o1.getTitle().toLowerCase().compareTo(o2.getTitle().toLowerCase());
             }
         });
 

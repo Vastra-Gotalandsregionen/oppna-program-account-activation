@@ -43,6 +43,9 @@ public class InviteController {
     private InvitePreferencesService invitePreferencesService;
 
     @Autowired
+    private InvitePreferencesPropertyEditor invitePreferencesPropertyEditor;
+
+    @Autowired
     private ExternalUserValidator externalUserValidator;
 
     @Autowired
@@ -53,7 +56,7 @@ public class InviteController {
 
     @InitBinder("externalUserFormBean")
     public void initBinder(WebDataBinder binder) {
-        binder.registerCustomEditor(InvitePreferences.class, new InvitePreferencesPropertyEditor());
+        binder.registerCustomEditor(InvitePreferences.class, invitePreferencesPropertyEditor);
     }
 
     @RequestMapping

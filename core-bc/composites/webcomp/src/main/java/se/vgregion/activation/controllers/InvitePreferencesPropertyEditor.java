@@ -1,5 +1,6 @@
 package se.vgregion.activation.controllers;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import se.vgregion.account.services.InvitePreferencesService;
 import se.vgregion.create.domain.InvitePreferences;
@@ -19,9 +20,11 @@ public class InvitePreferencesPropertyEditor extends PropertyEditorSupport {
 
     @Override
     public void setAsText(String text) throws IllegalArgumentException {
-        Long id = Long.parseLong(text);
-        InvitePreferences preferences = invitePreferencesService.find(id);
-        setValue(preferences);
+        if (StringUtils.isNotBlank(text)) {
+            Long id = Long.parseLong(text);
+            InvitePreferences preferences = invitePreferencesService.find(id);
+            setValue(preferences);
+        }
     }
 
     @Override
