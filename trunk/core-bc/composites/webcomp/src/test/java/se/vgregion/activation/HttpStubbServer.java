@@ -3,8 +3,8 @@ package se.vgregion.activation;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.handler.AbstractHandler;
 import se.vgregion.activation.util.JaxbUtil;
-import se.vgregion.portal.CreateUserResponse;
-import se.vgregion.portal.CreateUserStatusCodeType;
+import se.vgregion.portal.user.CreateUserResponse;
+import se.vgregion.portal.user.CreateUserStatusCodeType;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;

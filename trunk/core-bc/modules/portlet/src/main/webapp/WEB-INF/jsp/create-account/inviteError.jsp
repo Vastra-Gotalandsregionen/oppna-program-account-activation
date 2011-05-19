@@ -5,11 +5,10 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<portlet:renderURL var="renderUrl"/>
+<portlet:renderURL var="renderUrl"/><aui:a label="" href=""></aui:a>
 <p>
-    Anropet misslyckades.<br/>
-    ${message}<br/>
-    Försök igen senare.
+    Du får inte skapa denna användaren.<br/>
+    ${message}
 </p>
 <p>
     <a href="${renderUrl}">Tillbaka</a>

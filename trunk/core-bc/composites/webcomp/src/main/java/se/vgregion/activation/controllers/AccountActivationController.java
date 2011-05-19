@@ -16,17 +16,18 @@ import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import se.vgregion.account.services.AccountService;
 import se.vgregion.activation.ActivateUserFailedException;
-import se.vgregion.activation.util.JaxbUtil;
 import se.vgregion.activation.domain.ActivationAccount;
 import se.vgregion.activation.domain.ActivationCode;
 import se.vgregion.activation.formbeans.PasswordFormBean;
-import se.vgregion.portal.ActivateUser;
-import se.vgregion.portal.ActivateUserResponse;
-import se.vgregion.portal.ActivateUserStatusCodeType;
+import se.vgregion.activation.util.JaxbUtil;
+import se.vgregion.portal.activateuser.ActivateUser;
+import se.vgregion.portal.activateuser.ActivateUserResponse;
+import se.vgregion.portal.activateuser.ActivateUserStatusCodeType;
 
 import javax.annotation.Resource;
 import javax.portlet.ActionResponse;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "VIEW")

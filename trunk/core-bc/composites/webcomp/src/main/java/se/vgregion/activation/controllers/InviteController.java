@@ -21,19 +21,20 @@ import se.vgregion.activation.formbeans.ExternalUserFormBean;
 import se.vgregion.activation.util.JaxbUtil;
 import se.vgregion.activation.validators.ExternalUserValidator;
 import se.vgregion.create.domain.InvitePreferences;
-import se.vgregion.portal.CreateUser;
-import se.vgregion.portal.CreateUserResponse;
-import se.vgregion.portal.CreateUserStatusCodeType;
+import se.vgregion.portal.user.CreateUser;
+import se.vgregion.portal.user.CreateUserResponse;
+import se.vgregion.portal.user.CreateUserStatusCodeType;
 
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.ResourceResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.ConnectException;
+import java.net.UnknownHostException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Controller
 @RequestMapping("VIEW")
@@ -99,14 +100,16 @@ public class InviteController {
         }
     }
 
-    @RenderMapping(params = {"inviteError"})
-    public String inviteError() {
-        return "inviteError";
+    @RenderMapping(params = {"unresponsive"})
+    public String unresponsive(@RequestParam(value = "unresponsive") String failureCode, Model model) {
+        model.addAttribute("message", failureCode);
+        return "inviteTimeout";
     }
 
-    @RenderMapping(params = {"inviteTimeout"})
-    public String inviteTimeout() {
-        return "inviteTimeout";
+    @RenderMapping(params = {"error"})
+    public String inviteError(@RequestParam(value = "error") String errorMessage, Model model) {
+        model.addAttribute("message", errorMessage);
+        return "inviteError";
     }
 
     @ExceptionHandler(Exception.class)
@@ -145,16 +148,31 @@ public class InviteController {
                 // ?: user already in PK -> no/has outstanding invite ->  invite
                 response.setRenderParameter("success", "true");
                 structureService.storeExternStructurePersonDn(externalUserFormBean.getExternStructurePersonDn());
-            } else {
+            } else if (statusCode == CreateUserStatusCodeType.ERROR){
                 // error -> cannot invite
-                response.setRenderParameter("failure", "true");
+                response.setRenderParameter("error", createUserResponse.getMessage());
             }
 
         } catch (MessageBusException e) {
             // ?: timeout try again later
-            response.setRenderParameter("inviteTimeout", "true");
-            e.printStackTrace();
+            handleMessageBusException(e, response);
+//            response.setRenderParameter("inviteTimeout", "true");
+//            e.printStackTrace();
         }
+    }
+
+    private void handleMessageBusException(MessageBusException e, ActionResponse response) {
+        Throwable rootCause = e.getCause();
+        if (rootCause instanceof ConnectException) {
+            response.setRenderParameter("unresponsive", "connection.failed");
+        } else if (rootCause instanceof UnknownHostException) {
+            response.setRenderParameter("unresponsive", "host.unknown");
+        } else if (e.getMessage().startsWith("No reply received for message")) {
+            response.setRenderParameter("unresponsive", "request.timeout");
+        } else {
+            response.setRenderParameter("unresponsive", "unknown.exception");
+        }
+
     }
 
     @RenderMapping(params = {"success"})
@@ -164,15 +182,21 @@ public class InviteController {
 
     private CreateUserResponse callCreateUser(ExternalUserFormBean externalUserFormBean) throws MessageBusException {
         CreateUser createUser = new CreateUser();
-        createUser.setUserName(externalUserFormBean.getName());
-        createUser.setUserSurname(externalUserFormBean.getSurname());
+        createUser.setUserFirstName(externalUserFormBean.getName());
+        createUser.setUserSurName(externalUserFormBean.getSurname());
         createUser.setUserMail(externalUserFormBean.getEmail());
 
         Message message = new Message();
         message.setPayload(jaxbUtil.marshal(createUser));
 
-        String response = (String) MessageBusUtil.sendSynchronousMessage("vgr/account_create", message, 7000);
-        return jaxbUtil.unmarshal(response);
+        Object response = MessageBusUtil.sendSynchronousMessage("vgr/account_create", message, 7000);
+        if (response instanceof Exception) {
+            throw new MessageBusException((Exception) response);
+        } else if (response instanceof String) {
+            return jaxbUtil.unmarshal((String) response);
+        } else {
+            throw new MessageBusException("Unknown response type: " + response.getClass());
+        }
     }
 
 
