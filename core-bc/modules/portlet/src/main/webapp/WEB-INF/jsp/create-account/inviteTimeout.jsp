@@ -8,7 +8,7 @@
 <portlet:renderURL var="renderUrl"/>
 <p>
     Anropet misslyckades.<br/>
-    ${message}<br/>
+    <spring:message code="${message}" text="${message}"/><br/><br/>
     Försök igen senare.
 </p>
 <p>
