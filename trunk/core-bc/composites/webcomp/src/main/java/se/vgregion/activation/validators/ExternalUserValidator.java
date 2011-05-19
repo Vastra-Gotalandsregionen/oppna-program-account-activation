@@ -49,6 +49,8 @@ public class ExternalUserValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "invalid.name.missing", "Name must be specified");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "surname", "invalid.surname.missing", "Surname must be specified");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "invalid.email.missing", "Email must be specified");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "externStructurePersonDn",
+                "invalid.externStructurePersonDn.missing", "Organisation must be specified");
 
         String email = form.getEmail();
         if (!isEmail(email)) {
