@@ -19,7 +19,7 @@
   </bean>
 
   <bean id="jaxbUtil" class="se.vgregion.activation.util.JaxbUtil">
-    <constructor-arg value="se.vgregion.portal"/>
+    <constructor-arg value="se.vgregion.portal.activateuser"/>
   </bean>
 
   <bean class="se.vgregion.activation.controllers.LoginController"/>

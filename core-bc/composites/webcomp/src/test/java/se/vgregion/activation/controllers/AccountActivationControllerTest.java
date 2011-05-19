@@ -26,8 +26,8 @@ import se.vgregion.activation.domain.ActivationAccount;
 import se.vgregion.activation.domain.ActivationCode;
 import se.vgregion.activation.formbeans.PasswordFormBean;
 import se.vgregion.activation.util.JaxbUtil;
-import se.vgregion.portal.ActivateUserResponse;
-import se.vgregion.portal.ActivateUserStatusCodeType;
+import se.vgregion.portal.activateuser.ActivateUserResponse;
+import se.vgregion.portal.activateuser.ActivateUserStatusCodeType;
 
 import javax.portlet.ActionResponse;
 import javax.xml.bind.JAXBContext;
@@ -35,8 +35,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 /**
@@ -52,11 +51,11 @@ public class AccountActivationControllerTest {
     AccountService accountService;
     @InjectMocks
     AccountActivationController accountActivationController = new AccountActivationController(mock(Validator.class),
-                                                                                              mock(Validator.class), mock(Validator.class));
+            mock(Validator.class), mock(Validator.class));
 
     @Before
     public void setUp() throws Exception {
-        JaxbUtil jaxbUtil = new JaxbUtil("se.vgregion.portal");
+        JaxbUtil jaxbUtil = new JaxbUtil("se.vgregion.portal.activateuser");
         ReflectionTestUtils.setField(accountActivationController, "jaxbUtil", jaxbUtil);
     }
 
@@ -69,9 +68,9 @@ public class AccountActivationControllerTest {
                 .thenAnswer(new Answer<String>() {
                     @Override
                     public String answer(InvocationOnMock invocation) throws Throwable {
-                        return "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><activateUserResponse>" +
-                                "<userId>theuserid</userId><statusCode>SUCCESS</statusCode><message>The message" +
-                                "</message></activateUserResponse>";
+                        return "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><activateUserResponse xmlns=\"" +
+                                "http://portal.vgregion.se/activationcode\"><userId>theuserid</userId><statusCode>SUCCESS</statusCode>" +
+                                "<message>The message</message></activateUserResponse>";
                     }
                 });
 
@@ -79,7 +78,7 @@ public class AccountActivationControllerTest {
 
         //Do
         accountActivationController.activateAccountAsDominoUser(passwordFormBean, mock(BindingResult.class),
-                                                                actionResponse, mock(Model.class));
+                actionResponse, mock(Model.class));
 
         //Then
         verify(actionResponse).setRenderParameter("success", "true");
@@ -103,7 +102,7 @@ public class AccountActivationControllerTest {
 
         //Do
         accountActivationController.activateAccountAsDominoUser(passwordFormBean, mock(BindingResult.class),
-                                                                actionResponse, model);
+                actionResponse, model);
 
         //Then
         verify(actionResponse).setRenderParameter("failure", "true");
@@ -120,9 +119,9 @@ public class AccountActivationControllerTest {
                     @Override
                     public String answer(InvocationOnMock invocation) throws Throwable {
                         //Note: <statusCode>Error</statusCode>
-                        return "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><activateUserResponse>" +
-                                "<userId>theuserid</userId><statusCode>ERROR</statusCode><message>The message" +
-                                "</message></activateUserResponse>";
+                        return "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><activateUserResponse xmlns=\"" +
+                                "http://portal.vgregion.se/activationcode\"><userId>theuserid</userId><statusCode>ERROR</statusCode>" +
+                                "<message>The message</message></activateUserResponse>";
                     }
                 });
 
@@ -131,7 +130,7 @@ public class AccountActivationControllerTest {
 
         //Do
         accountActivationController.activateAccountAsDominoUser(passwordFormBean, mock(BindingResult.class),
-                                                                actionResponse, model);
+                actionResponse, model);
 
         //Then
         verify(actionResponse).setRenderParameter("failure", "true");
@@ -162,7 +161,7 @@ public class AccountActivationControllerTest {
 
         StringWriter sw = new StringWriter();
         try {
-            JAXBContext jc = JAXBContext.newInstance("se.vgregion.portal");
+            JAXBContext jc = JAXBContext.newInstance("se.vgregion.portal.activateuser");
             //Create marshaller
             Marshaller m = jc.createMarshaller();
             //Marshal object into file.
@@ -170,9 +169,9 @@ public class AccountActivationControllerTest {
         } catch (JAXBException e) {
             throw new RuntimeException("Failed to serialize message", e);
         }
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><activateUserResponse>" +
-                             "<userId>theuserid</userId><statusCode>SUCCESS</statusCode><message>The message" +
-                             "</message></activateUserResponse>", sw.toString());
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><activateUserResponse xmlns=\"" +
+                "http://portal.vgregion.se/activationcode\"><userId>theuserid</userId><statusCode>SUCCESS</statusCode>" +
+                "<message>The message</message></activateUserResponse>", sw.toString());
     }
 
 

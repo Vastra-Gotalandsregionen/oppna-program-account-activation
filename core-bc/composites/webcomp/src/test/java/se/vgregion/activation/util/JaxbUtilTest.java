@@ -2,7 +2,7 @@ package se.vgregion.activation.util;
 
 import org.junit.Before;
 import org.junit.Test;
-import se.vgregion.portal.ActivateUser;
+import se.vgregion.portal.activateuser.ActivateUser;
 
 import static org.junit.Assert.assertEquals;
 
@@ -21,7 +21,7 @@ public class JaxbUtilTest {
 
     @Before
     public void setUp() throws Exception {
-        jaxbUtil = new JaxbUtil("se.vgregion.portal");
+        jaxbUtil = new JaxbUtil("se.vgregion.portal.activateuser");
 
         testObject = new ActivateUser();
         testObject.setActivationCode("apa");
@@ -29,13 +29,10 @@ public class JaxbUtilTest {
         testObject.setUserMail("apa@apa.nu");
         testObject.setUserPassword("apaapa");
 
-        testXml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
-                "<activateUser>" +
-                "<userId>ex_apa</userId>" +
-                "<userMail>apa@apa.nu</userMail>" +
-                "<activationCode>apa</activationCode>" +
-                "<userPassword>apaapa</userPassword>" +
-                "</activateUser>";
+        testXml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><activateUser xmlns=\"http://portal." +
+                "vgregion.se/activationcode\"><userId>ex_apa</userId><userMail>apa@apa.nu</userMail><activationCode>" +
+                "apa</activationCode><userPassword>apaapa</userPassword></activateUser>";
+        
     }
 
     @Test
