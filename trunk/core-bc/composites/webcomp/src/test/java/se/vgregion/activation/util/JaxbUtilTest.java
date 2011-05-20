@@ -1,11 +1,16 @@
 package se.vgregion.activation.util;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.test.util.ReflectionTestUtils;
 import se.vgregion.portal.activateuser.ActivateUser;
 import se.vgregion.portal.createuser.CreateUser;
 
+import javax.validation.constraints.AssertTrue;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by IntelliJ IDEA.
@@ -53,16 +58,27 @@ public class JaxbUtilTest {
 
         createObject = new CreateUser();
         createObject.setUserFirstName("name");
-        createObject.setUserMiddleName("middle");
         createObject.setUserSurName("sur");
-        createObject.setUserMail("apa@bepa.se");
+        createObject.setUserMiddleName("middle");
         createObject.setExternStructurepersonDN("apa/bepa");
         createObject.setUserTelephoneNumber("123456");
         createObject.setUserMobileTelephoneNumber("0123456");
-        createObject.setUserType("test");
+        createObject.setUserMail("apa@bepa.se");
         createObject.setSponsor("vgr_sponsor");
+        createObject.setUserType("test");
 
-        testXmlCreate = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><createUser xmlns=\"http://portal.vgregion.se/createuser\"><userFirstName>name</userFirstName><userSurName>sur</userSurName><userMiddleName>middle</userMiddleName><externStructurepersonDN>apa/bepa</externStructurepersonDN><userTelephoneNumber>123456</userTelephoneNumber><userMobileTelephoneNumber>0123456</userMobileTelephoneNumber><userMail>apa@bepa.se</userMail><sponsor>vgr_sponsor</sponsor><userType>test</userType></createUser>";
+        testXmlCreate = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
+                "<createUser xmlns=\"http://portal.vgregion.se/createuser\">" +
+                "<userFirstName>name</userFirstName>" +
+                "<userSurName>sur</userSurName>" +
+                "<userMiddleName>middle</userMiddleName>" +
+                "<externStructurepersonDN>apa/bepa</externStructurepersonDN>" +
+                "<userTelephoneNumber>123456</userTelephoneNumber>" +
+                "<userMobileTelephoneNumber>0123456</userMobileTelephoneNumber>" +
+                "<userMail>apa@bepa.se</userMail>" +
+                "<sponsor>vgr_sponsor</sponsor>" +
+                "<userType>test</userType>" +
+                "</createUser>";
     }
 
     @Test
@@ -89,5 +105,12 @@ public class JaxbUtilTest {
         assertEquals(activateObject.getUserId(), result.getUserId());
         assertEquals(activateObject.getUserMail(), result.getUserMail());
         assertEquals(activateObject.getUserPassword(), result.getUserPassword());
+    }
+
+    @Test
+    public void testUnmarshalCreate() throws Exception {
+        CreateUser result = jaxbUtilCreate.unmarshal(testXmlCreate);
+
+        assertTrue(EqualsBuilder.reflectionEquals(createObject, result));
     }
 }
