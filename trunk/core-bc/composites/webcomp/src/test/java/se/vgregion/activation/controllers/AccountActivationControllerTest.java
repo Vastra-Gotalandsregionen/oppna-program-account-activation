@@ -69,7 +69,8 @@ public class AccountActivationControllerTest {
                     @Override
                     public String answer(InvocationOnMock invocation) throws Throwable {
                         return "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><activateUserResponse xmlns=\"" +
-                                "http://portal.vgregion.se/activationcode\"><userId>theuserid</userId><statusCode>SUCCESS</statusCode>" +
+                                "http://portal.vgregion.se/activateuser\">" +
+                                "<userId>theuserid</userId><statusCode>SUCCESS</statusCode>" +
                                 "<message>The message</message></activateUserResponse>";
                     }
                 });
@@ -120,7 +121,8 @@ public class AccountActivationControllerTest {
                     public String answer(InvocationOnMock invocation) throws Throwable {
                         //Note: <statusCode>Error</statusCode>
                         return "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><activateUserResponse xmlns=\"" +
-                                "http://portal.vgregion.se/activationcode\"><userId>theuserid</userId><statusCode>ERROR</statusCode>" +
+                                "http://portal.vgregion.se/activateuser\">" +
+                                "<userId>theuserid</userId><statusCode>ERROR</statusCode>" +
                                 "<message>The message</message></activateUserResponse>";
                     }
                 });
@@ -170,7 +172,7 @@ public class AccountActivationControllerTest {
             throw new RuntimeException("Failed to serialize message", e);
         }
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><activateUserResponse xmlns=\"" +
-                "http://portal.vgregion.se/activationcode\"><userId>theuserid</userId><statusCode>SUCCESS</statusCode>" +
+                "http://portal.vgregion.se/activateuser\"><userId>theuserid</userId><statusCode>SUCCESS</statusCode>" +
                 "<message>The message</message></activateUserResponse>", sw.toString());
     }
 

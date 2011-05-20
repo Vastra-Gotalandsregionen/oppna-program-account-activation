@@ -3,6 +3,7 @@ package se.vgregion.activation.util;
 import org.junit.Before;
 import org.junit.Test;
 import se.vgregion.portal.activateuser.ActivateUser;
+import se.vgregion.portal.createuser.CreateUser;
 
 import static org.junit.Assert.assertEquals;
 
@@ -13,42 +14,80 @@ import static org.junit.Assert.assertEquals;
  * Time: 14:28
  */
 public class JaxbUtilTest {
-    private JaxbUtil jaxbUtil;
+    private JaxbUtil jaxbUtilActivate;
+    private JaxbUtil jaxbUtilCreate;
+    private JaxbUtil jaxbUtilInvite;
 
-    private ActivateUser testObject;
+    private ActivateUser activateObject;
+    private CreateUser createObject;
+    private ActivateUser inviteObject;
 
-    private String testXml;
+
+    private String testXmlCreate;
+    private String testXmlActivate;
+    private String testXmlInvite;
 
     @Before
     public void setUp() throws Exception {
-        jaxbUtil = new JaxbUtil("se.vgregion.portal.activateuser");
+        initActivate();
+        initCreate();
 
-        testObject = new ActivateUser();
-        testObject.setActivationCode("apa");
-        testObject.setUserId("ex_apa");
-        testObject.setUserMail("apa@apa.nu");
-        testObject.setUserPassword("apaapa");
+    }
 
-        testXml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><activateUser xmlns=\"http://portal." +
-                "vgregion.se/activationcode\"><userId>ex_apa</userId><userMail>apa@apa.nu</userMail><activationCode>" +
+    private void initActivate() {
+        jaxbUtilActivate = new JaxbUtil("se.vgregion.portal.activateuser");
+
+        activateObject = new ActivateUser();
+        activateObject.setActivationCode("apa");
+        activateObject.setUserId("ex_apa");
+        activateObject.setUserMail("apa@apa.nu");
+        activateObject.setUserPassword("apaapa");
+
+        testXmlActivate = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><activateUser xmlns=\"http://portal" +
+                ".vgregion.se/activateuser\"><userId>ex_apa</userId><userMail>apa@apa.nu</userMail><activationCode>" +
                 "apa</activationCode><userPassword>apaapa</userPassword></activateUser>";
-        
+    }
+
+    private void initCreate() {
+        jaxbUtilCreate = new JaxbUtil("se.vgregion.portal.createuser");
+
+        createObject = new CreateUser();
+        createObject.setUserFirstName("name");
+        createObject.setUserMiddleName("middle");
+        createObject.setUserSurName("sur");
+        createObject.setUserMail("apa@bepa.se");
+        createObject.setExternStructurepersonDN("apa/bepa");
+        createObject.setUserTelephoneNumber("123456");
+        createObject.setUserMobileTelephoneNumber("0123456");
+        createObject.setUserType("test");
+        createObject.setSponsor("vgr_sponsor");
+
+        testXmlCreate = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><createUser xmlns=\"http://portal.vgregion.se/createuser\"><userFirstName>name</userFirstName><userSurName>sur</userSurName><userMiddleName>middle</userMiddleName><externStructurepersonDN>apa/bepa</externStructurepersonDN><userTelephoneNumber>123456</userTelephoneNumber><userMobileTelephoneNumber>0123456</userMobileTelephoneNumber><userMail>apa@bepa.se</userMail><sponsor>vgr_sponsor</sponsor><userType>test</userType></createUser>";
     }
 
     @Test
-    public void testMarshal() throws Exception {
-        String result = jaxbUtil.marshal(testObject);
+    public void testMarshalActivate() throws Exception {
+        String result = jaxbUtilActivate.marshal(activateObject);
 
-        assertEquals(testXml, result);
+        assertEquals(testXmlActivate, result);
     }
 
     @Test
-    public void testUnmarshal() throws Exception {
-        ActivateUser result = jaxbUtil.unmarshal(testXml);
+    public void testMarshalCreate() throws Exception {
+        initCreate();
 
-        assertEquals(testObject.getActivationCode(), result.getActivationCode());
-        assertEquals(testObject.getUserId(), result.getUserId());
-        assertEquals(testObject.getUserMail(), result.getUserMail());
-        assertEquals(testObject.getUserPassword(), result.getUserPassword());
+        String result = jaxbUtilCreate.marshal(createObject);
+
+        assertEquals(testXmlCreate, result);
+    }
+
+    @Test
+    public void testUnmarshalAcitvate() throws Exception {
+        ActivateUser result = jaxbUtilActivate.unmarshal(testXmlActivate);
+
+        assertEquals(activateObject.getActivationCode(), result.getActivationCode());
+        assertEquals(activateObject.getUserId(), result.getUserId());
+        assertEquals(activateObject.getUserMail(), result.getUserMail());
+        assertEquals(activateObject.getUserPassword(), result.getUserPassword());
     }
 }

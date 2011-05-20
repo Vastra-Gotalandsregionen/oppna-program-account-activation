@@ -34,7 +34,7 @@
     <aui:button-row>
         <aui:button name="submitButton" type="submit" value="Spara"/>
         <button class="aui-button aui-button-content aui-button-submit">
-            <a class="buttonlink" href="<%= renderUrl %>">Avbryt</a>
+            <a class="buttonlink" href="<%= renderUrl %>"><span>Avbryt</span></a>
         </button>
     </aui:button-row>
 </aui:form>
