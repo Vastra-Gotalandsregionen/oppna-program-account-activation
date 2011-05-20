@@ -122,9 +122,11 @@ public class AccountActivationController {
                 //If callSetPassword does not throw exception
                 response.setRenderParameter("success", "true");
             } catch (ActivateUserFailedException e) {
+                // explicit response failure
                 response.setRenderParameter("failure", "true");
                 model.addAttribute("message", e.getMessage());
             } catch (MessageBusException e) {
+                // timeout
                 response.setRenderParameter("failure", "true");
                 model.addAttribute("message", "timeout-message");
             }
@@ -161,6 +163,7 @@ public class AccountActivationController {
 
         String response = (String) MessageBusUtil.sendSynchronousMessage("vgr/account_activation", message, 3000);
         ActivateUserResponse activateUserResponse = jaxbUtil.unmarshal(response);
+
         if (activateUserResponse.getStatusCode() != ActivateUserStatusCodeType.SUCCESS) {
             throw new ActivateUserFailedException(activateUserResponse.getMessage());
         }
