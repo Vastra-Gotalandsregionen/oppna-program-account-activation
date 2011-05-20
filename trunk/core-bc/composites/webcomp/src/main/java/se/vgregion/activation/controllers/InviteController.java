@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
@@ -25,9 +26,7 @@ import se.vgregion.portal.createuser.CreateUser;
 import se.vgregion.portal.createuser.CreateUserResponse;
 import se.vgregion.portal.createuser.CreateUserStatusCodeType;
 
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletRequest;
-import javax.portlet.ResourceResponse;
+import javax.portlet.*;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.ConnectException;
@@ -37,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@SessionAttributes("externalUserFormBean")
 @RequestMapping("VIEW")
 public class InviteController {
 
@@ -60,21 +60,31 @@ public class InviteController {
         binder.registerCustomEditor(InvitePreferences.class, invitePreferencesPropertyEditor);
     }
 
+    @ModelAttribute("externalUserFormBean")
+    public ExternalUserFormBean populate() {
+        return new ExternalUserFormBean();
+    }
+
     @RequestMapping
-    public String showExternalUserInvite(@ModelAttribute ExternalUserFormBean externalUserFormBean,
-                                         Model model,
-                                         PortletRequest req) {
+    public String showExternalUserInvite(
+            @ModelAttribute("externalUserFormBean") ExternalUserFormBean externalUserFormBean,
+            Model model,
+            RenderRequest req) {
         if (externalUserFormBean.getSponsorVgrId() == null) {
             //Meaning first request
             String userId = lookupP3PInfo(req, PortletRequest.P3PUserInfos.USER_LOGIN_ID);
             if (userId == null) {
                 throw new IllegalStateException("Du måste vara inloggad.");
+            } else if (userId.startsWith("ex_")) {
+                throw new IllegalStateException("Du måste vara anställd för att bjuda in andra.");
             }
             String sponsorName = lookupP3PInfo(req, PortletRequest.P3PUserInfos.USER_NAME_GIVEN);
             String sponsorFamily = lookupP3PInfo(req, PortletRequest.P3PUserInfos.USER_NAME_FAMILY);
             externalUserFormBean.setSponsorVgrId(userId);
             externalUserFormBean.setSponsorFullName(String.format("%s %s", sponsorName, sponsorFamily));
         }
+
+        model.addAttribute("externalUserFormBean", externalUserFormBean);
 
         List<InvitePreferences> invitePreferenceses = (List<InvitePreferences>) invitePreferencesService.findAll();
         model.addAttribute("invitePreferences", invitePreferenceses);
@@ -122,9 +132,8 @@ public class InviteController {
 
     @ActionMapping
     public void invite(@ModelAttribute ExternalUserFormBean externalUserFormBean,
-                       BindingResult result,
-                       Model model,
-                       PortletRequest req, ActionResponse response) {
+            BindingResult result, Model model, SessionStatus status,
+            ActionRequest req, ActionResponse response) {
         // validate indata
         String loggedInUser = lookupP3PInfo(req, PortletRequest.P3PUserInfos.USER_LOGIN_ID);
         externalUserValidator.validateWithLoggedInUser(externalUserFormBean, result, loggedInUser);
@@ -142,14 +151,17 @@ public class InviteController {
             CreateUserStatusCodeType statusCode = createUserResponse.getStatusCode();
             if (statusCode == CreateUserStatusCodeType.NEW_USER) {
                 // ?: new user -> invite
+                status.setComplete();
                 response.setRenderParameter("success", "true");
                 structureService.storeExternStructurePersonDn(externalUserFormBean.getExternStructurePersonDn());
             } else if (statusCode == CreateUserStatusCodeType.EXISTING_USER) {
                 // ?: user already in PK -> no/has outstanding invite ->  invite
+                status.setComplete();
                 response.setRenderParameter("success", "true");
                 structureService.storeExternStructurePersonDn(externalUserFormBean.getExternStructurePersonDn());
-            } else if (statusCode == CreateUserStatusCodeType.ERROR){
+            } else if (statusCode == CreateUserStatusCodeType.ERROR) {
                 // error -> cannot invite
+                status.setComplete();
                 response.setRenderParameter("error", createUserResponse.getMessage());
             }
 
