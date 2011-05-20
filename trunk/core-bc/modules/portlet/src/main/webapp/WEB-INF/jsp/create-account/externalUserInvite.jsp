@@ -24,6 +24,10 @@
         padding-bottom: 1px;
     }
 
+    .structure span span div div span span .aui-field-input {
+        width: 175px;
+    }
+
     .wrapper-div {
         border-color: #AAAAAA;
         border-style: solid;
@@ -72,7 +76,7 @@
 
                     <div id="<portlet:namespace />externStructurePersonDnDiv">
                         <aui:input id="externStructurePersonDn" type="text" label="externStructurePersonDn"
-                                   cssClass="mandatory-label" name="externStructurePersonDn"
+                                   cssClass="mandatory-label structure" name="externStructurePersonDn"
                                    value="${externalUserFormBean.externStructurePersonDn}"/>
                     </div>
                     <form:errors path="externalUserFormBean.externStructurePersonDn" cssClass="portlet-msg-error"/>
