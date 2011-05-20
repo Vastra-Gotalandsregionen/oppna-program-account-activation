@@ -21,9 +21,9 @@ import se.vgregion.activation.formbeans.ExternalUserFormBean;
 import se.vgregion.activation.util.JaxbUtil;
 import se.vgregion.activation.validators.ExternalUserValidator;
 import se.vgregion.create.domain.InvitePreferences;
-import se.vgregion.portal.user.CreateUser;
-import se.vgregion.portal.user.CreateUserResponse;
-import se.vgregion.portal.user.CreateUserStatusCodeType;
+import se.vgregion.portal.createuser.CreateUser;
+import se.vgregion.portal.createuser.CreateUserResponse;
+import se.vgregion.portal.createuser.CreateUserStatusCodeType;
 
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;

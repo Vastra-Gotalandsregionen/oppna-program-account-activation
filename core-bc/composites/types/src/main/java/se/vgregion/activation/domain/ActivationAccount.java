@@ -134,7 +134,8 @@ public class ActivationAccount extends AbstractEntity<ActivationCode> implements
         } else if (hasExpired()) {
             activate();
         } else {
-            LOGGER.debug("Account is already active and can not be reactivated");
+            activate();
+            LOGGER.debug("Account is already active, expire time has been prolonged");
         }
     }
 

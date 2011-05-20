@@ -34,6 +34,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,6 +94,24 @@ public class ActivationCodeService {
         }
     }
 
+    @GET
+    @Path("/vgrid/{vgrid}")
+    public ActivationAccountDTO getActivationCode(@PathParam("vgrid") String vgrId) {
+        if (StringUtils.isBlank(vgrId)) {
+            throw new WebApplicationException(404);
+        }
+        try {
+            for (ActivationAccount account : accountService.getAllValidAccounts()) {
+                if (vgrId.equals(account.getVgrId())) {
+                    return toDTO(account, uriInfo);
+                }
+            }
+        } catch (MalformedURLException e) {
+            throw new WebApplicationException(500);
+        }
+        throw new WebApplicationException(404);
+    }
+
     @PUT
     @Path("/{id}/inactivate")
     public void inactivateActivationCode(@PathParam("id") ActivationCode id) {
@@ -101,6 +120,16 @@ public class ActivationCodeService {
             throw new WebApplicationException(404);
         }
         accountService.inactivate(account);
+    }
+
+    @PUT
+    @Path("/{id}/reactivate")
+    public void reactivateActivationCode(@PathParam("id") ActivationCode id) {
+        ActivationAccount account = accountService.getAccount(id);
+        if (account == null) {
+            throw new WebApplicationException(404);
+        }
+        accountService.reactivate(account);
     }
 
 }
