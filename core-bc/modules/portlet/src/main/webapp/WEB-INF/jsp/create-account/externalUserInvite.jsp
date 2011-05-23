@@ -38,6 +38,10 @@
         width: 500px;
     }
 
+    .taglib-icon-help img {
+        margin-bottom: 3px;
+    }
+
 </style>
 
 <jsp:useBean id="externalUserFormBean" type="se.vgregion.activation.formbeans.ExternalUserFormBean" scope="request"/>
@@ -48,7 +52,8 @@
             <aui:layout>
                 <aui:column columnWidth="50">
                     <aui:select label="inviteTo" name="invitePreferences" cssClass="mandatory-label"
-                                onChange="javascript:toggleAttributesDiv(this)">
+                                onChange="javascript:toggleAttributesDiv(this)"
+                            >
                         <aui:option label=""/>
                         <c:forEach items="${invitePreferences}" var="prefs">
                             <aui:option label="${prefs.title}"
@@ -59,15 +64,18 @@
                     <form:errors path="externalUserFormBean.invitePreferences" cssClass="portlet-msg-error"/>
 
                     <aui:input type="text" label="name" cssClass="mandatory-label" inlineField="true" name="name"
-                               value="${externalUserFormBean.name}"/>
+                               value="${externalUserFormBean.name}"
+                               helpMessage="Namn och efternamn används för att skapa ett unikt inloggnings namn"/>
                     <form:errors path="externalUserFormBean.name" cssClass="portlet-msg-error"/>
                     <aui:input type="text" label="middleName" name="middleName"
                                value="${externalUserFormBean.middleName}"/>
                     <aui:input type="text" label="surname" cssClass="mandatory-label" name="surname"
-                               value="${externalUserFormBean.surname}"/>
+                               value="${externalUserFormBean.surname}"
+                               helpMessage="Dubbla efternam skall separeras med bindestreck, '-'"/>
                     <form:errors path="externalUserFormBean.surname" cssClass="portlet-msg-error"/>
                     <aui:input type="text" label="email" cssClass="mandatory-label" name="email"
-                               value="${externalUserFormBean.email}"/>
+                               value="${externalUserFormBean.email}"
+                               helpMessage="Epost adress måste vara unik"/>
                     <form:errors path="externalUserFormBean.email" cssClass="portlet-msg-error"/>
                 </aui:column>
                 <aui:column columnWidth="50">
@@ -77,12 +85,20 @@
                     <div id="<portlet:namespace />externStructurePersonDnDiv">
                         <aui:input id="externStructurePersonDn" type="text" label="externStructurePersonDn"
                                    cssClass="mandatory-label structure" name="externStructurePersonDn"
-                                   value="${externalUserFormBean.externStructurePersonDn}"/>
+                                   value="${externalUserFormBean.externStructurePersonDn}"
+                                   helpMessage="Organisationen sparas så att nästa inbjudan går snabbare att fylla i.
+                                                Separera med slash,
+                                                '/',
+                                                ex. Företag/Avdelning/Grupp"/>
                     </div>
                     <form:errors path="externalUserFormBean.externStructurePersonDn" cssClass="portlet-msg-error"/>
-                    <aui:input type="text" label="user-type" name="userType" value="${externalUserFormBean.userType}"/>
+                    <aui:input type="text"
+                               label="user-type" name="userType"
+                               value="${externalUserFormBean.userType}"
+                            />
 
-                    <aui:field-wrapper label="sponsor-full-name">
+                    <aui:field-wrapper label="sponsor-full-name" helpMessage="Den person som bjuder in blir sponsor.
+                    Endast VGR-anställda får bjuda in.">
                         <div>${externalUserFormBean.sponsorFullName}</div>
                     </aui:field-wrapper>
                     <aui:input type="hidden" label="sponsor-full-name" name="sponsorFullName"
