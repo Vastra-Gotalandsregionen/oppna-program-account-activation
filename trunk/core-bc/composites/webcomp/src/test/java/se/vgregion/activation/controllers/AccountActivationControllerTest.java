@@ -94,7 +94,8 @@ public class AccountActivationControllerTest {
                 .thenAnswer(new Answer<String>() {
                     @Override
                     public String answer(InvocationOnMock invocation) throws Throwable {
-                        throw new MessageBusException(); //Timeout
+                        MessageBusException messageBusException = new MessageBusException("No reply received for message...");
+                        throw messageBusException; //Timeout
                     }
                 });
 
@@ -106,8 +107,7 @@ public class AccountActivationControllerTest {
                 actionResponse, model);
 
         //Then
-        verify(actionResponse).setRenderParameter("failure", "true");
-        verify(model).addAttribute(eq("message"), anyString());
+        verify(actionResponse).setRenderParameter("failure", "request.timeout");
     }
 
     @Test

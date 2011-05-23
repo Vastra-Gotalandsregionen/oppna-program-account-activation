@@ -12,6 +12,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import se.vgregion.account.services.AccountService;
@@ -26,6 +27,8 @@ import se.vgregion.portal.activateuser.ActivateUserStatusCodeType;
 
 import javax.annotation.Resource;
 import javax.portlet.ActionResponse;
+import java.net.ConnectException;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -127,11 +130,24 @@ public class AccountActivationController {
                 model.addAttribute("message", e.getMessage());
             } catch (MessageBusException e) {
                 // timeout
-                response.setRenderParameter("failure", "true");
-                model.addAttribute("message", "timeout-message");
+                handleMessageBusException(e, response);
             }
 
         }
+    }
+
+    private void handleMessageBusException(MessageBusException e, ActionResponse response) {
+        Throwable rootCause = e.getCause();
+        if (rootCause instanceof ConnectException) {
+            response.setRenderParameter("failure", "connection.failed");
+        } else if (rootCause instanceof UnknownHostException) {
+            response.setRenderParameter("failure", "host.unknown");
+        } else if (e.getMessage().startsWith("No reply received for message")) {
+            response.setRenderParameter("failure", "request.timeout");
+        } else {
+            response.setRenderParameter("failure", "unknown.exception");
+        }
+
     }
 
     @RenderMapping(params = {"success"})
@@ -143,7 +159,8 @@ public class AccountActivationController {
     }
 
     @RenderMapping(params = {"failure"})
-    public String failure(@ModelAttribute PasswordFormBean passwordFormBean, Model model) {
+    public String failure(@RequestParam(value = "failure") String failureCode, @ModelAttribute PasswordFormBean passwordFormBean, Model model) {
+        model.addAttribute("message", failureCode);
         return "failureForm";
     }
 
@@ -159,10 +176,17 @@ public class AccountActivationController {
 
         Message message = new Message();
         message.setPayload(jaxbUtil.marshal(activateUser));
-        message.setResponseDestinationName("vgr/account_activation.REPLY");
 
-        String response = (String) MessageBusUtil.sendSynchronousMessage("vgr/account_activation", message, 3000);
-        ActivateUserResponse activateUserResponse = jaxbUtil.unmarshal(response);
+        ActivateUserResponse activateUserResponse;
+
+        Object response = MessageBusUtil.sendSynchronousMessage("vgr/account_activation", message, 3000);
+        if (response instanceof Exception) {
+            throw new MessageBusException((Exception) response);
+        } else if (response instanceof String) {
+             activateUserResponse = jaxbUtil.unmarshal((String) response);
+        } else {
+            throw new MessageBusException("Unknown response type: " + response.getClass());
+        }
 
         if (activateUserResponse.getStatusCode() != ActivateUserStatusCodeType.SUCCESS) {
             throw new ActivateUserFailedException(activateUserResponse.getMessage());
