@@ -18,10 +18,9 @@
     }
 
     .mandatory-label span label {
-        background: transparent url(/vgr-theme/images/mail/flagged.png) no-repeat right top;
+        background: transparent url(${pageContext.request.contextPath}/images/red_asterisk.gif) no-repeat right center;
         display: inline;
         padding-right: 18px;
-        padding-bottom: 1px;
     }
 
     .structure span span div div span span .aui-field-input {
