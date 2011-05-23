@@ -24,6 +24,8 @@ public class InvitePreferencesPropertyEditor extends PropertyEditorSupport {
             Long id = Long.parseLong(text);
             InvitePreferences preferences = invitePreferencesService.find(id);
             setValue(preferences);
+        } else {
+            setValue(null);
         }
     }
 

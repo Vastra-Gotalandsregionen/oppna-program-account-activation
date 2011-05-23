@@ -6,6 +6,8 @@ import org.junit.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 import se.vgregion.portal.activateuser.ActivateUser;
 import se.vgregion.portal.createuser.CreateUser;
+import se.vgregion.portal.createuser.CreateUserResponse;
+import se.vgregion.portal.createuser.CreateUserStatusCodeType;
 
 import javax.validation.constraints.AssertTrue;
 
@@ -25,10 +27,12 @@ public class JaxbUtilTest {
 
     private ActivateUser activateObject;
     private CreateUser createObject;
+    private CreateUserResponse createUserResponse;
     private ActivateUser inviteObject;
 
 
     private String testXmlCreate;
+    private String testXmlCreateResponse;
     private String testXmlActivate;
     private String testXmlInvite;
 
@@ -79,6 +83,18 @@ public class JaxbUtilTest {
                 "<sponsor>vgr_sponsor</sponsor>" +
                 "<userType>test</userType>" +
                 "</createUser>";
+
+        createUserResponse = new CreateUserResponse();
+        createUserResponse.setMessage("message");
+        createUserResponse.setStatusCode(CreateUserStatusCodeType.NEW_USER);
+        createUserResponse.setVgrId("ex_test");
+
+        testXmlCreateResponse = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
+                "<createUserResponse xmlns=\"http://portal.vgregion.se/createuser\">" +
+                "<vgrId>ex_test</vgrId>" +
+                "<statusCode>NEW_USER</statusCode>" +
+                "<message>message</message>" +
+                "</createUserResponse>";
     }
 
     @Test
@@ -95,6 +111,15 @@ public class JaxbUtilTest {
         String result = jaxbUtilCreate.marshal(createObject);
 
         assertEquals(testXmlCreate, result);
+    }
+
+    @Test
+    public void testMarshalCreateResponse() throws Exception {
+        initCreate();
+
+        String result = jaxbUtilCreate.marshal(createUserResponse);
+
+        assertEquals(testXmlCreateResponse, result);
     }
 
     @Test
