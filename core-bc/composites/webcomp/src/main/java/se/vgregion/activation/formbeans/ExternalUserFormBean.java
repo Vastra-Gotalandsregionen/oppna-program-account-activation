@@ -19,6 +19,7 @@ public class ExternalUserFormBean implements Serializable {
     private String userType;
     private String sponsorVgrId;
     private String sponsorFullName;
+    private String dateLimit;
 
     public InvitePreferences getInvitePreferences() {
         return invitePreferences;
@@ -106,6 +107,14 @@ public class ExternalUserFormBean implements Serializable {
 
     public void setSponsorFullName(String sponsorFullName) {
         this.sponsorFullName = sponsorFullName;
+    }
+
+    public String getDateLimit() {
+        return dateLimit;
+    }
+
+    public void setDateLimit(String dateLimit) {
+        this.dateLimit = dateLimit;
     }
 
     @Override

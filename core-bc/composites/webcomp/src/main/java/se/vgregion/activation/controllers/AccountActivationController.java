@@ -37,6 +37,7 @@ import java.util.Map;
 public class AccountActivationController {
 
     private Validator passwordMatchValidator;
+    private Validator passwordStrengthValidator;
     private Validator accountActivationLoginValidator;
     private Validator dominoLoginValidator;
 
@@ -54,9 +55,10 @@ public class AccountActivationController {
     }
 
     public AccountActivationController(Validator otpLoginValidator, Validator dominoLoginValidator,
-                                       Validator passwordMatchValidator) {
+                                       Validator passwordMatchValidator, Validator passwordStrengthValidator) {
         this.accountActivationLoginValidator = otpLoginValidator;
         this.passwordMatchValidator = passwordMatchValidator;
+        this.passwordStrengthValidator = passwordStrengthValidator;
         this.dominoLoginValidator = dominoLoginValidator;
     }
 
@@ -113,6 +115,7 @@ public class AccountActivationController {
     private void setNewPassword(@ModelAttribute PasswordFormBean passwordFormBean, BindingResult result,
                                 ActionResponse response, Model model, Map<String, String[]> renderParamters) {
 
+        passwordStrengthValidator.validate(passwordFormBean, result);
         passwordMatchValidator.validate(passwordFormBean, result);
 
         if (result.hasErrors()) {

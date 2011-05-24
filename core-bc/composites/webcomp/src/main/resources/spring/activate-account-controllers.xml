@@ -16,6 +16,9 @@
     <constructor-arg name="passwordMatchValidator">
       <bean class="se.vgregion.activation.validators.PasswordMatchValidator"/>
     </constructor-arg>
+    <constructor-arg name="passwordStrengthValidator">
+      <bean class="se.vgregion.activation.validators.PasswordStrengthValidator"/>
+    </constructor-arg>
   </bean>
 
   <bean id="jaxbUtil" class="se.vgregion.activation.util.JaxbUtil">
