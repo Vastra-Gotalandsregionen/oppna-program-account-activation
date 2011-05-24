@@ -51,7 +51,7 @@ public class AccountActivationControllerTest {
     AccountService accountService;
     @InjectMocks
     AccountActivationController accountActivationController = new AccountActivationController(mock(Validator.class),
-            mock(Validator.class), mock(Validator.class));
+            mock(Validator.class), mock(Validator.class), mock(Validator.class));
 
     @Before
     public void setUp() throws Exception {

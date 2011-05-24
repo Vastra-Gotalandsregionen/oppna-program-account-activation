@@ -7,7 +7,11 @@
 
 <portlet:renderURL var="renderUrl"/>
 <p>
-    En inbjudan har skickats till ${externalUserFormBean.name}
+    En inbjudan har skickats till:<br/>
+    ${externalUserFormBean.name} ${externalUserFormBean.surname}<br/>
+    ${externalUserFormBean.email}<br/>
+    System: ${externalUserFormBean.invitePreferences.title}
+
 </p>
 <p>
     <a href="${renderUrl}">Tillbaka</a>

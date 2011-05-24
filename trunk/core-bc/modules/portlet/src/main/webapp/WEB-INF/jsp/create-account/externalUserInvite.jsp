@@ -76,9 +76,9 @@
                                value="${externalUserFormBean.email}"
                                helpMessage="Epost adress måste vara unik"/>
                     <form:errors path="externalUserFormBean.email" cssClass="portlet-msg-error"/>
+                    <aui:input type="text" label="phone" name="phone" value="${externalUserFormBean.phone}"/>
                 </aui:column>
                 <aui:column columnWidth="50">
-                    <aui:input type="text" label="phone" name="phone" value="${externalUserFormBean.phone}"/>
                     <aui:input type="text" label="mobile" name="mobile" value="${externalUserFormBean.mobile}"/>
 
                     <div id="<portlet:namespace />externStructurePersonDnDiv">
@@ -102,6 +102,9 @@
                     </aui:field-wrapper>
                     <aui:input type="hidden" label="sponsor-full-name" name="sponsorFullName"
                                value="${externalUserFormBean.sponsorFullName}"/>
+                    <aui:input type="text" label="dateLimit" name="dateLimit"
+                               value="${externalUserFormBean.dateLimit}"/>
+                    <form:errors path="externalUserFormBean.sponsorVgrId" cssClass="portlet-msg-error"/>
                     <aui:input type="hidden" label="sponsor-vgr-id" name="sponsorVgrId"
                                value="${externalUserFormBean.sponsorVgrId}"/>
                     <form:errors path="externalUserFormBean.sponsorVgrId" cssClass="portlet-msg-error"/>
@@ -119,9 +122,22 @@
 <portlet:resourceURL var="resourceUrl" escapeXml="false"/>
 
 <script type="text/javascript">
-    AUI().ready('aui-autocomplete', function(A) {
+    AUI().ready('aui-autocomplete', 'aui-datepicker-select', function(A) {
 
-        var instance = new A.AutoComplete({
+        var aYearAhead = new Date(new Date().getTime() + 365 * 24 * 60 * 60 * 1000);
+
+        var datePicker = new A.DatePicker({
+                    calendar: {
+                        dateFormat: '%Y-%m-%d',
+                        dates: [aYearAhead],
+                        firstDayOfWeek: 1,
+                        selectMultipleDates: false
+                        //yearRange: [ 2011, 2019 ]
+                    },
+                    trigger: '#<portlet:namespace/>dateLimit'
+                }).render();
+
+        var autoComplete = new A.AutoComplete({
                     dataSource: function(request) {
                         var items = null;
                         A.io.request('<%= resourceUrl %>&query=' + A.one('#<portlet:namespace />externStructurePersonDn').get('value'), {
