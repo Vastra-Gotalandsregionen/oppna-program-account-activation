@@ -153,7 +153,6 @@
                         dates: [dateLimit],
                         firstDayOfWeek: 1,
                         selectMultipleDates: false
-                        //yearRange: [ 2011, 2019 ]
                     },
                     trigger: '#<portlet:namespace/>dateLimit'
                 }).render();
