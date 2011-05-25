@@ -66,16 +66,20 @@
                                value="${externalUserFormBean.name}"
                                helpMessage="Namn och efternamn används för att skapa ett unikt inloggnings namn"/>
                     <form:errors path="externalUserFormBean.name" cssClass="portlet-msg-error"/>
+
                     <aui:input type="text" label="middleName" name="middleName"
                                value="${externalUserFormBean.middleName}"/>
+
                     <aui:input type="text" label="surname" cssClass="mandatory-label" name="surname"
                                value="${externalUserFormBean.surname}"
                                helpMessage="Dubbla efternam skall separeras med bindestreck, '-'"/>
                     <form:errors path="externalUserFormBean.surname" cssClass="portlet-msg-error"/>
+
                     <aui:input type="text" label="email" cssClass="mandatory-label" name="email"
                                value="${externalUserFormBean.email}"
                                helpMessage="Epost adress måste vara unik"/>
                     <form:errors path="externalUserFormBean.email" cssClass="portlet-msg-error"/>
+
                     <aui:input type="text" label="phone" name="phone" value="${externalUserFormBean.phone}"/>
                 </aui:column>
                 <aui:column columnWidth="50">
@@ -91,25 +95,39 @@
                                                 ex. Företag/Avdelning/Grupp"/>
                     </div>
                     <form:errors path="externalUserFormBean.externStructurePersonDn" cssClass="portlet-msg-error"/>
-                    <aui:input type="text"
-                               label="user-type" name="userType"
-                               value="${externalUserFormBean.userType}"
-                            />
+
+                    <aui:input type="text" label="dateLimit" name="dateLimit"
+                               value="${externalUserFormBean.dateLimit}"
+                               helpMessage="Användarbehörigheten är tidsbegränad. Fyll i datum."
+                               cssClass="mandatory-label"/>
+                    <form:errors path="externalUserFormBean.dateLimit" cssClass="portlet-msg-error"/>
+
+                    <aui:select name="userType" label="user-type" showEmptyOption="true"
+                                helpMessage="Användartyp är valfri">
+                        <aui:option
+                                label="HSA"
+                                value="HSA"
+                                selected="${externalUserFormBean.userType eq \"hsa\"}"/>
+                        <aui:option
+                                label="Kommun"
+                                value="Kommun"
+                                selected="${externalUserFormBean.userType eq \"Kommun\"}"/>
+                    </aui:select>
 
                     <aui:field-wrapper label="sponsor-full-name" helpMessage="Den person som bjuder in blir sponsor.
                     Endast VGR-anställda får bjuda in.">
                         <div>${externalUserFormBean.sponsorFullName}</div>
                     </aui:field-wrapper>
+
                     <aui:input type="hidden" label="sponsor-full-name" name="sponsorFullName"
                                value="${externalUserFormBean.sponsorFullName}"/>
-                    <aui:input type="text" label="dateLimit" name="dateLimit"
-                               value="${externalUserFormBean.dateLimit}"/>
-                    <form:errors path="externalUserFormBean.sponsorVgrId" cssClass="portlet-msg-error"/>
+
                     <aui:input type="hidden" label="sponsor-vgr-id" name="sponsorVgrId"
                                value="${externalUserFormBean.sponsorVgrId}"/>
                     <form:errors path="externalUserFormBean.sponsorVgrId" cssClass="portlet-msg-error"/>
+
                     <aui:button-row>
-                        <aui:button type="submit" value="Bjud in"/>
+                        <aui:button type="submit" value="Bjud in" style="margin-top: 14px"/>
                     </aui:button-row>
                 </aui:column>
             </aui:layout>
@@ -124,12 +142,15 @@
 <script type="text/javascript">
     AUI().ready('aui-autocomplete', 'aui-datepicker-select', function(A) {
 
-        var aYearAhead = new Date(new Date().getTime() + 365 * 24 * 60 * 60 * 1000);
+        var dateLimit = new Date('${externalUserFormBean.dateLimit}');
+        if (dateLimit == 'Invalid Date') {
+            dateLimit = new Date(new Date().getTime() + 365 * 24 * 60 * 60 * 1000);
+        }
 
         var datePicker = new A.DatePicker({
                     calendar: {
                         dateFormat: '%Y-%m-%d',
-                        dates: [aYearAhead],
+                        dates: [dateLimit],
                         firstDayOfWeek: 1,
                         selectMultipleDates: false
                         //yearRange: [ 2011, 2019 ]

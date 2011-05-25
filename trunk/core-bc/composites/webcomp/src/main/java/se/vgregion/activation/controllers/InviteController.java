@@ -31,6 +31,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -82,6 +84,11 @@ public class InviteController {
             String sponsorFamily = lookupP3PInfo(req, PortletRequest.P3PUserInfos.USER_NAME_FAMILY);
             externalUserFormBean.setSponsorVgrId(userId);
             externalUserFormBean.setSponsorFullName(String.format("%s %s", sponsorName, sponsorFamily));
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.YEAR, 1);
+            externalUserFormBean.setDateLimit(sdf.format(calendar.getTime()));
         }
 
         model.addAttribute("externalUserFormBean", externalUserFormBean);
