@@ -14,13 +14,13 @@ import se.vgregion.activation.domain.ActivationCode;
 import se.vgregion.dao.domain.patterns.repository.db.jpa.JpaRepository;
 
 @Service("accountService")
-public class AccountServiceImp implements AccountService {
+public class AccountServiceImpl implements AccountService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AccountServiceImp.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AccountServiceImpl.class);
     private final JpaRepository<ActivationAccount, ActivationCode, ActivationCode> repository;
 
     @Autowired
-    public AccountServiceImp(JpaRepository<ActivationAccount, ActivationCode, ActivationCode> repository) {
+    public AccountServiceImpl(JpaRepository<ActivationAccount, ActivationCode, ActivationCode> repository) {
         this.repository = repository;
     }
 
