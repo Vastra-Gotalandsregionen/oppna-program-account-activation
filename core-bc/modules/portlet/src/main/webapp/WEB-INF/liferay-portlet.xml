@@ -10,4 +10,9 @@
     <portlet-name>CreateAccount</portlet-name>
     <action-url-redirect>true</action-url-redirect>
   </portlet>
+  <portlet>
+    <portlet-name>ReinviteAccount</portlet-name>
+    <action-url-redirect>true</action-url-redirect>
+  </portlet>
+
 </liferay-portlet-app>

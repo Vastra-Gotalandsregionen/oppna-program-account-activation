@@ -40,13 +40,26 @@
       <short-title>Skapa konto</short-title>
       <keywords>konto skapa inbjudan portalkatalog</keywords>
     </portlet-info>
-    <container-runtime-option>
-      <name>javax.portlet.actionScopedRequestAttributes</name>
-      <value>true</value>
-      <value>numberOfCachedScopes</value>
-      <value>10</value>
-    </container-runtime-option>
   </portlet>
+
+  <portlet>
+    <portlet-name>ReinviteAccount</portlet-name>
+    <display-name>ReinviteAccount</display-name>
+    <portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+    <expiration-cache>0</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+    </supports>
+    <supported-locale>sv</supported-locale>
+    <resource-bundle>i18n.reinvite-account-messages</resource-bundle>
+    <portlet-info>
+      <title>Bjud in igen</title>
+      <short-title>Bjud in</short-title>
+      <keywords>bjud in konto aktivering portalkatalog</keywords>
+    </portlet-info>
+  </portlet>
+
 
   <user-attribute>
     <description>User Login ID</description>
