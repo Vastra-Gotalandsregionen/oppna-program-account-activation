@@ -3,10 +3,11 @@ package se.vgregion.activation.validators;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import se.vgregion.account.services.AccountService;
 import se.vgregion.activation.formbeans.ExternalUserFormBean;
 
-import javax.annotation.Resource;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 public class ExternalUserValidator implements Validator {
@@ -19,30 +20,9 @@ public class ExternalUserValidator implements Validator {
     }
 
     public void validateWithLoggedInUser(ExternalUserFormBean form, Errors errors, String loggedInUser) {
-        // 1: loggedInUser
-        if (form.getSponsorVgrId() == null) {
-            errors.rejectValue("sponsorVgrId", "invalid.sponsorVgrId.empty", "No sponsor given");
-            return;
-        }
+        if (validateLoggedInUser(form, errors, loggedInUser)) return;
 
-        if (!form.getSponsorVgrId().equals(loggedInUser)) {
-            errors.rejectValue("sponsorVgrId", "invalid.sponsorVgrId.mismatch", "Sponsor must be logged in");
-            return;
-        }
-
-        if (form.getSponsorVgrId().startsWith("ex_")) {
-            errors.rejectValue("sponsorVgrId", "invalid.sponsorVgrId.type", "Invalid sponsor");
-            return;
-        }
-
-        validate(form, errors);
-    }
-
-    @Override
-    public void validate(Object target, Errors errors) {
-        ExternalUserFormBean form = (ExternalUserFormBean) target;
-
-        // 4: mandatory information provided
+        // mandatory information provided
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "invitePreferences", "invalid.invitePreferences.missing",
                 "Invite must be specified");
@@ -51,11 +31,51 @@ public class ExternalUserValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "invalid.email.missing", "Email must be specified");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "externStructurePersonDn",
                 "invalid.externStructurePersonDn.missing", "Organisation must be specified");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "dateLimit",
+                "invalid.dateLimit.missing", "Date limit must be specified");
 
         String email = form.getEmail();
         if (!isEmail(email)) {
             errors.rejectValue("email", "invalid.email.format", "Invalid email");
         }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date chosenDate = sdf.parse(form.getDateLimit());
+            if (chosenDate.before(new Date())) {
+                errors.rejectValue("dateLimit", "invalid.dateLimit.oldDate", "The date must not be old");
+            }
+            //In case it was possible to parse only because the parser was forgiving we check that it actually is the right date
+            if (!sdf.format(chosenDate).equals(form.getDateLimit())) {
+                errors.rejectValue("dateLimit", "invalid.dateLimit", "Invalid date");
+            }
+        } catch (ParseException e) {
+            errors.rejectValue("dateLimit", "invalid.dateLimit.format", "Invalid date format");
+        }
+
+    }
+
+    private boolean validateLoggedInUser(ExternalUserFormBean form, Errors errors, String loggedInUser) {
+        // loggedInUser
+        if (form.getSponsorVgrId() == null) {
+            errors.rejectValue("sponsorVgrId", "invalid.sponsorVgrId.empty", "No sponsor given");
+            return true;
+        }
+
+        if (!form.getSponsorVgrId().equals(loggedInUser)) {
+            errors.rejectValue("sponsorVgrId", "invalid.sponsorVgrId.mismatch", "Sponsor must be logged in");
+            return true;
+        }
+
+        if (form.getSponsorVgrId().startsWith("ex_")) {
+            errors.rejectValue("sponsorVgrId", "invalid.sponsorVgrId.type", "Invalid sponsor");
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void validate(Object target, Errors errors) {
     }
 
     private boolean isEmail(String value) {
