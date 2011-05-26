@@ -9,18 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import se.vgregion.account.services.repository.ActivationAccountRepository;
 import se.vgregion.activation.domain.ActivationAccount;
 import se.vgregion.activation.domain.ActivationCode;
-import se.vgregion.dao.domain.patterns.repository.db.jpa.JpaRepository;
 
 @Service("accountService")
 public class AccountServiceImpl implements AccountService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountServiceImpl.class);
-    private final JpaRepository<ActivationAccount, ActivationCode, ActivationCode> repository;
+    private final ActivationAccountRepository repository;
 
     @Autowired
-    public AccountServiceImpl(JpaRepository<ActivationAccount, ActivationCode, ActivationCode> repository) {
+    public AccountServiceImpl(ActivationAccountRepository repository) {
         this.repository = repository;
     }
 
@@ -45,7 +45,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Collection<ActivationAccount> getAllValidAccounts() {
         return repository.findByQuery("SELECT a FROM ActivationAccount a WHERE a.used=?1 AND a.expire > ?2",
-                new Object[] { Boolean.FALSE, new Date() });
+                new Object[]{Boolean.FALSE, new Date()});
     }
 
     /*

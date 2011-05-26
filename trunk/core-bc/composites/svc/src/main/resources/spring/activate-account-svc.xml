@@ -12,8 +12,6 @@
 
   <bean id="accountService" class="se.vgregion.account.services.AccountServiceImpl" />
 
-  <bean id="activationAccountRepository" class="se.vgregion.dao.domain.patterns.repository.db.jpa.DefaultJpaRepository">
-    <constructor-arg type="java.lang.Class" value="se.vgregion.activation.domain.ActivationAccount" />
-  </bean>
+  <bean id="activationAccountRepository" class="se.vgregion.account.services.repository.ActivationAccountRepositoryImpl" />
 
 </beans>

@@ -9,14 +9,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import se.vgregion.account.services.AccountService;
+import se.vgregion.account.services.InvitePreferencesService;
 import se.vgregion.activation.domain.ActivationAccount;
 import se.vgregion.activation.domain.ActivationCode;
+import se.vgregion.activation.formbeans.ReinviteFormBean;
+import se.vgregion.create.domain.InvitePreferences;
 import sun.rmi.server.Activation;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 
 @Controller
@@ -26,14 +31,34 @@ public class ReinviteController {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private InvitePreferencesService invitePreferencesService;
+
     @RequestMapping
     public String view(Model model) {
         Collection<ActivationAccount> accounts = accountService.getAllValidAccounts();
-        for (ActivationAccount aa : accounts) {
-            System.out.println(aa.getVgrId());
+
+        List<ReinviteFormBean> reinvites = new ArrayList<ReinviteFormBean>();
+        for (ActivationAccount account: accounts) {
+            ReinviteFormBean bean = new ReinviteFormBean();
+            bean.setActivationCode(account.getActivationCode());
+            bean.setVgrId(account.getVgrId());
+            InvitePreferences service = invitePreferencesService.findByCustomUrl(account.getCustomUrl());
+            if (service != null) {
+                bean.setService(service.getTitle());
+            } else {
+                bean.setService(account.getCustomUrl());
+            }
+            // TODO
+            //fullName
+            //email
+            //organization
+            //sponsor
+
+            reinvites.add(bean);
         }
 
-        model.addAttribute("accounts", accounts);
+        model.addAttribute("accounts", reinvites);
 
         return "reinvite";
     }
