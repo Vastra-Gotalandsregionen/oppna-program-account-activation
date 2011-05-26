@@ -46,12 +46,22 @@ public class InvitePreferencesService {
     }
 
     public InvitePreferences findByTitle(String title) {
-        List<InvitePreferences> list = (List<InvitePreferences>) invitePreferencesRepository.findByQuery("select p from InvitePreferences p where p.title = ?1",
-                new String[]{title});
+        List<InvitePreferences> list = (List<InvitePreferences>) invitePreferencesRepository.
+                findByQuery("select p from InvitePreferences p where p.title = ?1", new String[]{title});
         if (list.size() == 0) {
             return null;
         } else if (list.size() > 1) {
             throw new IllegalStateException("There should not exist more than one InvitePreferences with the same title.");
+        } else {
+            return list.get(0);
+        }
+    }
+
+    public InvitePreferences findByCustomUrl(String customUrl) {
+        List<InvitePreferences> list = (List<InvitePreferences>) invitePreferencesRepository.
+                findByQuery("select p from InvitePreferences p where p.customUrl = ?1", new String[]{customUrl});
+        if (list.size() == 0) {
+            return null;
         } else {
             return list.get(0);
         }

@@ -10,15 +10,31 @@
 
 
 <style type="text/css">
-    #validActivationAccounts tr td, #validActivationAccounts tr th {
-        padding: 10px;
+    #validActivationAccounts tr td {
+        padding: 7px;
+    }
+
+    #validActivationAccounts tr th {
+        padding: 7px;
+        background-color: #777;
+    }
+
+    #validActivationAccounts {
+        border: 1px;
+        border-style: inset;
+        border-color: #666;
+        width: 400px;
+    }
+
+    .center {
+        text-align: center;
     }
 
     .evenRow {
-        background-color: #ccc;
+        background-color: #eee;
     }
     .oddRow {
-        background-color: #eee;
+        background-color: #ccc;
     }
 
     /*a.buttonlink {
@@ -36,6 +52,7 @@
 
     <tr>
         <th>VgrId</th>
+        <th>System</th>
         <th></th>
     </tr>
     <c:forEach items="${accounts}" var="account" varStatus="count">
@@ -44,16 +61,12 @@
             <portlet:param name="action" value="reinvite" />
         </portlet:actionURL>
 
-        <tr class="${count % 2 == 0 ? 'evenRow' : 'oddRow'}">
+        <tr class="${count.index%2 == 0 ? 'evenRow' : 'oddRow'}">
             <td>${account.vgrId}</td>
-            <td>
+            <td>${account.service}</td>
+            <td class="center">
                 <a href="${reinviteUrl}"><img src="/vgr-theme/images/mail/forward.png" title="Skicka inbjudan"/></a>
             </td>
         </tr>
     </c:forEach>
 </table>
-
-
-<p>
-    <a href="${renderUrl}">Tillbaka</a>
-</p>
