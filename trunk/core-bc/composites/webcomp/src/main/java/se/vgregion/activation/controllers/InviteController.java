@@ -117,6 +117,11 @@ public class InviteController {
         }
     }
 
+    @RenderMapping(params = {"success"})
+    public String success() {
+        return "success";
+    }
+
     @RenderMapping(params = {"unresponsive"})
     public String unresponsive(@RequestParam(value = "unresponsive") String failureCode, Model model) {
         model.addAttribute("message", failureCode);
@@ -161,6 +166,8 @@ public class InviteController {
                 status.setComplete();
                 response.setRenderParameter("success", "true");
                 structureService.storeExternStructurePersonDn(externalUserFormBean.getExternStructurePersonDn());
+
+                //invite
             } else if (statusCode == CreateUserStatusCodeType.EXISTING_USER) {
                 // ?: user already in PK -> no/has outstanding invite ->  invite
                 status.setComplete();
@@ -192,11 +199,6 @@ public class InviteController {
             response.setRenderParameter("unresponsive", "unknown.exception");
         }
 
-    }
-
-    @RenderMapping(params = {"success"})
-    public String success() {
-        return "success";
     }
 
     private CreateUserResponse callCreateUser(ExternalUserFormBean externalUserFormBean) throws MessageBusException {
