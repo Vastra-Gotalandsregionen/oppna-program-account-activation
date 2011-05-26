@@ -25,6 +25,7 @@ import se.vgregion.create.domain.InvitePreferences;
 import se.vgregion.portal.createuser.CreateUser;
 import se.vgregion.portal.createuser.CreateUserResponse;
 import se.vgregion.portal.createuser.CreateUserStatusCodeType;
+import se.vgregion.portal.inviteuser.InviteUser;
 
 import javax.portlet.*;
 import java.io.IOException;
@@ -168,6 +169,12 @@ public class InviteController {
                 structureService.storeExternStructurePersonDn(externalUserFormBean.getExternStructurePersonDn());
 
                 //invite
+                InviteUser inviteUser = new InviteUser();
+                inviteUser.setUserId(createUserResponse.getVgrId());
+                Message message = new Message();
+                message.setPayload(jaxbUtil.marshal(inviteUser));
+
+//todo                Object inviteUserResponse = MessageBusUtil.sendSynchronousMessage("vgr/account_invite", message);
             } else if (statusCode == CreateUserStatusCodeType.EXISTING_USER) {
                 // ?: user already in PK -> no/has outstanding invite ->  invite
                 status.setComplete();
