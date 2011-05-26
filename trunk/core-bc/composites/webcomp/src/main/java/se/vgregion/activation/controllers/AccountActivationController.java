@@ -129,8 +129,7 @@ public class AccountActivationController {
                 response.setRenderParameter("success", "true");
             } catch (ActivateUserFailedException e) {
                 // explicit response failure
-                response.setRenderParameter("failure", "true");
-                model.addAttribute("message", e.getMessage());
+                response.setRenderParameter("failure", e.getMessage());
             } catch (MessageBusException e) {
                 // timeout
                 handleMessageBusException(e, response);
@@ -188,14 +187,13 @@ public class AccountActivationController {
         } else if (response instanceof String) {
              activateUserResponse = jaxbUtil.unmarshal((String) response);
         } else {
-            throw new MessageBusException("Unknown response type: " + response.getClass());
+            throw new MessageBusException("Unknown response type: " +
+                    response == null ? "null" : response.getClass().getName());
         }
 
         if (activateUserResponse.getStatusCode() != ActivateUserStatusCodeType.SUCCESS) {
             throw new ActivateUserFailedException(activateUserResponse.getMessage());
         }
-
-        System.out.println("pw: " + passwordFormBean.getPassword());
     }
 
 }

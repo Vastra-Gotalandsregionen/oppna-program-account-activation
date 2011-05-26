@@ -135,8 +135,7 @@ public class AccountActivationControllerTest {
                 actionResponse, model);
 
         //Then
-        verify(actionResponse).setRenderParameter("failure", "true");
-        verify(model).addAttribute(eq("message"), anyString());
+        verify(actionResponse).setRenderParameter("failure", "The message");
     }
 
     private PasswordFormBean prepareTest() {
