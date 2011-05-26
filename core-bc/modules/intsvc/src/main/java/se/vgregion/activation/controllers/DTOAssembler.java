@@ -20,8 +20,7 @@ public final class DTOAssembler {
             throws MalformedURLException {
         ActivationAccountDTO dto = null;
         if (account != null) {
-            String base = ui.getBaseUri().toString();
-            if (!base.endsWith("/")) base += "/";
+            String base = getBaseUrl(ui);
 
             URL link = new URL(base + ui.getPath() + pathSuffix);
             URL customUrl = new URL(account.getCustomUrl());
@@ -29,6 +28,12 @@ public final class DTOAssembler {
             dto = new ActivationAccountDTO(account.getVgrId(), account.getActivationCode().getValue(), link, customUrl, account.getCustomMessage(), account.currentStatus().name());
         }
         return dto;
+    }
+
+    static String getBaseUrl(UriInfo ui) {
+        String base = ui.getBaseUri().toString();
+        if (!base.endsWith("/")) base += "/";
+        return base;
     }
 
     static Collection<ActivationAccountDTO> toDTOCollection(final Collection<ActivationAccount> allAccounts,

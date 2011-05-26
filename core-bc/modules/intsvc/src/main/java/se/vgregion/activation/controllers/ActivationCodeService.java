@@ -32,17 +32,20 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 
 import se.vgregion.account.services.AccountService;
 import se.vgregion.activation.api.ActivationAccountDTO;
 import se.vgregion.activation.domain.ActivationAccount;
+import se.vgregion.activation.domain.ActivationAccountStatus;
 import se.vgregion.activation.domain.ActivationCode;
 
 @Path("/activation-codes")
@@ -53,6 +56,9 @@ public class ActivationCodeService {
 
     @Context
     private UriInfo uriInfo;
+
+    @Value("${pathToActivation}")
+    String pathToActivation;
 
     private final AccountService accountService;
 
@@ -130,6 +136,19 @@ public class ActivationCodeService {
             throw new WebApplicationException(404);
         }
         accountService.reactivate(account);
+    }
+
+    @GET
+    @Path("/path/activation-code/{id}")
+    @Produces("text/plain")
+    public String getActivationFormUrl(@PathParam("id") ActivationCode id) {
+        ActivationAccount account = accountService.getAccount(id);
+        if (account == null) {
+            throw new WebApplicationException(404);
+        } else if (account.currentStatus() != ActivationAccountStatus.OK) {
+            throw new WebApplicationException(400); //400 = BAD_REQUEST
+        }
+        return pathToActivation + "&activationCode=" + id.getValue();
     }
 
 }

@@ -9,25 +9,45 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 
-<portlet:defineObjects/>
+<style type="text/css">
+    #validActivationAccounts tr td, #validActivationAccounts tr th {
+        padding: 10px;
+    }
+
+    .evenRow {
+        background-color: #ccc;
+    }
+    .oddRow {
+        background-color: #eee;
+    }
+
+    /*a.buttonlink {
+        text-decoration: none;
+        color: #34404F;
+
+    }
+    .imglink {
+        padding-top: 4px;
+    }*/
+</style>
 
 
-<table>
+<table id="validActivationAccounts">
 
     <tr>
         <th>VgrId</th>
         <th></th>
     </tr>
-    <c:forEach items="${accounts}" var="account">
+    <c:forEach items="${accounts}" var="account" varStatus="count">
         <portlet:actionURL var="reinviteUrl">
             <portlet:param name="activationCode" value="${account.activationCode.value}" />
             <portlet:param name="action" value="reinvite" />
         </portlet:actionURL>
 
-        <tr>
+        <tr class="${count % 2 == 0 ? 'evenRow' : 'oddRow'}">
             <td>${account.vgrId}</td>
             <td>
-                <a href="${reinviteUrl}">Skicka inbjudan</a>
+                <a href="${reinviteUrl}"><img src="/vgr-theme/images/mail/forward.png" title="Skicka inbjudan"/></a>
             </td>
         </tr>
     </c:forEach>
