@@ -1,6 +1,5 @@
 package se.vgregion.activation.controllers;
 
-import com.liferay.portal.model.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,11 +13,9 @@ import se.vgregion.activation.domain.ActivationAccount;
 import se.vgregion.activation.domain.ActivationCode;
 import se.vgregion.activation.formbeans.ReinviteFormBean;
 import se.vgregion.create.domain.InvitePreferences;
-import sun.rmi.server.Activation;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
-import javax.portlet.PortletRequest;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -40,20 +37,7 @@ public class ReinviteController {
 
         List<ReinviteFormBean> reinvites = new ArrayList<ReinviteFormBean>();
         for (ActivationAccount account: accounts) {
-            ReinviteFormBean bean = new ReinviteFormBean();
-            bean.setActivationCode(account.getActivationCode());
-            bean.setVgrId(account.getVgrId());
-            InvitePreferences service = invitePreferencesService.findByCustomUrl(account.getCustomUrl());
-            if (service != null) {
-                bean.setService(service.getTitle());
-            } else {
-                bean.setService(account.getCustomUrl());
-            }
-            // TODO
-            //fullName
-            //email
-            //organization
-            //sponsor
+            ReinviteFormBean bean = mapToReinvite(account);
 
             reinvites.add(bean);
         }
@@ -63,19 +47,48 @@ public class ReinviteController {
         return "reinvite";
     }
 
-    @ActionMapping(params = {"action=reinvite"})
-    public void reinvite(@RequestParam("activationCode") String code, ActionRequest request,
-                         ActionResponse response, Model model) {
-        System.out.println("Reinvite ->" + code);
-
-        model.addAttribute("activationCode", code);
-        request.setAttribute("activationCode", code);
-
-        response.setRenderParameter("success", "true");
+    @RenderMapping(params = {"success=true"})
+    public String success() {
+        return "success";
     }
 
-    @RenderMapping(params = {"success=true"})
-    public String success(Model model, PortletRequest request) {
-        return "success";
+    @RenderMapping(params = {"error=true"})
+    public String error() {
+        return "error";
+    }
+
+    @ActionMapping(params = {"action=reinvite"})
+    public void reinvite(@RequestParam("activationCode") ActivationCode code, ActionRequest request,
+    ActionResponse response, Model model) {
+        System.out.println("Reinvite ->" + code);
+
+        ReinviteFormBean bean  = mapToReinvite(accountService.getAccount(code));
+
+        model.addAttribute("reinvite", bean);
+
+        if (bean.getActivationCode().getValue().equals("apa")) {
+            response.setRenderParameter("error", "true");
+        } else {
+            response.setRenderParameter("success", "true");
+        }
+
+    }
+
+    private ReinviteFormBean mapToReinvite(ActivationAccount account) {
+        ReinviteFormBean bean = new ReinviteFormBean();
+        bean.setActivationCode(account.getActivationCode());
+        bean.setVgrId(account.getVgrId());
+        InvitePreferences service = invitePreferencesService.findByCustomUrl(account.getCustomUrl());
+        if (service != null) {
+            bean.setSystem(service.getTitle());
+        } else {
+            bean.setSystem(account.getCustomUrl());
+        }
+        // TODO
+        //fullName
+        //email
+        //organization
+        //sponsor
+        return bean;
     }
 }

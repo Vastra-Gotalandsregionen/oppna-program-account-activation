@@ -7,7 +7,7 @@
 
 <portlet:renderURL var="renderUrl"/>
 <p>
-    En inbjudan har skickats till:<br/>
+    Fel fel fel:<br/>
     ${reinvite.fullName}<br/>
     ${reinvite.email}<br/>
     System: ${reinvite.system}

@@ -14,7 +14,7 @@ public class ReinviteFormBean {
     private String fullName;
     private String email;
     private String organization;
-    private String service;
+    private String system;
     private String sponsor;
 
     public ActivationCode getActivationCode() {
@@ -33,12 +33,12 @@ public class ReinviteFormBean {
         this.vgrId = vgrId;
     }
 
-    public String getService() {
-        return service;
+    public String getSystem() {
+        return system;
     }
 
-    public void setService(String service) {
-        this.service = service;
+    public void setSystem(String system) {
+        this.system = system;
     }
 
     public String getFullName() {

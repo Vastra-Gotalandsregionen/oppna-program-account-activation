@@ -16,7 +16,7 @@
 
     #validActivationAccounts tr th {
         padding: 7px;
-        background-color: #777;
+        background-color: #BBB;
     }
 
     #validActivationAccounts {
@@ -63,7 +63,7 @@
 
         <tr class="${count.index%2 == 0 ? 'evenRow' : 'oddRow'}">
             <td>${account.vgrId}</td>
-            <td>${account.service}</td>
+            <td>${account.system}</td>
             <td class="center">
                 <a href="${reinviteUrl}"><img src="/vgr-theme/images/mail/forward.png" title="Skicka inbjudan"/></a>
             </td>
