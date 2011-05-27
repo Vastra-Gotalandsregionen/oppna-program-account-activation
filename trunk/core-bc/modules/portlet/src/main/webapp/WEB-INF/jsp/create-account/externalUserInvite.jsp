@@ -140,9 +140,17 @@
 <portlet:resourceURL var="resourceUrl" escapeXml="false"/>
 
 <script type="text/javascript">
+    function NewDate(str) {
+        str=str.split('-');
+        var date=new Date();
+        date.setUTCFullYear(str[0], str[1]-1, str[2]);
+        date.setUTCHours(0, 0, 0, 0);
+        return date;
+     }
+
     AUI().ready('aui-autocomplete', 'aui-datepicker-select', function(A) {
 
-        var dateLimit = new Date('${externalUserFormBean.dateLimit}');
+        var dateLimit = NewDate('${externalUserFormBean.dateLimit}');
         if (dateLimit == 'Invalid Date') {
             dateLimit = new Date(new Date().getTime() + 365 * 24 * 60 * 60 * 1000);
         }
