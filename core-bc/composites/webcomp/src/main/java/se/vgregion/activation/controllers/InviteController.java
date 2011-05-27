@@ -4,6 +4,8 @@ import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.messaging.MessageBusException;
 import com.liferay.portal.kernel.messaging.MessageBusUtil;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +28,8 @@ import se.vgregion.portal.createuser.CreateUser;
 import se.vgregion.portal.createuser.CreateUserResponse;
 import se.vgregion.portal.createuser.CreateUserStatusCodeType;
 import se.vgregion.portal.inviteuser.InviteUser;
+import se.vgregion.portal.inviteuser.InviteUserResponse;
+import se.vgregion.portal.inviteuser.InviteUserStatusCodeType;
 import sun.rmi.runtime.NewThreadAction;
 
 import javax.portlet.*;
@@ -43,6 +47,7 @@ import java.util.Map;
 @SessionAttributes("externalUserFormBean")
 @RequestMapping("VIEW")
 public class InviteController {
+    Logger logger = LoggerFactory.getLogger(InviteController.class);
 
     @Autowired
     private InvitePreferencesService invitePreferencesService;
@@ -163,28 +168,18 @@ public class InviteController {
             CreateUserResponse createUserResponse = callCreateUser(externalUserFormBean);
 
             CreateUserStatusCodeType statusCode = createUserResponse.getStatusCode();
-            if (statusCode == CreateUserStatusCodeType.NEW_USER) {
+            if (statusCode == CreateUserStatusCodeType.NEW_USER || statusCode == CreateUserStatusCodeType.EXISTING_USER) {
                 // ?: new user -> invite
-                status.setComplete();
-                response.setRenderParameter("success", "true");
-                structureService.storeExternStructurePersonDn(externalUserFormBean.getExternStructurePersonDn());
-
-                //invite
-                InviteUser inviteUser = new InviteUser();
-                inviteUser.setUserId(createUserResponse.getVgrId());
-                inviteUser.setCustomURL(externalUserFormBean.getInvitePreferences().getCustomUrl());
-                inviteUser.setCustomMessage(externalUserFormBean.getInvitePreferences().getCustomMessage());
-                
-                Message message = new Message();
-                message.setPayload(inviteUserJaxbUtil.marshal(inviteUser));
-
-                Object inviteUserResponse = MessageBusUtil.sendSynchronousMessage("vgr/account_invite", message);
-
-                
-            } else if (statusCode == CreateUserStatusCodeType.EXISTING_USER) {
                 // ?: user already in PK -> no/has outstanding invite ->  invite
-                status.setComplete();
-                response.setRenderParameter("success", "true");
+                InviteUserResponse inviteUserResponse = callInviteUser(externalUserFormBean, createUserResponse);
+
+                InviteUserStatusCodeType statusCodeInvite = inviteUserResponse.getStatusCode();
+                if (statusCodeInvite == InviteUserStatusCodeType.ERROR) {
+                    response.setRenderParameter("unresponsive", "invite.failed");
+                } else {
+                    status.setComplete();
+                    response.setRenderParameter("success", "true");
+                }
                 structureService.storeExternStructurePersonDn(externalUserFormBean.getExternStructurePersonDn());
             } else if (statusCode == CreateUserStatusCodeType.ERROR) {
                 // error -> cannot invite
@@ -214,6 +209,24 @@ public class InviteController {
 
     }
 
+    private InviteUserResponse callInviteUser(ExternalUserFormBean externalUserFormBean, CreateUserResponse createUserResponse)
+            throws MessageBusException {//invite
+        InviteUser inviteUser = new InviteUser();
+        inviteUser.setUserId(createUserResponse.getVgrId());
+        inviteUser.setCustomURL(externalUserFormBean.getInvitePreferences().getCustomUrl());
+        inviteUser.setCustomMessage(externalUserFormBean.getInvitePreferences().getCustomMessage());
+
+        Message message = new Message();
+        message.setPayload(inviteUserJaxbUtil.marshal(inviteUser));
+
+        Object response = MessageBusUtil.sendSynchronousMessage
+                ("vgr/account_invite", message, 7000);
+
+        logger.info(response.toString());
+
+        return extractResponse(response, inviteUserJaxbUtil);
+    }
+
     private CreateUserResponse callCreateUser(ExternalUserFormBean externalUserFormBean) throws MessageBusException {
         CreateUser createUser = new CreateUser();
         createUser.setUserFirstName(externalUserFormBean.getName());
@@ -224,15 +237,19 @@ public class InviteController {
         message.setPayload(createUserJaxbUtil.marshal(createUser));
 
         Object response = MessageBusUtil.sendSynchronousMessage("vgr/account_create", message, 7000);
+
+        return extractResponse(response, createUserJaxbUtil);
+    }
+
+    private <T> T extractResponse(Object response, JaxbUtil jaxbUtil) throws MessageBusException {
         if (response instanceof Exception) {
             throw new MessageBusException((Exception) response);
         } else if (response instanceof String) {
-            return createUserJaxbUtil.unmarshal((String) response);
+            return (T)jaxbUtil.unmarshal((String) response);
         } else {
             throw new MessageBusException("Unknown response type: " + response.getClass());
         }
     }
-
 
     private String lookupP3PInfo(PortletRequest req, PortletRequest.P3PUserInfos p3pInfo) {
         Map<String, String> userInfo = (Map<String, String>) req.getAttribute(PortletRequest.USER_INFO);
