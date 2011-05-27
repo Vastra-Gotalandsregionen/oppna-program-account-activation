@@ -21,6 +21,7 @@ Generation time : 2011-02-11 11:58:05 CET
   <name>${project.artifactId}</name>
 
   <modules>
+    <module>composites/camel</module>
     <module>composites/types</module>
     <module>composites/dtos</module>
     <module>composites/svc</module>
