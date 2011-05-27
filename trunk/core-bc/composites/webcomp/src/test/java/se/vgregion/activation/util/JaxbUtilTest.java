@@ -8,6 +8,9 @@ import se.vgregion.portal.activateuser.ActivateUser;
 import se.vgregion.portal.createuser.CreateUser;
 import se.vgregion.portal.createuser.CreateUserResponse;
 import se.vgregion.portal.createuser.CreateUserStatusCodeType;
+import se.vgregion.portal.inviteuser.InviteUser;
+import se.vgregion.portal.inviteuser.InviteUserResponse;
+import se.vgregion.portal.inviteuser.InviteUserStatusCodeType;
 
 import javax.validation.constraints.AssertTrue;
 
@@ -28,19 +31,21 @@ public class JaxbUtilTest {
     private ActivateUser activateObject;
     private CreateUser createObject;
     private CreateUserResponse createUserResponse;
-    private ActivateUser inviteObject;
+    private InviteUserResponse inviteUserResponse;
 
 
+    private InviteUser inviteObject;
     private String testXmlCreate;
     private String testXmlCreateResponse;
     private String testXmlActivate;
     private String testXmlInvite;
+    private String testXmlInviteResponse;
 
     @Before
     public void setUp() throws Exception {
         initActivate();
         initCreate();
-
+        initInvite();
     }
 
     private void initActivate() {
@@ -97,11 +102,35 @@ public class JaxbUtilTest {
                 "</createUserResponse>";
     }
 
+    private void initInvite() {
+        jaxbUtilInvite = new JaxbUtil("se.vgregion.portal.inviteuser");
+
+        inviteObject = new InviteUser();
+        inviteObject.setUserId("ex_apa");
+        inviteObject.setCustomMessage("apa msg");
+        inviteObject.setCustomURL("http://apa");
+
+        inviteUserResponse = new InviteUserResponse();
+        inviteUserResponse.setMessage("the reply message");
+        inviteUserResponse.setStatusCode(InviteUserStatusCodeType.SUCCESS);
+        inviteUserResponse.setUserId("ex_apa");
+
+        testXmlInvite = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><inviteUser xmlns=\"http://portal.vgregion.se/inviteuser\"><userId>ex_apa</userId><customURL>http://apa</customURL><customMessage>apa msg</customMessage></inviteUser>";
+        testXmlInviteResponse = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><inviteUserResponse xmlns=\"http://portal.vgregion.se/inviteuser\"><userId>ex_apa</userId><statusCode>SUCCESS</statusCode><message>the reply message</message></inviteUserResponse>";
+    }
+
     @Test
     public void testMarshalActivate() throws Exception {
         String result = jaxbUtilActivate.marshal(activateObject);
 
         assertEquals(testXmlActivate, result);
+    }
+
+    @Test
+    public void testMarshalInvite() throws Exception {
+        String result = jaxbUtilInvite.marshal(inviteObject);
+
+        assertEquals(testXmlInvite, result);
     }
 
     @Test
@@ -120,6 +149,15 @@ public class JaxbUtilTest {
         String result = jaxbUtilCreate.marshal(createUserResponse);
 
         assertEquals(testXmlCreateResponse, result);
+    }
+
+    @Test
+    public void testMarshalInviteResponse() throws Exception {
+        initCreate();
+
+        String result = jaxbUtilInvite.marshal(inviteUserResponse);
+
+        assertEquals(testXmlInviteResponse, result);
     }
 
     @Test
