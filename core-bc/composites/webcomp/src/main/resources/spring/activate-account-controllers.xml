@@ -21,10 +21,6 @@
     </constructor-arg>
   </bean>
 
-  <bean id="jaxbUtil" class="se.vgregion.activation.util.JaxbUtil">
-    <constructor-arg value="se.vgregion.portal.activateuser"/>
-  </bean>
-
   <bean class="se.vgregion.activation.controllers.LoginController"/>
 
   <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
