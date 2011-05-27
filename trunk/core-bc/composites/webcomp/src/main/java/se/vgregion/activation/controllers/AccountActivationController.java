@@ -44,8 +44,7 @@ public class AccountActivationController {
     @Resource
     private AccountService accountService;
 
-    @Autowired
-    private JaxbUtil jaxbUtil;
+    private JaxbUtil jaxbUtil = new JaxbUtil("se.vgregion.portal.activateuser");
 
     @InitBinder("passwordFormBean")
     public void initBinder(WebDataBinder binder) {

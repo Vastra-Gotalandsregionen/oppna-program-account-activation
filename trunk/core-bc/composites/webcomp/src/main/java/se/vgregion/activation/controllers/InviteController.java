@@ -26,6 +26,7 @@ import se.vgregion.portal.createuser.CreateUser;
 import se.vgregion.portal.createuser.CreateUserResponse;
 import se.vgregion.portal.createuser.CreateUserStatusCodeType;
 import se.vgregion.portal.inviteuser.InviteUser;
+import sun.rmi.runtime.NewThreadAction;
 
 import javax.portlet.*;
 import java.io.IOException;
@@ -52,8 +53,8 @@ public class InviteController {
     @Autowired
     private ExternalUserValidator externalUserValidator;
 
-    @Autowired
-    private JaxbUtil jaxbUtil;
+    private JaxbUtil createUserJaxbUtil = new JaxbUtil("se.vgregion.portal.createuser");
+    private JaxbUtil inviteUserJaxbUtil = new JaxbUtil("se.vgregion.portal.inviteuser");
 
     @Autowired
     private StructureService structureService;
@@ -171,10 +172,15 @@ public class InviteController {
                 //invite
                 InviteUser inviteUser = new InviteUser();
                 inviteUser.setUserId(createUserResponse.getVgrId());
+                inviteUser.setCustomURL(externalUserFormBean.getInvitePreferences().getCustomUrl());
+                inviteUser.setCustomMessage(externalUserFormBean.getInvitePreferences().getCustomMessage());
+                
                 Message message = new Message();
-                message.setPayload(jaxbUtil.marshal(inviteUser));
+                message.setPayload(inviteUserJaxbUtil.marshal(inviteUser));
 
-//todo                Object inviteUserResponse = MessageBusUtil.sendSynchronousMessage("vgr/account_invite", message);
+                Object inviteUserResponse = MessageBusUtil.sendSynchronousMessage("vgr/account_invite", message);
+
+                
             } else if (statusCode == CreateUserStatusCodeType.EXISTING_USER) {
                 // ?: user already in PK -> no/has outstanding invite ->  invite
                 status.setComplete();
@@ -215,13 +221,13 @@ public class InviteController {
         createUser.setUserMail(externalUserFormBean.getEmail());
 
         Message message = new Message();
-        message.setPayload(jaxbUtil.marshal(createUser));
+        message.setPayload(createUserJaxbUtil.marshal(createUser));
 
         Object response = MessageBusUtil.sendSynchronousMessage("vgr/account_create", message, 7000);
         if (response instanceof Exception) {
             throw new MessageBusException((Exception) response);
         } else if (response instanceof String) {
-            return jaxbUtil.unmarshal((String) response);
+            return createUserJaxbUtil.unmarshal((String) response);
         } else {
             throw new MessageBusException("Unknown response type: " + response.getClass());
         }

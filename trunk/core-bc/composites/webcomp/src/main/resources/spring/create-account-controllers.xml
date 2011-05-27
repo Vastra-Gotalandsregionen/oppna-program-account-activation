@@ -10,10 +10,6 @@
 
   <bean class="se.vgregion.activation.controllers.InviteEditController"/>
 
-  <bean id="jaxbUtil" class="se.vgregion.activation.util.JaxbUtil">
-    <constructor-arg value="se.vgregion.portal.createuser"/>
-  </bean>
-
   <bean class="se.vgregion.activation.validators.ExternalUserValidator" />
   <bean class="se.vgregion.activation.validators.InvitePreferencesValidator" />
 
