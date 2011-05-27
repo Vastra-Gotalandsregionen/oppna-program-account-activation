@@ -138,7 +138,7 @@ public class InviteController {
     @RenderMapping(params = {"error"})
     public String inviteError(@RequestParam(value = "error") String errorMessage, Model model) {
         model.addAttribute("message", errorMessage);
-        return "inviteError";
+        return "error";
     }
 
     @ExceptionHandler(Exception.class)
@@ -175,14 +175,15 @@ public class InviteController {
 
                 InviteUserStatusCodeType statusCodeInvite = inviteUserResponse.getStatusCode();
                 if (statusCodeInvite == InviteUserStatusCodeType.ERROR) {
-                    response.setRenderParameter("unresponsive", "invite.failed");
+                    // error -> cannot invite
+                    response.setRenderParameter("error", inviteUserResponse.getMessage());
                 } else {
                     status.setComplete();
                     response.setRenderParameter("success", "true");
                 }
                 structureService.storeExternStructurePersonDn(externalUserFormBean.getExternStructurePersonDn());
             } else if (statusCode == CreateUserStatusCodeType.ERROR) {
-                // error -> cannot invite
+                // error -> cannot create
                 status.setComplete();
                 response.setRenderParameter("error", createUserResponse.getMessage());
             }
@@ -190,8 +191,6 @@ public class InviteController {
         } catch (MessageBusException e) {
             // ?: timeout try again later
             handleMessageBusException(e, response);
-//            response.setRenderParameter("inviteTimeout", "true");
-//            e.printStackTrace();
         }
     }
 
@@ -206,7 +205,6 @@ public class InviteController {
         } else {
             response.setRenderParameter("unresponsive", "unknown.exception");
         }
-
     }
 
     private InviteUserResponse callInviteUser(ExternalUserFormBean externalUserFormBean, CreateUserResponse createUserResponse)

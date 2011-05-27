@@ -5,9 +5,9 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<portlet:renderURL var="renderUrl"/><aui:a label="" href=""></aui:a>
+<portlet:renderURL var="renderUrl"/>
 <p>
-    Du får inte skapa denna användaren.<br/>
+    Det gick inte att bjuda in användaren.<br/><br/>
     ${message}
 </p>
 <p>
