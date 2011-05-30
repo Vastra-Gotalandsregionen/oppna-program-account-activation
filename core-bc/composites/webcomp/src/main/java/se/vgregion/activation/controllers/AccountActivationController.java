@@ -173,7 +173,7 @@ public class AccountActivationController {
         activateUser.setUserId(activationAccount.getVgrId());
         activateUser.setActivationCode(passwordFormBean.getActivationCode());
         activateUser.setUserPassword(passwordFormBean.getPassword());
-        activateUser.setUserMail("");
+//        activateUser.setUserMail("");
 
         Message message = new Message();
         message.setPayload(jaxbUtil.marshal(activateUser));

@@ -5,7 +5,11 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
         >
 
-  <import resource="classpath*:META-INF/spring/messagebus-routes.xml"/>
+  <!-- Message bus -->
+
+  <bean id="messageBus"
+        class="com.liferay.portal.kernel.messaging.MessageBusUtil"
+        factory-method="getMessageBus"/>
 
   <bean id="liferay" class="se.vgregion.messagebus.MessageBusComponent">
     <property name="messageBus" ref="messageBus"/>

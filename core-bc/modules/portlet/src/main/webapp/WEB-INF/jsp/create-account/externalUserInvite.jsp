@@ -107,11 +107,17 @@
                         <aui:option
                                 label="HSA"
                                 value="HSA"
-                                selected="${externalUserFormBean.userType eq \"hsa\"}"/>
+                                selected="${externalUserFormBean.userType eq \"HSA\"}"/>
                         <aui:option
                                 label="Kommun"
                                 value="Kommun"
                                 selected="${externalUserFormBean.userType eq \"Kommun\"}"/>
+<%--
+                        <aui:option
+                                label="newUserType"
+                                value="newUserType"
+                                selected="${externalUserFormBean.userType eq \"newUserType\"}"/>
+--%>
                     </aui:select>
 
                     <aui:field-wrapper label="sponsor-full-name" helpMessage="Den person som bjuder in blir sponsor.

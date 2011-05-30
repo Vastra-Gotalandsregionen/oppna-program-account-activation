@@ -16,6 +16,8 @@
   <import resource="classpath*:spring/reinvite-account-controllers.xml"/>
   <import resource="classpath*:spring/reinvite-account-svc.xml"/>
 
+  <import resource="classpath*:META-INF/spring/messagebus-invite-routes.xml"/>
+
   <!-- Enable annotation driven controllers, validation etc... -->
   <mvc:resources mapping="/resources/**" location="classpath:/**"/>
   <mvc:annotation-driven/>

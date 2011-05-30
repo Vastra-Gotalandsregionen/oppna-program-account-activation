@@ -5,6 +5,4 @@
 
   <import resource="classpath*:spring/datasource-config.xml"/>
 
-  <import resource="classpath*:META-INF/spring/*.xml"/>
-
 </beans>
