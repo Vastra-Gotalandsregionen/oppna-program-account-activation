@@ -196,6 +196,7 @@ public class InviteController {
 
     private void handleMessageBusException(MessageBusException e, ActionResponse response) {
         Throwable rootCause = e.getCause();
+        logger.error("Invite error", e);
         if (rootCause instanceof ConnectException) {
             response.setRenderParameter("unresponsive", "connection.failed");
         } else if (rootCause instanceof UnknownHostException) {

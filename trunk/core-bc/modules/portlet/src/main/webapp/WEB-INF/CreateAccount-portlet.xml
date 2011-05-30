@@ -16,6 +16,8 @@
   <import resource="classpath*:spring/create-account-controllers.xml"/>
   <import resource="classpath*:spring/create-account-svc.xml"/>
 
+  <import resource="classpath*:META-INF/spring/messagebus-create-routes.xml"/>
+
   <!-- Enable annotation driven controllers, validation etc... -->
   <mvc:resources mapping="/resources/**" location="classpath:/**"/>
   <mvc:annotation-driven/>
