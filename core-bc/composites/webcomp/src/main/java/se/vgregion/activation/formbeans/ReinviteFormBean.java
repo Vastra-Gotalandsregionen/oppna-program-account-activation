@@ -64,4 +64,12 @@ public class ReinviteFormBean {
     public void setOrganization(String organization) {
         this.organization = organization;
     }
+
+    public String getSponsor() {
+        return sponsor;
+    }
+
+    public void setSponsor(String sponsor) {
+        this.sponsor = sponsor;
+    }
 }
