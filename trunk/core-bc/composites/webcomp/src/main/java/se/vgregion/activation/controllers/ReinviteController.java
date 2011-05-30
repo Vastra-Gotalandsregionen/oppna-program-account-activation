@@ -60,8 +60,6 @@ public class ReinviteController {
     @ActionMapping(params = {"action=reinvite"})
     public void reinvite(@RequestParam("activationCode") ActivationCode code, ActionRequest request,
     ActionResponse response, Model model) {
-        System.out.println("Reinvite ->" + code);
-
         ReinviteFormBean bean  = mapToReinvite(accountService.getAccount(code));
 
         model.addAttribute("reinvite", bean);
