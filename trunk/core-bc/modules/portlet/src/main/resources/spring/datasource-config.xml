@@ -7,6 +7,5 @@
   <import resource="classpath:spring/jpa-connector.xml" />
   <import resource="classpath:spring/jpa-connector-${db.connector:jndi}.xml" />
   
-  <context:property-placeholder location="classpath:datasource.properties" ignore-resource-not-found="true" ignore-unresolvable="true" />
-    
+
 </beans>

@@ -15,7 +15,6 @@
 
   </camelContext>
 
-  <context:property-placeholder location="classpath:META-INF/camel.properties,classpath:security.properties"/>
 
   <bean id="createRoutes" class="se.vgregion.routes.MessagebusRestRouteBuilder">
     <constructor-arg index="0" value="${create.messagebus.destination}"/>
