@@ -190,21 +190,7 @@ public class InviteController {
 
         } catch (MessageBusException e) {
             // ?: timeout try again later
-            handleMessageBusException(e, response);
-        }
-    }
-
-    private void handleMessageBusException(MessageBusException e, ActionResponse response) {
-        Throwable rootCause = e.getCause();
-        logger.error("Invite error", e);
-        if (rootCause instanceof ConnectException) {
-            response.setRenderParameter("unresponsive", "connection.failed");
-        } else if (rootCause instanceof UnknownHostException) {
-            response.setRenderParameter("unresponsive", "host.unknown");
-        } else if (e.getMessage().startsWith("No reply received for message")) {
-            response.setRenderParameter("unresponsive", "request.timeout");
-        } else {
-            response.setRenderParameter("unresponsive", "unknown.exception");
+            ControllerUtil.handleMessageBusException(e, response);
         }
     }
 
@@ -223,7 +209,7 @@ public class InviteController {
 
         logger.info(response.toString());
 
-        return extractResponse(response, inviteUserJaxbUtil);
+        return ControllerUtil.extractResponse(response, inviteUserJaxbUtil);
     }
 
     private CreateUserResponse callCreateUser(ExternalUserFormBean externalUserFormBean) throws MessageBusException {
@@ -237,17 +223,7 @@ public class InviteController {
 
         Object response = MessageBusUtil.sendSynchronousMessage("vgr/account_create", message, 7000);
 
-        return extractResponse(response, createUserJaxbUtil);
-    }
-
-    private <T> T extractResponse(Object response, JaxbUtil jaxbUtil) throws MessageBusException {
-        if (response instanceof Exception) {
-            throw new MessageBusException((Exception) response);
-        } else if (response instanceof String) {
-            return (T)jaxbUtil.unmarshal((String) response);
-        } else {
-            throw new MessageBusException("Unknown response type: " + response.getClass());
-        }
+        return ControllerUtil.extractResponse(response, createUserJaxbUtil);
     }
 
     private String lookupP3PInfo(PortletRequest req, PortletRequest.P3PUserInfos p3pInfo) {

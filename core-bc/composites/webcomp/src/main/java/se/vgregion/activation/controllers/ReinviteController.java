@@ -1,8 +1,12 @@
 package se.vgregion.activation.controllers;
 
+import com.liferay.portal.kernel.messaging.Message;
+import com.liferay.portal.kernel.messaging.MessageBusException;
+import com.liferay.portal.kernel.messaging.MessageBusUtil;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,9 +18,13 @@ import se.vgregion.account.services.InvitePreferencesService;
 import se.vgregion.activation.domain.ActivationAccount;
 import se.vgregion.activation.domain.ActivationCode;
 import se.vgregion.activation.formbeans.ReinviteFormBean;
+import se.vgregion.activation.util.JaxbUtil;
 import se.vgregion.create.domain.InvitePreferences;
 import se.vgregion.ldapservice.LdapService;
 import se.vgregion.ldapservice.LdapUser;
+import se.vgregion.portal.inviteuser.InviteUser;
+import se.vgregion.portal.inviteuser.InviteUserResponse;
+import se.vgregion.portal.inviteuser.InviteUserStatusCodeType;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -30,6 +38,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("VIEW")
 public class ReinviteController {
+    private static final Logger logger = LoggerFactory.getLogger(ReinviteController.class);
 
     @Autowired
     private AccountService accountService;
@@ -40,15 +49,20 @@ public class ReinviteController {
     @Autowired
     private LdapService ldapService;
 
+    private JaxbUtil inviteUserJaxbUtil = new JaxbUtil("se.vgregion.portal.inviteuser");
+
     @RequestMapping
-    public String view(Model model) {
+    public String view(Model model, PortletRequest request) {
         Collection<ActivationAccount> accounts = accountService.getAllValidAccounts();
 
         List<ReinviteFormBean> reinvites = new ArrayList<ReinviteFormBean>();
         for (ActivationAccount account : accounts) {
-            ReinviteFormBean bean = mapToReinvite(account);
-
-            reinvites.add(bean);
+            try {
+                ReinviteFormBean bean = mapToReinvite(account, request);
+                reinvites.add(bean);
+            } catch (IllegalArgumentException ex) {
+                logger.error(ex.getMessage(), ex);
+            }
         }
 
         model.addAttribute("accounts", reinvites);
@@ -61,35 +75,59 @@ public class ReinviteController {
         return "success";
     }
 
-    @RenderMapping(params = {"error=true"})
-    public String error() {
+    @RenderMapping(params = {"unresponsive"})
+    public String unresponsive(@RequestParam(value = "unresponsive") String failureCode, Model model) {
+        model.addAttribute("message", failureCode);
+        return "inviteTimeout";
+    }
+
+    @RenderMapping(params = {"error"})
+    public String error(@RequestParam String errorMessage, Model model) {
+        model.addAttribute("message", errorMessage);
         return "error";
     }
 
     @ActionMapping(params = {"action=reinvite"})
     public void reinvite(@RequestParam("activationCode") ActivationCode code, ActionRequest request,
                          ActionResponse response, Model model) {
-        ReinviteFormBean bean = mapToReinvite(accountService.getAccount(code));
+        try {
+            ReinviteFormBean bean = mapToReinvite(accountService.getAccount(code), request);
 
-        String userId = lookupP3PInfo(request, PortletRequest.P3PUserInfos.USER_LOGIN_ID);
-        if (userId == null) {
-            throw new IllegalStateException("Du måste vara inloggad.");
-        } else if (userId.startsWith("ex_")) {
-            throw new IllegalStateException("Du måste vara anställd för att bjuda in andra.");
-        }
-        bean.setSponsor(userId);
+            InviteUser inviteUser = new InviteUser();
+            inviteUser.setUserId(bean.getVgrId());
+            inviteUser.setCustomURL(bean.getCustomUrl());
+            inviteUser.setCustomMessage(bean.getCustomMessage());
 
-        model.addAttribute("reinvite", bean);
 
-        if (bean.getActivationCode().getValue().equals("apa")) {
-            response.setRenderParameter("error", "true");
-        } else {
-            response.setRenderParameter("success", "true");
+            Message message = new Message();
+            message.setPayload(inviteUserJaxbUtil.marshal(inviteUser));
+
+            Object inviteResponse = MessageBusUtil.sendSynchronousMessage("vgr/account_invite", message, 7000);
+
+            logger.info(inviteResponse.toString());
+
+            InviteUserResponse inviteUserResponse = ControllerUtil.extractResponse(inviteResponse, inviteUserJaxbUtil);
+
+            InviteUserStatusCodeType statusCodeInvite = inviteUserResponse.getStatusCode();
+            if (statusCodeInvite == InviteUserStatusCodeType.ERROR) {
+                // error -> cannot invite
+                response.setRenderParameter("error", inviteUserResponse.getMessage());
+            } else {
+                response.setRenderParameter("success", "true");
+            }
+
+            model.addAttribute("reinvite", bean);
+
+        } catch (IllegalArgumentException ex) {
+            response.setRenderParameter("error", ex.getMessage());
+        } catch (MessageBusException e) {
+            ControllerUtil.handleMessageBusException(e, response);
         }
 
     }
 
-    private ReinviteFormBean mapToReinvite(ActivationAccount account) {
+
+    private ReinviteFormBean mapToReinvite(ActivationAccount account, PortletRequest request) {
         ReinviteFormBean bean = new ReinviteFormBean();
         bean.setActivationCode(account.getActivationCode());
         bean.setVgrId(account.getVgrId());
@@ -100,20 +138,31 @@ public class ReinviteController {
             bean.setSystem(account.getCustomUrl());
         }
 
+        bean.setCustomUrl(account.getCustomUrl());
+        bean.setCustomMessage(account.getCustomMessage());
 
         LdapUser ldapUser = ldapService.getLdapUserByUid(account.getVgrId());
-        // TODO
-        //fullName
-        //email
-        //organization
-        //sponsor
         if (ldapUser != null) {
             bean.setFullName(ldapUser.getAttributeValue("cn"));
             bean.setEmail(ldapUser.getAttributeValue("mail"));
-            bean.setOrganization(ldapUser.getAttributeValue("externStructureDN"));
+
+            String[] organisationsArray = ldapUser.getAttributeValues("externStructurePersonDN");
+            String organisations = StringUtils.join(organisationsArray, ", ");
+            bean.setOrganization(organisations);
+
         } else {
-            //throw some exception
+            throw new IllegalArgumentException("User with vgrId=" + account.getVgrId() + " does not exist.");
         }
+
+        //set user id
+        String userId = lookupP3PInfo(request, PortletRequest.P3PUserInfos.USER_LOGIN_ID);
+        if (userId == null) {
+            throw new IllegalStateException("Du måste vara inloggad.");
+        } else if (userId.startsWith("ex_")) {
+            throw new IllegalStateException("Du måste vara anställd för att bjuda in andra.");
+        }
+        bean.setSponsor(userId);
+
         return bean;
     }
 
