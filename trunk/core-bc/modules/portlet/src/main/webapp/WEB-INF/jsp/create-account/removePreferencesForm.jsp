@@ -5,6 +5,8 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<link href="${pageContext.request.contextPath}/css/style.css" type="text/css" rel="stylesheet" />
+
 <portlet:actionURL var="actionUrl" />
 <portlet:renderURL var="renderUrl" />
 
@@ -20,6 +22,6 @@
     </aui:fieldset>
     <aui:button-row>
         <aui:button type="submit" value="Ta bort"/>
-        <a href="<%= renderUrl %>">Avbryt</a>
+        <a class="buttonlink" href="<%= renderUrl %>">Avbryt</a>
     </aui:button-row>
 </aui:form>
