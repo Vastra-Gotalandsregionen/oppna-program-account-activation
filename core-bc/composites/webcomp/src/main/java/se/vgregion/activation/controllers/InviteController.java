@@ -30,13 +30,10 @@ import se.vgregion.portal.createuser.CreateUserStatusCodeType;
 import se.vgregion.portal.inviteuser.InviteUser;
 import se.vgregion.portal.inviteuser.InviteUserResponse;
 import se.vgregion.portal.inviteuser.InviteUserStatusCodeType;
-import sun.rmi.runtime.NewThreadAction;
 
 import javax.portlet.*;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.ConnectException;
-import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
