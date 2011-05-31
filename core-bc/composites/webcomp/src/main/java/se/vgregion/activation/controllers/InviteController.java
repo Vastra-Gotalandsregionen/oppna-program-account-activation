@@ -169,6 +169,8 @@ public class InviteController {
 
             CreateUserStatusCodeType statusCode = createUserResponse.getStatusCode();
             if (statusCode == CreateUserStatusCodeType.NEW_USER || statusCode == CreateUserStatusCodeType.EXISTING_USER) {
+                structureService.storeExternStructurePersonDn(externalUserFormBean.getExternStructurePersonDn());
+
                 // ?: new user -> invite
                 // ?: user already in PK -> no/has outstanding invite ->  invite
                 InviteUserResponse inviteUserResponse = callInviteUser(externalUserFormBean, createUserResponse);
@@ -181,7 +183,6 @@ public class InviteController {
                     status.setComplete();
                     response.setRenderParameter("success", "true");
                 }
-                structureService.storeExternStructurePersonDn(externalUserFormBean.getExternStructurePersonDn());
             } else if (statusCode == CreateUserStatusCodeType.ERROR) {
                 // error -> cannot create
                 status.setComplete();

@@ -1,2 +1,5 @@
+BIND_DN=
+BIND_PW=
+
 trustStore=
 trustStorePassword=
