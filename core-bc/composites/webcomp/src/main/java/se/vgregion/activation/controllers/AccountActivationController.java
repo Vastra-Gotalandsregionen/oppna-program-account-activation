@@ -154,8 +154,8 @@ public class AccountActivationController {
     @RenderMapping(params = {"success"})
     public String success(@ModelAttribute PasswordFormBean passwordFormBean, Model model) {
         model.asMap().clear();
-        ActivationCode publicHash = new ActivationCode(passwordFormBean.getActivationCode());
-        model.addAttribute("postbackUrl", accountService.getCustomUrl(publicHash));
+        ActivationCode activationCode = new ActivationCode(passwordFormBean.getActivationCode());
+        model.addAttribute("postbackUrl", accountService.getCustomUrl(activationCode));
         return "successForm";
     }
 
