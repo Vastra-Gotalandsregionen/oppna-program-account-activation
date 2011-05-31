@@ -16,6 +16,8 @@ public class ReinviteFormBean {
     private String organization;
     private String system;
     private String sponsor;
+    private String customUrl;
+    private String customMessage;
 
     public ActivationCode getActivationCode() {
         return activationCode;
@@ -71,5 +73,21 @@ public class ReinviteFormBean {
 
     public void setSponsor(String sponsor) {
         this.sponsor = sponsor;
+    }
+
+    public String getCustomUrl() {
+        return customUrl;
+    }
+
+    public void setCustomUrl(String customUrl) {
+        this.customUrl=customUrl;
+    }
+
+    public String getCustomMessage() {
+        return customMessage;
+    }
+
+    public void setCustomMessage(String customMessage) {
+        this.customMessage = customMessage;
     }
 }
