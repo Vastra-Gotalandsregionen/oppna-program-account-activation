@@ -14,7 +14,7 @@
 
   <bean id="invitePreferencesRepository" class="se.vgregion.account.services.repository.InvitePreferencesRepositoryImpl" />
 
-  <bean id="structureService" class="se.vgregion.account.services.StructureService"/>
+  <bean id="structureService" class="se.vgregion.account.services.StructureServiceImpl"/>
 
   <bean id="invitePreferencesService" class="se.vgregion.account.services.InvitePreferencesService"/>
 
