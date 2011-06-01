@@ -17,5 +17,5 @@ A manager need to invite a user to a system - this could be a an consultant that
  * A backing service will validate:
     # the activation code
     # password strength
-    # and finally send a confirmation mail directing the user to the service he was invited to. 
-      
+    # and finally send a confirmation mail directing the user to the service he was invited to
+ * The manager can issue an reinvite that will send the invitation mail again.      
