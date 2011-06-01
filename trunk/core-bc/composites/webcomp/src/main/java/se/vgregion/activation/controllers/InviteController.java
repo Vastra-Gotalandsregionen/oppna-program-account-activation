@@ -97,7 +97,7 @@ public class InviteController {
 
         model.addAttribute("externalUserFormBean", externalUserFormBean);
 
-        List<InvitePreferences> invitePreferenceses = (List<InvitePreferences>) invitePreferencesService.findAll();
+        List<InvitePreferences> invitePreferenceses = invitePreferencesService.findAll();
         model.addAttribute("invitePreferences", invitePreferenceses);
 
         // Workaround to get the errors form validation in actionrequest
