@@ -1,0 +1,21 @@
+#Big picture of the who's and how's for inviting new users.
+
+= Introduction =
+
+Inviting new users need to be both simple and secure. This should as much as possible be an automated process and rely on the person inviting (sponsor) being responsible for the person being invited.
+Authorization are not handled per se, but user type can be used by the systems to set this indirectly.
+
+= The invitation flow =
+
+A manager need to invite a user to a system - this could be a an consultant that need access to an Alfresco Workspace.
+ * The manager fills out a form with the new users information - for an external user, the email adress are used as unique identifier.
+ * A backing service are called which: 
+    # create the user
+    # generate a new ActivationCode
+    # send a mail with the ActivationCode to the specified email adress
+ * On receiving the mail, the invited user can directly klick the invite-link to set his password.
+ * A backing service will validate:
+    # the activation code
+    # password strength
+    # and finally send a confirmation mail directing the user to the service he was invited to. 
+      
