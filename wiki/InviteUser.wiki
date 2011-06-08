@@ -4,10 +4,8 @@
 
 <img src="http://oppna-program-account-activation.googlecode.com/svn/wiki/InviteUser.png" width="600"/><br/>
 
+The fields marked with (*) are mandatory.
 
 = Details =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+After submitting the form a user will be created in the directory service and an invitation will be sent by email to the given email address. So the form submission triggers two consecutive requests: the create request and the invite request. If any of these fails the user will be informed and can try again later. If the given email address already exists in the directory service it will not be created again but the invite will still be sent.
