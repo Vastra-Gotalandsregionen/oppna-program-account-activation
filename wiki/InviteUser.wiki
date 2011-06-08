@@ -1,6 +1,6 @@
 #Generic form for creating and inviting new external users.
 
-= Introduction =
+= Screenshot =
 
 <img src="http://oppna-program-account-activation.googlecode.com/svn/wiki/InviteUser.png" width="600"/><br/>
 
