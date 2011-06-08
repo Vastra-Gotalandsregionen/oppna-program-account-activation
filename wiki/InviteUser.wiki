@@ -19,3 +19,14 @@ The organization field is a "/"-separated string, e.g. "CompanyABC/DivsionDEF/Gr
 User access will only be granted for a specified time period. The form defaults to a year ahead.
 
 The person doing the invite (sponsor) is responsible for the person he/she invites and prolonged access can be decided by the sponsor. Only non-external users are allowed to be sponsors.
+
+= Administration =
+When logged in as a portal administrator you can enter the edit mode which allows you to add and change systems.
+
+<img src="http://oppna-program-account-activation.googlecode.com/svn/wiki/BjudIn1.png" width="400"/>
+
+By adding or changing an entry the following screen will show:
+
+<img src="http://oppna-program-account-activation.googlecode.com/svn/wiki/Bjudin3.png" width="400"/>
+
+The title will be shown in the dropdown ("Bjud in till") and the message and URL will be shown to the invited external user when the account has been activated. This provides easy access to the site.
