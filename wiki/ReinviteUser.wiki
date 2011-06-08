@@ -1,4 +1,4 @@
-#Manger can issue a reinvite for external users.
+#summary Manger can issue a reinvite for external users.
 
 = Introduction =
 
