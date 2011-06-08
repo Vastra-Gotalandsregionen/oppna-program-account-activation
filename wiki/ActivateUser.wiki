@@ -1,4 +1,4 @@
-A portlet for activating an invited user.
+#summary A portlet for activating an invited user.
 
 = Introduction =
 
