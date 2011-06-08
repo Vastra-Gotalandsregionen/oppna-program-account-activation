@@ -1,0 +1,13 @@
+#Manger can issue a reinvite for external users.
+
+= Introduction =
+
+If a user hasn't activated him-/herself or the invitation email has been lost, it is possible for the manager/sponsor to issue a reinvite to resend the invitation email. I is not possible to change any settings, only to resend the email. In order to reinvite the activation code has to be valid, i.e. it is not used and it has not expired.
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
