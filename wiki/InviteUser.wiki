@@ -2,7 +2,7 @@
 
 = Introduction =
 
-Add your content here.
+<img src="http://code.google.com/p/oppna-program-account-activation/svn/wiki/InviteUser.png" width="400"/><br/>
 
 
 = Details =
