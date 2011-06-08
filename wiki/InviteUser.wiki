@@ -4,8 +4,18 @@
 
 <img src="http://oppna-program-account-activation.googlecode.com/svn/wiki/InviteUser.png" width="600"/><br/>
 
-The fields marked with (*) are mandatory.
+The fields marked with (`*`) are mandatory.
 
 = Details =
 
-After submitting the form a user will be created in the directory service and an invitation will be sent by email to the given email address. So the form submission triggers two consecutive requests: the create request and the invite request. If any of these fails the user will be informed and can try again later. If the given email address already exists in the directory service it will not be created again but the invite will still be sent.
+After submitting the form a user will be created in the directory service and an invitation will be sent by email to the given email address. So the form submission triggers two consecutive requests: the create request and the invite request. If any of these fails the user will be informed and can try again later.
+
+The user is identified by the email address and duplicate email addresses are not allowed in the directory service. If the given email address already exists in the directory service it will not be created again but the invite will still be sent.
+
+The given system ("Bjud in till") is only used for providing an appropriate invitation message, and does not have any effect on permissions etc. Access and authorization are always managed by the applications themselves.
+
+The organization field is a "/"-separated string, e.g. "CompanyABC/DivsionDEF/GroupGHI". As you start typing autocomplete will be provided section by section. It is also possible to select directly from the dropdown menu. New entries will be saved and can be reused the next time.
+
+User access will only be granted for a specified time period. The form defaults to a year ahead.
+
+The person doing the invite (sponsor) is responsible for the person he/she invites and prolonged access can be decided by the sponsor. Only non-external users are allowed to be sponsors.
