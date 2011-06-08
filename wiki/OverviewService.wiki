@@ -13,9 +13,8 @@ The Account Activation service is a RESTful service exposing the following metho
     * curl -H "Content-Type: application/json" -d '{"vgrId":"abcde123","customUrl":"http://example.com","customMessage":"a custome message"}' localhost:8080/account-activation-service/activation-codes -v
       * ActivationCode[value=0cce4a2f-940c-4843-8040-f71640c6efdd]
 
-All returned objects
+All returned objects...
 
-9e3867b5-4dbb-4add-8f03-1b47cdf5eb40
 = Details =
 
 Add your content here.  Format your content with:
