@@ -1,0 +1,21 @@
+#A description is provided of what needs to be configured in order to use the features.
+
+= Introduction =
+
+The configuration can basically be divided into three parts:
+  * LDAP
+  * Camel
+  * Database
+
+== LDAP ==
+The LDAP configuration can be found in webcomp in the ldap-configuration.properties and security.properties files.
+
+== Camel ==
+The Camel configuration consists of two parts: the internal messagebus destinations and the external endpoints. In addition, the JMS brokerURL has to be given. The Account Activation portlets communicate with three different server services. Each service is configured separately. The configuration is found in the camel project in the file camel.properties.
+
+== Database ==
+The database JNDI connection is configured in the Tomcat server.xml file. 
+
+The tables used are:
+  * vgr_activation_external_user_structure (for organization structure)
+  * vgr_activation_invite_preferences (for system which users can be invited to)
