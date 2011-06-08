@@ -1,0 +1,24 @@
+#summary The ser
+
+= Introduction =
+
+The Account Activation service is a RESTful service exposing the following methods (the http method and the relative path is given in the list):
+  * GET, /activation-codes
+    * Fetches all active activation accounts
+    * curl --get localhost:8080/account-activation-service/activation-codes
+      * [{"id":"9e3867b5-4dbb-4add-8f03-1b47cdf5eb40","link":"http://localhost:8080/account-activation-service/activation-codes/9e3867b5-4dbb-4add-8f03-1b47cdf5eb40","status":"OK","vgrId":"abcde1","customUrl":"http://example.com","customMessage":"a custome message"}]
+  * POST, /activation-codes
+    * Post an ActivateAccountDTO object to create an activation account.
+    * Returns an ActivationCode object
+    * curl -H "Content-Type: application/json" -d '{"vgrId":"abcde123","customUrl":"http://example.com","customMessage":"a custome message"}' localhost:8080/account-activation-service/activation-codes -v
+      * ActivationCode[value=0cce4a2f-940c-4843-8040-f71640c6efdd]
+
+All returned objects
+
+9e3867b5-4dbb-4add-8f03-1b47cdf5eb40
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
