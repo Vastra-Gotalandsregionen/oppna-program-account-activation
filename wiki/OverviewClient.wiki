@@ -1,4 +1,4 @@
-#Big picture of the who's and how's for inviting new users.
+#summary Big picture of the who's and how's for inviting new users.
 
 = Introduction =
 
