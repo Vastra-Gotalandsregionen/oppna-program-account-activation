@@ -42,7 +42,7 @@ public final class DTOAssembler {
         if (allAccounts != null) {
             dtoCollection = new HashSet<ActivationAccountDTO>(allAccounts.size());
             for (ActivationAccount account : allAccounts) {
-                dtoCollection.add(toDTO(account, ui, account.getId().getValue()));
+                dtoCollection.add(toDTO(account, ui, "/" + account.getId().getValue()));
             }
         }
         return dtoCollection;

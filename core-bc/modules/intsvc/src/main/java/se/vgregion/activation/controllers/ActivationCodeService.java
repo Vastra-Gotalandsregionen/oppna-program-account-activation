@@ -68,7 +68,7 @@ public class ActivationCodeService {
     }
 
     @GET
-    public Collection<ActivationAccountDTO> getAllActivationCode() {
+    public Collection<ActivationAccountDTO> getAllActivationCodes() {
         try {
             return toDTOCollection(accountService.getAllValidAccounts(), uriInfo);
         } catch (MalformedURLException e) {
