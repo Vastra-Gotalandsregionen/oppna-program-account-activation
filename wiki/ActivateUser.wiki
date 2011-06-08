@@ -4,10 +4,15 @@ A portlet for activating an invited user.
 
 Before a user can activate him-/herself he/she must have been created and invited by an administrator. That will result in an email being sent to the new user. The email contains a url to a page where the user can activate him-/herself ("activate" principally means creating a password to be able to login). The resulting page will look like this:
 
+<img src="http://oppna-program-account-activation.googlecode.com/svn/wiki/ActivateUser2.png" width="300"/><br/>
+
+After entering a valid password and submitting the user should be able to login to the specified system.
+
 
 = Details =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+It is also possible to use the "activation code" that is received in the invitation email by browsing to the Account Activation portlet. The screen should then look like this:
+
+<img src="http://oppna-program-account-activation.googlecode.com/svn/wiki/ActivateUser.png" width="300"/><br/> 
+
+After entering the activation code the user may continue with the procedure described in the introduction.
