@@ -1,4 +1,4 @@
-A description is provided of what needs to be configured in order to use the features.
+#summary A description is provided of what needs to be configured in order to use the features.
 
 = Introduction =
 
