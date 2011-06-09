@@ -4,7 +4,7 @@
 
 The Account Activation service is a RESTful service exposing the following methods (the http method and the relative path is given in the list):
   * GET, /activation-codes
-    * Fetches all active activation accounts
+    * Fetch all active activation accounts
     * curl --get localhost:8080/account-activation-service/activation-codes
       * [{"id":"9e3867b5-4dbb-4add-8f03-1b47cdf5eb40","link":"http://localhost:8080/account-activation-service/activation-codes/9e3867b5-4dbb-4add-8f03-1b47cdf5eb40","status":"OK","vgrId":"abcde1","customUrl":"http://example.com","customMessage":"a custome message"}]
   * POST, /activation-codes
@@ -23,6 +23,11 @@ The Account Activation service is a RESTful service exposing the following metho
       * {"id":"0cce4a2f-940c-4843-8040-f71640c6efdd","link":"http://localhost:8080/account-activation-service/activation-codes/vgrid/ex_test","status":"OK","vgrId":"ex_test","customUrl":"http://example.com","custo
 mMessage":"a custome message"}
   * PUT, /{id}/inactivate
+    * Inactivate the ActivationAccount with the given id or reply 404. A successful reply only results in a 204 response without any content.
+    * curl --request PUT localhost:8080/account-activation-service/activation-codes/0cce4a2f-940c-4843-8040-f71640c6efdd/inactivate -v
+  * PUT, /{id}/reactivate
+    * Reactivate the ActivationAccount with the given id or reply 404. A successful reply only results in a 204 response without any content.
+    * curl --request PUT localhost:8080/account-activation-service/activation-codes/0cce4a2f-940c-4843-8040-f71640c6efdd/reactivate -v
 
 All returned objects...
 
