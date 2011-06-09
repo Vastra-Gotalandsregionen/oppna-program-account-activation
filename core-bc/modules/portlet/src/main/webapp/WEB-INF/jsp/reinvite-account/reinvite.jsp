@@ -32,18 +32,11 @@
     .evenRow {
         background-color: #eee;
     }
+
     .oddRow {
         background-color: #ccc;
     }
 
-    /*a.buttonlink {
-        text-decoration: none;
-        color: #34404F;
-
-    }
-    .imglink {
-        padding-top: 4px;
-    }*/
 </style>
 
 <spring:message arguments="${messageArgs}" code="${message}" text="${message}"/>
@@ -58,12 +51,12 @@
     </tr>
     <c:forEach items="${accounts}" var="account" varStatus="count">
         <portlet:actionURL var="reinviteUrl">
-            <portlet:param name="activationCode" value="${account.activationCode.value}" />
-            <portlet:param name="action" value="reinvite" />
+            <portlet:param name="activationCode" value="${account.activationCode.value}"/>
+            <portlet:param name="action" value="reinvite"/>
         </portlet:actionURL>
         <portlet:actionURL var="inactivateUrl">
-            <portlet:param name="activationCode" value="${account.activationCode.value}" />
-            <portlet:param name="action" value="inactivate" />
+            <portlet:param name="activationCode" value="${account.activationCode.value}"/>
+            <portlet:param name="action" value="inactivate"/>
         </portlet:actionURL>
 
         <tr class="${count.index%2 == 0 ? 'evenRow' : 'oddRow'}">
