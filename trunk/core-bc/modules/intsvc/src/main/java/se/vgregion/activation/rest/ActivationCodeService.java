@@ -17,22 +17,15 @@
  *
  */
 
-package se.vgregion.activation.controllers;
+package se.vgregion.activation.rest;
 
-import static se.vgregion.activation.controllers.DTOAssembler.*;
+import static se.vgregion.activation.rest.DTOAssembler.*;
 
 import java.net.MalformedURLException;
 import java.util.Collection;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.lang.StringUtils;
@@ -47,6 +40,7 @@ import se.vgregion.activation.api.ActivationAccountDTO;
 import se.vgregion.activation.domain.ActivationAccount;
 import se.vgregion.activation.domain.ActivationAccountStatus;
 import se.vgregion.activation.domain.ActivationCode;
+import se.vgregion.portal.inviteuser.InviteUser;
 
 @Path("/activation-codes")
 @Produces("application/json")
@@ -68,7 +62,7 @@ public class ActivationCodeService {
     }
 
     @GET
-    public Collection<ActivationAccountDTO> getAllActivationCodes() {
+    public Collection<ActivationAccountDTO> getAllActivationCode() {
         try {
             return toDTOCollection(accountService.getAllValidAccounts(), uriInfo);
         } catch (MalformedURLException e) {
@@ -77,9 +71,21 @@ public class ActivationCodeService {
     }
 
     @POST
-    public String createActivationCode(ActivationAccountDTO account) {
+    @Consumes("application/json")
+    public String createActivationCodeJson(ActivationAccountDTO account) {
         try {
             return accountService.createAccount(account.getVgrId(), account.getCustomUrl().toString(), account.getCustomMessage()).toString();
+        } catch (DataAccessException e) {
+            LOGGER.warn("Failed to create account.");
+            throw new WebApplicationException(e, 500);
+        }
+    }
+
+    @POST
+    @Consumes("application/xml")
+    public String createActivationCodeXml(InviteUser inviteUser) {
+        try {
+            return accountService.createAccount(inviteUser.getUserId(), inviteUser.getCustomURL().toString(), inviteUser.getCustomMessage()).toString();
         } catch (DataAccessException e) {
             LOGGER.warn("Failed to create account.");
             throw new WebApplicationException(e, 500);

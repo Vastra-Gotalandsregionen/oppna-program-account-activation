@@ -61,6 +61,11 @@
       <artifactId>oppna-program-account-activation-core-bc-composite-dtos</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>se.vgregion.icc.sd.portal</groupId>
+      <artifactId>portal-schemas</artifactId>
+      <version>1.0.5</version>
+    </dependency>
 
     <dependency>
       <groupId>javax.ws.rs</groupId>
