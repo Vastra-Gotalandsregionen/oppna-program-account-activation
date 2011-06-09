@@ -126,6 +126,15 @@ public class ReinviteController {
 
     }
 
+    @ActionMapping(params = {"action=inactivate"})
+    public void inactivate(@RequestParam("activationCode") ActivationCode code, ActionRequest request,
+                         ActionResponse response, Model model) {
+        ActivationAccount account = accountService.getAccount(code);
+        accountService.inactivate(account);
+
+        model.addAttribute("message", "inactivate.user");
+        model.addAttribute("messageArgs", new String[]{account.getVgrId()});
+    }
 
     private ReinviteFormBean mapToReinvite(ActivationAccount account, PortletRequest request) {
         ReinviteFormBean bean = new ReinviteFormBean();
