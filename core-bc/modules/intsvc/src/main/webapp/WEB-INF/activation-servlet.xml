@@ -13,7 +13,7 @@
 
   <jaxrs:server id="activationService" address="/">
     <jaxrs:serviceBeans>
-      <ref bean="activationController" />
+      <ref bean="activationRestService" />
     </jaxrs:serviceBeans>
     <jaxrs:providers>
       <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
