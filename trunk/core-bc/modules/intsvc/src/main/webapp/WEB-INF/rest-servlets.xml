@@ -20,6 +20,15 @@
     </jaxrs:providers>
   </jaxrs:server>
 
+  <jaxrs:server id="externalOrgService" address="/external-org">
+    <jaxrs:serviceBeans>
+      <ref bean="externalOrgRestService" />
+    </jaxrs:serviceBeans>
+    <jaxrs:providers>
+      <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
+    </jaxrs:providers>
+  </jaxrs:server>
+
   <security:http>
     <security:http-basic />
   </security:http>
