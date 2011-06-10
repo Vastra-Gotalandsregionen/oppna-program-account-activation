@@ -20,7 +20,7 @@ public interface AccountService {
      * <code>null</code> if no restriction is wanted
      * @return
      */
-    Collection<ActivationAccount> getOldUnusedAccounts(Integer minDaysOld, Integer maxDaysOld);
+    Collection<ActivationAccount> getExpiredUnusedAccounts(Integer minDaysOld, Integer maxDaysOld);
 
     ActivationAccount getAccount(ActivationCode activationCode);
 

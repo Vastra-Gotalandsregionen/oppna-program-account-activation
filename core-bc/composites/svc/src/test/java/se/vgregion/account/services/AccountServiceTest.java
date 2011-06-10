@@ -64,7 +64,7 @@ public class AccountServiceTest extends AbstractTransactionalJUnit4SpringContext
         oldActivationAccount.setExpireDate(calendar.getTime());
         repository.persist(oldActivationAccount);
 
-        Collection<ActivationAccount> oldUnusedAccounts = service.getOldUnusedAccounts(45, 46);
+        Collection<ActivationAccount> oldUnusedAccounts = service.getExpiredUnusedAccounts(45, 46);
         assertEquals(1, oldUnusedAccounts.size());
     }
 

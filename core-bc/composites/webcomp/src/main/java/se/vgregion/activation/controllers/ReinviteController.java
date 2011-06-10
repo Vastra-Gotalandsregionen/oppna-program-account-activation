@@ -57,7 +57,7 @@ public class ReinviteController {
         List<ReinviteFormBean> reinvites = accountsToReinvites(request, accounts);
         model.addAttribute("accounts", reinvites);
 
-        Collection<ActivationAccount> expiredAccounts = accountService.getOldUnusedAccounts(1, 90);
+        Collection<ActivationAccount> expiredAccounts = accountService.getExpiredUnusedAccounts(1, 90);
         List<ReinviteFormBean> expiredReinvites = accountsToReinvites(request, expiredAccounts);
         model.addAttribute("expiredAccounts", expiredReinvites);
 
@@ -96,7 +96,7 @@ public class ReinviteController {
 
     @ActionMapping(params = {"action=reinvite"})
     public void reinvite(@RequestParam("activationCode") ActivationCode code, ActionRequest request,
-                         ActionResponse response, Model model) {
+            ActionResponse response, Model model) {
         try {
             ReinviteFormBean bean = mapToReinvite(accountService.getAccount(code), request);
 
@@ -135,7 +135,7 @@ public class ReinviteController {
 
     @ActionMapping(params = {"action=inactivate"})
     public void inactivate(@RequestParam("activationCode") ActivationCode code, ActionRequest request,
-                         ActionResponse response, Model model) {
+            ActionResponse response, Model model) {
         ActivationAccount account = accountService.getAccount(code);
         accountService.inactivate(account);
 
@@ -157,17 +157,24 @@ public class ReinviteController {
         bean.setCustomUrl(account.getCustomUrl());
         bean.setCustomMessage(account.getCustomMessage());
 
-        LdapUser ldapUser = ldapService.getLdapUserByUid(account.getVgrId());
-        if (ldapUser != null) {
-            bean.setFullName(ldapUser.getAttributeValue("cn"));
-            bean.setEmail(ldapUser.getAttributeValue("mail"));
+        try {
+            LdapUser ldapUser = ldapService.getLdapUserByUid(account.getVgrId());
+            if (ldapUser != null) {
+                bean.setFullName(ldapUser.getAttributeValue("cn"));
+                bean.setEmail(ldapUser.getAttributeValue("mail"));
 
-            String[] organisationsArray = ldapUser.getAttributeValues("externStructurePersonDN");
-            String organisations = StringUtils.join(organisationsArray, ", ");
-            bean.setOrganization(organisations);
+                String[] organisationsArray = ldapUser.getAttributeValues("externStructurePersonDN");
+                String organisations = StringUtils.join(organisationsArray, ", ");
+                bean.setOrganization(organisations);
 
-        } else {
-            throw new IllegalArgumentException("User with vgrId=" + account.getVgrId() + " does not exist.");
+            } else {
+                throw new IllegalArgumentException("User with vgrId=" + account.getVgrId() + " does not exist.");
+            }
+        } catch (Exception e) {
+            String warn = "Kan inte verifieras";
+            bean.setFullName(warn);
+            bean.setEmail(warn);
+            bean.setOrganization(warn);
         }
 
         //set user id
