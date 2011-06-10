@@ -52,10 +52,10 @@ public class AccountServiceImpl implements AccountService {
     /*
     * (non-Javadoc)
     *
-    * @see se.vgregion.account.services.AccountService#getOldUnusedAccounts(java.lang.Integer, java.lang.Integer)
+    * @see se.vgregion.account.services.AccountService#getExpiredUnusedAccounts(java.lang.Integer, java.lang.Integer)
     */
     @Override
-    public Collection<ActivationAccount> getOldUnusedAccounts(Integer minDaysOld, Integer maxDaysOld) {
+    public Collection<ActivationAccount> getExpiredUnusedAccounts(Integer minDaysOld, Integer maxDaysOld) {
         Calendar minDate = Calendar.getInstance();
         if (maxDaysOld != null) {
             minDate.add(Calendar.DATE, -maxDaysOld);

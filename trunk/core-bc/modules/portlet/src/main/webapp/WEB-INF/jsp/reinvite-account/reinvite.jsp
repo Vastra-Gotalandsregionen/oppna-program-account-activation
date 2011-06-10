@@ -45,18 +45,22 @@
     </span>
 </c:if>
 
+<c:if test="${empty accounts}">
+    <p>Inga aktiva inbjudningar hittades.</p>
+</c:if>
+<c:if test="${not empty accounts}">
 <table class="activationAccountsTable">
     <tr>
-        <th>Aktiva inbjudningar</th>
-        <th></th>
-        <th></th>
-        <th></th>
+        <th colspan="8">Aktiva inbjudningar</th>
     </tr>
     <tr>
         <th>VgrId</th>
         <th>System</th>
-        <th></th>
-        <th></th>
+        <th>Namn</th>
+        <th>Epost</th>
+        <th>Organisation</th>
+        <th>Inbjuden av</th>
+        <th colspan="2"></th>
     </tr>
     <c:forEach items="${accounts}" var="account" varStatus="count">
         <portlet:actionURL var="reinviteUrl">
@@ -71,6 +75,10 @@
         <tr class="${count.index%2 == 0 ? 'evenRow' : 'oddRow'}">
             <td>${account.vgrId}</td>
             <td>${account.system}</td>
+            <td>${account.fullName}</td>
+            <td>${account.email}</td>
+            <td>${account.organization}</td>
+            <td>${account.sponsor}</td>
             <td class="center">
                 <a href="${reinviteUrl}"><img src="/vgr-theme/images/mail/forward.png" title="Skicka inbjudan"/></a>
             </td>
@@ -80,20 +88,25 @@
         </tr>
     </c:forEach>
 </table>
+</c:if>
 
-<div style="max-height: 300px; overflow-y: auto; margin-top: 20px">
+<div style="max-height: 300px; overflow-y: auto; margin-top: 20px;">
+<c:if test="${empty expiredAccounts}">
+    <p>Inga utgångna inbjudningar hittades.</p>
+</c:if>
+<c:if test="${not empty expiredAccounts}">
     <table class="activationAccountsTable">
         <tr>
-            <th>Utgångna inbjudningar</th>
-            <th></th>
-            <th></th>
-            <th></th>
+            <th colspan="8">Utgångna inbjudningar</th>
         </tr>
         <tr>
             <th>VgrId</th>
             <th>System</th>
-            <th></th>
-            <th></th>
+            <th>Namn</th>
+            <th>Epost</th>
+            <th>Organisation</th>
+            <th>Inbjuden av</th>
+            <th colspan="2"></th>
         </tr>
         <c:forEach items="${expiredAccounts}" var="account" varStatus="count">
             <portlet:actionURL var="reinviteUrl">
@@ -107,6 +120,10 @@
             <tr class="${count.index%2 == 0 ? 'evenRow' : 'oddRow'}">
                 <td>${account.vgrId}</td>
                 <td>${account.system}</td>
+                <td>${account.fullName}</td>
+                <td>${account.email}</td>
+                <td>${account.organization}</td>
+                <td>${account.sponsor}</td>
                 <td class="center">
                     <a href="${reinviteUrl}"><img src="/vgr-theme/images/mail/forward.png" title="Skicka inbjudan"/></a>
                 </td>
@@ -116,4 +133,5 @@
             </tr>
         </c:forEach>
     </table>
+</c:if>
 </div>
