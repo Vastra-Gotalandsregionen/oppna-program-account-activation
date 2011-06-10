@@ -1,5 +1,6 @@
 package se.vgregion.account.services;
 
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
@@ -46,6 +47,29 @@ public class AccountServiceImpl implements AccountService {
     public Collection<ActivationAccount> getAllValidAccounts() {
         return repository.findByQuery("SELECT a FROM ActivationAccount a WHERE a.used=?1 AND a.expire > ?2",
                 new Object[]{Boolean.FALSE, new Date()});
+    }
+
+    /*
+    * (non-Javadoc)
+    *
+    * @see se.vgregion.account.services.AccountService#getOldUnusedAccounts(java.lang.Integer, java.lang.Integer)
+    */
+    @Override
+    public Collection<ActivationAccount> getOldUnusedAccounts(Integer minDaysOld, Integer maxDaysOld) {
+        Calendar minDate = Calendar.getInstance();
+        if (maxDaysOld != null) {
+            minDate.add(Calendar.DATE, -maxDaysOld);
+        } else {
+            //no limit for how old it could be
+            minDate.setTimeInMillis(0);
+        }
+        Calendar maxDate = Calendar.getInstance();
+        if (minDaysOld != null) {
+            maxDate.add(Calendar.DATE, -minDaysOld);
+        }
+        return repository.findByQuery("SELECT a FROM ActivationAccount a WHERE a.used=?1 AND a.expire >= ?2 " +
+                "AND a.expire <= ?3",
+                new Object[]{Boolean.FALSE, minDate.getTime(), maxDate.getTime()});
     }
 
     /*

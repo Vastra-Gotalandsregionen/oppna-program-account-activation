@@ -11,6 +11,17 @@ public interface AccountService {
 
     Collection<ActivationAccount> getAllValidAccounts();
 
+    /**
+     * Method for fetching expired <code>ActivateAccount</code>s by specifying how old they should be.
+     *
+     * @param minDaysOld for the least number of days that must have passed since expiration date or <code>null</code>
+     * to count from current date
+     * @param maxDaysOld for the maximum number of days that should have passed since expiration date or
+     * <code>null</code> if no restriction is wanted
+     * @return
+     */
+    Collection<ActivationAccount> getOldUnusedAccounts(Integer minDaysOld, Integer maxDaysOld);
+
     ActivationAccount getAccount(ActivationCode activationCode);
 
     String getCustomUrl(ActivationCode activationCode);
