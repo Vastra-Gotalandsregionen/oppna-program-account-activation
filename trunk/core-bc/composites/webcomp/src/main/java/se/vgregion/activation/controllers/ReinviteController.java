@@ -54,7 +54,17 @@ public class ReinviteController {
     @RequestMapping
     public String view(Model model, PortletRequest request) {
         Collection<ActivationAccount> accounts = accountService.getAllValidAccounts();
+        List<ReinviteFormBean> reinvites = accountsToReinvites(request, accounts);
+        model.addAttribute("accounts", reinvites);
 
+        Collection<ActivationAccount> expiredAccounts = accountService.getOldUnusedAccounts(1, 90);
+        List<ReinviteFormBean> expiredReinvites = accountsToReinvites(request, expiredAccounts);
+        model.addAttribute("expiredAccounts", expiredReinvites);
+
+        return "reinvite";
+    }
+
+    private List<ReinviteFormBean> accountsToReinvites(PortletRequest request, Collection<ActivationAccount> accounts) {
         List<ReinviteFormBean> reinvites = new ArrayList<ReinviteFormBean>();
         for (ActivationAccount account : accounts) {
             try {
@@ -64,10 +74,7 @@ public class ReinviteController {
                 logger.error(ex.getMessage(), ex);
             }
         }
-
-        model.addAttribute("accounts", reinvites);
-
-        return "reinvite";
+        return reinvites;
     }
 
     @RenderMapping(params = {"success=true"})

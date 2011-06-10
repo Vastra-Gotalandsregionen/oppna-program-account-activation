@@ -1,27 +1,34 @@
 package se.vgregion.account.services;
 
-import static org.junit.Assert.*;
-
-import javax.annotation.Resource;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateJdbcException;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
+import se.vgregion.account.services.repository.ActivationAccountRepository;
 import se.vgregion.activation.domain.ActivationAccount;
 import se.vgregion.activation.domain.ActivationCode;
+
+import javax.annotation.Resource;
+import java.util.Calendar;
+import java.util.Collection;
+
+import static org.junit.Assert.*;
 
 @ContextConfiguration({ "classpath:spring/datasource-config.xml", "classpath:spring/activate-account-svc.xml" })
 public class AccountServiceTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Resource
     private AccountService service;
+
+    @Autowired
+    private ActivationAccountRepository repository;
+
     private static final String EXAMPLE_URL = "http://example.com";
     private static final ActivationCode VALID_ACTIVATION_CODE = new ActivationCode("valid1");
     private static final ActivationCode INACTIVE_ACTIVATION_CODE = new ActivationCode("inactive");
@@ -45,6 +52,20 @@ public class AccountServiceTest extends AbstractTransactionalJUnit4SpringContext
     @Test
     public void shouldReturnAllValidAccounts() throws Exception {
         assertEquals(2, service.getAllValidAccounts().size());
+    }
+
+    @Test
+    @Rollback(true)
+    public void shouldReturnExpiredAccount() {
+        //also add an entry with relative date
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -45);
+        ActivationAccount oldActivationAccount = new ActivationAccount("ex_expired_vgrid");
+        oldActivationAccount.setExpireDate(calendar.getTime());
+        repository.persist(oldActivationAccount);
+
+        Collection<ActivationAccount> oldUnusedAccounts = service.getOldUnusedAccounts(45, 46);
+        assertEquals(1, oldUnusedAccounts.size());
     }
 
     @Test
