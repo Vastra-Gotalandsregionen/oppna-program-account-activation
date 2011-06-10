@@ -11,7 +11,7 @@ The Account Activation service is a RESTful service exposing the following metho
     * Post an ActivateAccountDTO object to create an activation account.
     * Returns an ActivationCode object in JSON format
     * {{{curl -H "Content-Type: application/json" -d '{"vgrId":"abcde123","customUrl":"http://example.com","customMessage":"a custome message"}' localhost:8080/account-activation-service/activation-codes -v}}}
-      <code>ActivationCode{{{[}}}value=0cce4a2f-940c-4843-8040-f71640c6efdd{{{]}}}</code>
+      <code>{"value":"09db2baa-f4a9-495c-8c99-c74e5886f283"}</code>
   * GET, /{id}
     * Fetch the valid ActivationAccountDTO, in JSON format, with the given id or reply 404 if it doesn't exist.
     * {{{curl --get localhost:8080/account-activation-service/activation-codes/0cce4a2f-940c-4843-8040-f71640c6efdd}}}
