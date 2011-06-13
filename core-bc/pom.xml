@@ -26,7 +26,6 @@ Generation time : 2011-02-11 11:58:05 CET
     <module>composites/dtos</module>
     <module>composites/svc</module>
     <module>composites/webcomp</module>
-    <module>modules/web</module>
     <module>modules/portlet</module>
     <module>modules/intsvc</module>
   </modules>
