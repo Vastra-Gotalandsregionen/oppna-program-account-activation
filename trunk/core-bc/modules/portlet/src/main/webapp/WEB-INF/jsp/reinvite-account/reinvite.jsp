@@ -49,55 +49,9 @@
     <p>Inga aktiva inbjudningar hittades.</p>
 </c:if>
 <c:if test="${not empty accounts}">
-<table class="activationAccountsTable">
-    <tr>
-        <th colspan="8">Aktiva inbjudningar</th>
-    </tr>
-    <tr>
-        <th>VgrId</th>
-        <th>System</th>
-        <th>Namn</th>
-        <th>Epost</th>
-        <th>Organisation</th>
-        <th>Inbjuden av</th>
-        <th colspan="2"></th>
-    </tr>
-    <c:forEach items="${accounts}" var="account" varStatus="count">
-        <portlet:actionURL var="reinviteUrl">
-            <portlet:param name="activationCode" value="${account.activationCode.value}"/>
-            <portlet:param name="action" value="reinvite"/>
-        </portlet:actionURL>
-        <portlet:actionURL var="inactivateUrl">
-            <portlet:param name="activationCode" value="${account.activationCode.value}"/>
-            <portlet:param name="action" value="inactivate"/>
-        </portlet:actionURL>
-
-        <tr class="${count.index%2 == 0 ? 'evenRow' : 'oddRow'}">
-            <td>${account.vgrId}</td>
-            <td>${account.system}</td>
-            <td>${account.fullName}</td>
-            <td>${account.email}</td>
-            <td>${account.organization}</td>
-            <td>${account.sponsor}</td>
-            <td class="center">
-                <a href="${reinviteUrl}"><img src="/vgr-theme/images/mail/forward.png" title="Skicka inbjudan"/></a>
-            </td>
-            <td>
-                <a href="${inactivateUrl}"><img src="/vgr-theme/images/application/close.png" title="Ta bort"/></a>
-            </td>
-        </tr>
-    </c:forEach>
-</table>
-</c:if>
-
-<div style="max-height: 300px; overflow-y: auto; margin-top: 20px;">
-<c:if test="${empty expiredAccounts}">
-    <p>Inga utgångna inbjudningar hittades.</p>
-</c:if>
-<c:if test="${not empty expiredAccounts}">
     <table class="activationAccountsTable">
         <tr>
-            <th colspan="8">Utgångna inbjudningar</th>
+            <th colspan="8">Pågående inbjudningar</th>
         </tr>
         <tr>
             <th>VgrId</th>
@@ -106,9 +60,10 @@
             <th>Epost</th>
             <th>Organisation</th>
             <th>Inbjuden av</th>
-            <th colspan="2"></th>
+            <th>Bjud in</th>
+            <th>Ta bort</th>
         </tr>
-        <c:forEach items="${expiredAccounts}" var="account" varStatus="count">
+        <c:forEach items="${accounts}" var="account" varStatus="count">
             <portlet:actionURL var="reinviteUrl">
                 <portlet:param name="activationCode" value="${account.activationCode.value}"/>
                 <portlet:param name="action" value="reinvite"/>
@@ -117,6 +72,7 @@
                 <portlet:param name="activationCode" value="${account.activationCode.value}"/>
                 <portlet:param name="action" value="inactivate"/>
             </portlet:actionURL>
+
             <tr class="${count.index%2 == 0 ? 'evenRow' : 'oddRow'}">
                 <td>${account.vgrId}</td>
                 <td>${account.system}</td>
@@ -134,4 +90,50 @@
         </c:forEach>
     </table>
 </c:if>
+
+<div style="max-height: 300px; overflow-y: auto; margin-top: 20px;">
+    <c:if test="${empty expiredAccounts}">
+        <p>Inga utgångna inbjudningar hittades.</p>
+    </c:if>
+    <c:if test="${not empty expiredAccounts}">
+        <table class="activationAccountsTable">
+            <tr>
+                <th colspan="8">Utgångna inbjudningar</th>
+            </tr>
+            <tr>
+                <th>VgrId</th>
+                <th>System</th>
+                <th>Namn</th>
+                <th>Epost</th>
+                <th>Organisation</th>
+                <th>Inbjuden av</th>
+                <th>Bjud in</th>
+                <th>Ta bort</th>
+            </tr>
+            <c:forEach items="${expiredAccounts}" var="account" varStatus="count">
+                <portlet:actionURL var="reinviteUrl">
+                    <portlet:param name="activationCode" value="${account.activationCode.value}"/>
+                    <portlet:param name="action" value="reinvite"/>
+                </portlet:actionURL>
+                <portlet:actionURL var="inactivateUrl">
+                    <portlet:param name="activationCode" value="${account.activationCode.value}"/>
+                    <portlet:param name="action" value="inactivate"/>
+                </portlet:actionURL>
+                <tr class="${count.index%2 == 0 ? 'evenRow' : 'oddRow'}">
+                    <td>${account.vgrId}</td>
+                    <td>${account.system}</td>
+                    <td>${account.fullName}</td>
+                    <td>${account.email}</td>
+                    <td>${account.organization}</td>
+                    <td>${account.sponsor}</td>
+                    <td class="center">
+                        <a href="${reinviteUrl}"><img src="/vgr-theme/images/mail/forward.png" title="Skicka inbjudan"/></a>
+                    </td>
+                    <td>
+                        <a href="${inactivateUrl}"><img src="/vgr-theme/images/application/close.png" title="Ta bort"/></a>
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
+    </c:if>
 </div>
