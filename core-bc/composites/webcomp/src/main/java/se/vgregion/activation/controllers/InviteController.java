@@ -213,11 +213,20 @@ public class InviteController {
     private CreateUserResponse callCreateUser(ExternalUserFormBean externalUserFormBean) throws MessageBusException {
         CreateUser createUser = new CreateUser();
         createUser.setUserFirstName(externalUserFormBean.getName());
+        createUser.setUserMiddleName(externalUserFormBean.getMiddleName());
         createUser.setUserSurName(externalUserFormBean.getSurname());
         createUser.setUserMail(externalUserFormBean.getEmail());
+        createUser.setExternStructurepersonDN(externalUserFormBean.getExternStructurePersonDn());
+        createUser.setDateLimit(null); //TODO string
+        createUser.setUserType(externalUserFormBean.getUserType());
+        createUser.setSponsor(externalUserFormBean.getSponsorVgrId());
+        createUser.setUserTelephoneNumber(externalUserFormBean.getPhone());
+        createUser.setUserMobileTelephoneNumber(externalUserFormBean.getMobile());
 
         Message message = new Message();
         message.setPayload(createUserJaxbUtil.marshal(createUser));
+
+        logger.info(createUserJaxbUtil.marshal(createUser));
 
         Object response = MessageBusUtil.sendSynchronousMessage("vgr/account_create", message, 7000);
 
