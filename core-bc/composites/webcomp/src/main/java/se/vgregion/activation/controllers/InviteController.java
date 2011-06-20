@@ -217,7 +217,7 @@ public class InviteController {
         createUser.setUserSurName(externalUserFormBean.getSurname());
         createUser.setUserMail(externalUserFormBean.getEmail());
         createUser.setExternStructurepersonDN(externalUserFormBean.getExternStructurePersonDn());
-        createUser.setDateLimit(null); //TODO string
+        createUser.setDateLimit(externalUserFormBean.getDateLimit());
         createUser.setUserType(externalUserFormBean.getUserType());
         createUser.setSponsor(externalUserFormBean.getSponsorVgrId());
         createUser.setUserTelephoneNumber(externalUserFormBean.getPhone());
