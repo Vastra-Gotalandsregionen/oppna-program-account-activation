@@ -21,6 +21,7 @@ public class ControllerUtil {
         if (response instanceof Exception) {
             throw new MessageBusException((Exception) response);
         } else if (response instanceof String) {
+            logger.info("Response: " + response);
             return (T)jaxbUtil.unmarshal((String) response);
         } else {
             throw new MessageBusException("Unknown response type: " + response.getClass());

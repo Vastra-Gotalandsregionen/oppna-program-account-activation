@@ -9,7 +9,7 @@
 
 <portlet:renderURL var="renderUrl"/>
 <p>
-    Fel fel fel:<br/>
+    Fel:<br/>
     ${reinvite.fullName}<br/>
     ${reinvite.email}<br/>
     System: ${reinvite.system}
