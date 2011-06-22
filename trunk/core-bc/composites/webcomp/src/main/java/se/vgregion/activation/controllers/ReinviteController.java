@@ -89,7 +89,7 @@ public class ReinviteController {
     }
 
     @RenderMapping(params = {"error"})
-    public String error(@RequestParam String errorMessage, Model model) {
+    public String error(@RequestParam (value = "error") String errorMessage, Model model) {
         model.addAttribute("message", errorMessage);
         return "error";
     }
