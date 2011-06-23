@@ -31,7 +31,7 @@
         border-color: #AAAAAA;
         border-style: solid;
         border-width: 1px;
-        margin-left: auto;
+        margin-left: 0;
         margin-right: auto;
         padding: 10px;
         width: 500px;

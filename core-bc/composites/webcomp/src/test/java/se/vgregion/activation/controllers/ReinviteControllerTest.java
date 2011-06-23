@@ -63,7 +63,8 @@ public class ReinviteControllerTest {
     @Test
     public void testReinvite() throws Exception {
 
-        ActivationAccount activationAccount = new ActivationAccount("ex_someVgrId", "http://someUrl.org", "Some message");
+        ActivationAccount activationAccount = new ActivationAccount("ex_someVgrId", "http://someUrl.org",
+                "Some message", "Some system");
 
         InvitePreferences preferences = new InvitePreferences();
         preferences.setCustomUrl("http://someUrl.org");

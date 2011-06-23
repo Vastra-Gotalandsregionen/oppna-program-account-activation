@@ -49,7 +49,7 @@
     <p>Inga aktiva inbjudningar hittades.</p>
 </c:if>
 <c:if test="${not empty accounts}">
-    <table class="activationAccountsTable">
+    <table class="activationAccountsTable" style="table-layout: auto;">
         <tr>
             <th colspan="8">Pågående inbjudningar</th>
         </tr>

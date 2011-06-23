@@ -58,8 +58,8 @@ public class JaxbUtilTest {
         activateObject.setUserPassword("apaapa");
 
         testXmlActivate = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><activateUser xmlns=\"http://portal" +
-                ".vgregion.se/activateuser\"><userId>ex_apa</userId><userMail>apa@apa.nu</userMail><activationCode>" +
-                "apa</activationCode><userPassword>apaapa</userPassword></activateUser>";
+                ".vgregion.se/activateuser\"><userId>ex_apa</userId><userMail>apa@apa.nu</userMail>" +
+                "<userPassword>apaapa</userPassword><activationCode>apa</activationCode></activateUser>";
     }
 
     private void initCreate() {

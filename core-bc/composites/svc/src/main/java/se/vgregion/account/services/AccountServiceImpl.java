@@ -32,8 +32,8 @@ public class AccountServiceImpl implements AccountService {
      */
     @Override
     @Transactional
-    public ActivationCode createAccount(String vgrid, String customUrl, String customMessage) {
-        ActivationAccount account = new ActivationAccount(vgrid, customUrl, customMessage);
+    public ActivationCode createAccount(String vgrid, String customUrl, String customMessage, String system) {
+        ActivationAccount account = new ActivationAccount(vgrid, customUrl, customMessage, system);
         account = repository.store(account);
         return account.getActivationCode();
     }
