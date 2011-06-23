@@ -74,7 +74,8 @@ public class ActivationCodeService {
     @Consumes("application/json")
     public ActivationCode createActivationCodeJson(ActivationAccountDTO account) {
         try {
-            return accountService.createAccount(account.getVgrId(), account.getCustomUrl().toString(), account.getCustomMessage());
+            return accountService.createAccount(account.getVgrId(), account.getCustomUrl().toString(),
+                    account.getCustomMessage(), account.getSystem());
         } catch (DataAccessException e) {
             LOGGER.warn("Failed to create account.");
             throw new WebApplicationException(e, 500);
@@ -85,7 +86,8 @@ public class ActivationCodeService {
     @Consumes("application/xml")
     public ActivationCode createActivationCodeXml(InviteUser inviteUser) {
         try {
-            return accountService.createAccount(inviteUser.getUserId(), inviteUser.getCustomURL().toString(), inviteUser.getCustomMessage());
+            return accountService.createAccount(inviteUser.getUserId(), inviteUser.getCustomURL().toString(),
+                    inviteUser.getCustomMessage(), inviteUser.getSystem());
         } catch (DataAccessException e) {
             LOGGER.warn("Failed to create account.");
             throw new WebApplicationException(e, 500);

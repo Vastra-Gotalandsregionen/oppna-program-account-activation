@@ -64,7 +64,7 @@
     <dependency>
       <groupId>se.vgregion.icc.sd.portal</groupId>
       <artifactId>portal-schemas</artifactId>
-      <version>1.0.7</version>
+      <version>1.0.10</version>
     </dependency>
 
     <dependency>

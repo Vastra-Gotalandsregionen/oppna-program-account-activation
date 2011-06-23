@@ -30,7 +30,6 @@ public class ActivationAccount extends AbstractEntity<ActivationCode> implements
     // @Version
     // private Long version;
 
-    @Column(unique = true)
     private String vgrId;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -41,15 +40,17 @@ public class ActivationAccount extends AbstractEntity<ActivationCode> implements
     private String customUrl;
 
     private String customMessage;
+    private String system;
 
     public ActivationAccount(String vgrId) {
-        this(vgrId, "", "");
+        this(vgrId, "", "", "");
     }
 
-    public ActivationAccount(String vgrId, String customUrl, String customMessage) {
+    public ActivationAccount(String vgrId, String customUrl, String customMessage, String system) {
         this.vgrId = vgrId;
         this.customUrl = customUrl;
         this.customMessage = customMessage;
+        this.system = system;
         activationCode = ActivationCode.generate();
         activate();
     }
@@ -72,6 +73,10 @@ public class ActivationAccount extends AbstractEntity<ActivationCode> implements
 
     public String getCustomMessage() {
         return customMessage;
+    }
+
+    public String getSystem() {
+        return system;
     }
 
     /**

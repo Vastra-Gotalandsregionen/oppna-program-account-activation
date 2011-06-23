@@ -20,7 +20,7 @@ public class ActivationAccountTest {
 
     @Test
     public void shouldConstructActivationAccountWithVgrIdAndCustomUrl() throws Exception {
-        ActivationAccount account = new ActivationAccount(VGR_ID, CUSTOM_URL, CUSTOM_MESSAGE);
+        ActivationAccount account = new ActivationAccount(VGR_ID, CUSTOM_URL, CUSTOM_MESSAGE, "A system");
         assertEquals(CUSTOM_URL, account.getCustomUrl());
         shouldConstructActivationAccount(account);
     }

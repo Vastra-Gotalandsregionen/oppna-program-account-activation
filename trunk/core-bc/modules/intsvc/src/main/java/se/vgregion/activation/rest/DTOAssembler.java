@@ -25,7 +25,8 @@ public final class DTOAssembler {
             URL link = new URL(base + ui.getPath() + pathSuffix);
             URL customUrl = new URL(account.getCustomUrl());
 
-            dto = new ActivationAccountDTO(account.getVgrId(), account.getActivationCode().getValue(), link, customUrl, account.getCustomMessage(), account.currentStatus().name());
+            dto = new ActivationAccountDTO(account.getVgrId(), account.getActivationCode().getValue(), link, customUrl,
+                    account.getCustomMessage(), account.currentStatus().name(), account.getSystem());
         }
         return dto;
     }

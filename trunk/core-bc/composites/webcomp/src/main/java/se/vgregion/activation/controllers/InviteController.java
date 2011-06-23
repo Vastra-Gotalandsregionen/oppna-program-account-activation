@@ -198,9 +198,14 @@ public class InviteController {
         inviteUser.setUserId(createUserResponse.getVgrId());
         inviteUser.setCustomURL(externalUserFormBean.getInvitePreferences().getCustomUrl());
         inviteUser.setCustomMessage(externalUserFormBean.getInvitePreferences().getCustomMessage());
+        inviteUser.setSystem(externalUserFormBean.getInvitePreferences().getTitle());
 
         Message message = new Message();
-        message.setPayload(inviteUserJaxbUtil.marshal(inviteUser));
+        String payload = inviteUserJaxbUtil.marshal(inviteUser);
+
+        logger.info("Invite user payload: " + payload);
+        
+        message.setPayload(payload);
 
         Object response = MessageBusUtil.sendSynchronousMessage
                 ("vgr/account_invite", message, 7000);

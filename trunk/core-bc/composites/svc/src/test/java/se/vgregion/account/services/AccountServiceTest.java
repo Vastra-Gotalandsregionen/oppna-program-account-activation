@@ -4,7 +4,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.HibernateJdbcException;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
@@ -20,7 +19,7 @@ import java.util.Collection;
 
 import static org.junit.Assert.*;
 
-@ContextConfiguration({ "classpath:spring/datasource-config.xml", "classpath:spring/activate-account-svc.xml" })
+@ContextConfiguration({"classpath:spring/datasource-config.xml", "classpath:spring/activate-account-svc.xml"})
 public class AccountServiceTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Resource
@@ -72,7 +71,7 @@ public class AccountServiceTest extends AbstractTransactionalJUnit4SpringContext
     @Rollback(false)
     public void shouldCreateAndReturnANewAccount() throws Exception {
 
-        ActivationCode code = service.createAccount(TEST_VGRID, EXAMPLE_URL, "");
+        ActivationCode code = service.createAccount(TEST_VGRID, EXAMPLE_URL, "", "A system");
         assertNotNull(code);
 
         ActivationAccount account = service.getAccount(code);
@@ -107,11 +106,15 @@ public class AccountServiceTest extends AbstractTransactionalJUnit4SpringContext
         assertNull(account);
     }
 
-    @Test(expected = HibernateJdbcException.class)
+    @Test
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public void shouldFailToCreateAccountWithExistingVgrId() {
-        service.createAccount(TEST_VGRID, EXAMPLE_URL, "");
-        service.createAccount(TEST_VGRID, EXAMPLE_URL, "");
+    public void shouldNotFailToCreateAccountWithExistingVgrId() {
+        try {
+            service.createAccount(TEST_VGRID, EXAMPLE_URL, "", "A system");
+            service.createAccount(TEST_VGRID, EXAMPLE_URL, "", "A system");
+        } catch (Exception ex) {
+            fail();
+        }
     }
 
     @Test

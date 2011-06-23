@@ -12,17 +12,20 @@ public class ActivationAccountDTO implements Serializable {
     private URL customUrl;
     private String customMessage;
     private String status;
+    private String system;
 
     public ActivationAccountDTO() {
     }
 
-    public ActivationAccountDTO(String vgrId, String id, URL link, URL customUrl, String customMessage, String status) {
+    public ActivationAccountDTO(String vgrId, String id, URL link, URL customUrl, String customMessage, String status,
+                                String system) {
         this.vgrId = vgrId;
         this.id = id;
         this.link = link;
         this.customUrl = customUrl;
         this.customMessage = customMessage;
         this.status = status;
+        this.system = system;
     }
 
     public String getVgrId() {
@@ -71,5 +74,13 @@ public class ActivationAccountDTO implements Serializable {
 
     public void setCustomMessage(String customMessage) {
         this.customMessage = customMessage;
+    }
+
+    public String getSystem() {
+        return system;
+    }
+
+    public void setSystem(String system) {
+        this.system = system;
     }
 }

@@ -7,7 +7,7 @@ import se.vgregion.activation.domain.ActivationCode;
 
 public interface AccountService {
 
-    ActivationCode createAccount(String vgrid, String customUrl, String customMessage);
+    ActivationCode createAccount(String vgrid, String customUrl, String customMessage, String system);
 
     Collection<ActivationAccount> getAllValidAccounts();
 
