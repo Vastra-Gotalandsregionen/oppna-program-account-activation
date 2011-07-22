@@ -9,7 +9,7 @@
 
 <portlet:renderURL var="renderUrl"/>
 <p>
-    Anropet misslyckades.<br/>
+    Inbjudan av användare med vgr-id <b>${reinvite.vgrId}</b> misslyckades.<br/><br/>
     <spring:message code="${message}" text="${message}"/><br/><br/>
     Försök igen senare.
 </p>

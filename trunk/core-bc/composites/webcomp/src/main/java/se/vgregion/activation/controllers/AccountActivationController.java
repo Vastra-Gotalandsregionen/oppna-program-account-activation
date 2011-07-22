@@ -133,7 +133,6 @@ public class AccountActivationController {
                 // timeout
                 handleMessageBusException(e, response);
             }
-
         }
     }
 
@@ -156,6 +155,7 @@ public class AccountActivationController {
         model.asMap().clear();
         ActivationCode activationCode = new ActivationCode(passwordFormBean.getActivationCode());
         model.addAttribute("postbackUrl", accountService.getCustomUrl(activationCode));
+        model.addAttribute("passwordFormBean", passwordFormBean);
         return "successForm";
     }
 
@@ -175,16 +175,18 @@ public class AccountActivationController {
         activateUser.setUserPassword(passwordFormBean.getPassword());
 //        activateUser.setUserMail("");
 
+        passwordFormBean.setVgrId(activationAccount.getVgrId());
+
         Message message = new Message();
         message.setPayload(jaxbUtil.marshal(activateUser));
 
         ActivateUserResponse activateUserResponse;
 
-        Object response = MessageBusUtil.sendSynchronousMessage("vgr/account_activation", message, 3000);
+        Object response = MessageBusUtil.sendSynchronousMessage("vgr/account_activation", message, 7000);
         if (response instanceof Exception) {
             throw new MessageBusException((Exception) response);
         } else if (response instanceof String) {
-             activateUserResponse = jaxbUtil.unmarshal((String) response);
+            activateUserResponse = jaxbUtil.unmarshal((String) response);
         } else {
             throw new MessageBusException("Unknown response type: " +
                     response == null ? "null" : response.getClass().getName());
