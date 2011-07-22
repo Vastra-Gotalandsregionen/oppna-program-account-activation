@@ -69,13 +69,13 @@ public class ReinviteControllerTest {
         InvitePreferences preferences = new InvitePreferences();
         preferences.setCustomUrl("http://someUrl.org");
         preferences.setCustomMessage("Some message");
-        preferences.setTitle("Alfresco");
+        preferences.setTitle("Some system");
 
         SimpleLdapUser ldapUser = new SimpleLdapUser("someDn");
         ldapUser.setCn("Test Testsson");
         ldapUser.setMail("some@mail.com");
         ldapUser.setTelephoneNumber("031-123456");
-        ldapUser.setAttributeValue("externStructurePersonDN", new String[]{"organisation1/division1",
+        ldapUser.setAttributeValue("externalStructurepersonDN", new String[]{"organisation1/division1",
                 "organisation2/division1"});
 
         when(accountService.getAccount(any(ActivationCode.class))).thenReturn(activationAccount);
@@ -113,6 +113,7 @@ public class ReinviteControllerTest {
         bean.setVgrId(activationAccount.getVgrId());
         bean.setCustomMessage(activationAccount.getCustomMessage());
         bean.setCustomUrl(activationAccount.getCustomUrl());
+        bean.setSystem(activationAccount.getSystem());
 
         assertTrue(EqualsBuilder.reflectionEquals(model.get("reinvite"), bean));
 

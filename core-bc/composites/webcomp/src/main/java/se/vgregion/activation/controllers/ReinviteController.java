@@ -100,11 +100,13 @@ public class ReinviteController {
         try {
             ReinviteFormBean bean = mapToReinvite(accountService.getAccount(code), request);
 
+            model.addAttribute("reinvite", bean);
+
             InviteUser inviteUser = new InviteUser();
             inviteUser.setUserId(bean.getVgrId());
             inviteUser.setCustomURL(bean.getCustomUrl());
             inviteUser.setCustomMessage(bean.getCustomMessage());
-
+            inviteUser.setSystem(bean.getSystem());
 
             Message message = new Message();
             message.setPayload(inviteUserJaxbUtil.marshal(inviteUser));
@@ -122,8 +124,6 @@ public class ReinviteController {
             } else {
                 response.setRenderParameter("success", "true");
             }
-
-            model.addAttribute("reinvite", bean);
 
         } catch (IllegalArgumentException ex) {
             response.setRenderParameter("error", ex.getMessage());
@@ -163,7 +163,7 @@ public class ReinviteController {
                 bean.setFullName(ldapUser.getAttributeValue("cn"));
                 bean.setEmail(ldapUser.getAttributeValue("mail"));
 
-                String[] organisationsArray = ldapUser.getAttributeValues("externStructurePersonDN");
+                String[] organisationsArray = ldapUser.getAttributeValues("externalStructurepersonDN");
                 String organisations = StringUtils.join(organisationsArray, ", ");
                 bean.setOrganization(organisations);
 

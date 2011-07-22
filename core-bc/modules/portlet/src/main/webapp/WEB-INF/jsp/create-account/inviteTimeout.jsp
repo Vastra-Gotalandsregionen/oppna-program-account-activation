@@ -9,7 +9,7 @@
 
 <portlet:renderURL var="renderUrl"/>
 <p>
-    Anropet misslyckades.<br/>
+    Inbjudan av användare ${externalUserFormBean.name} ${externalUserFormBean.surname} misslyckades.<br/><br/>
     <spring:message code="${message}" text="${message}"/><br/><br/>
     Försök igen senare.
 </p>

@@ -9,11 +9,8 @@
 
 <portlet:renderURL var="renderUrl"/>
 <p>
-    Fel:<br/>
-    ${reinvite.fullName}<br/>
-    ${reinvite.email}<br/>
-    System: ${reinvite.system}
-
+    Inbjudan av användare med vgr-id <b>${reinvite.vgrId}</b> misslyckades.<br/><br/>
+    <spring:message code="${message}" text="${message}" arguments="${messageArguments}"/><br/><br/>
 </p>
 <p>
     <a class="buttonlink" href="${renderUrl}">Tillbaka</a>

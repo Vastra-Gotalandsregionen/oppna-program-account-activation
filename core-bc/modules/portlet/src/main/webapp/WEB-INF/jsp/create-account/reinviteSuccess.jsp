@@ -9,8 +9,9 @@
 
 <portlet:renderURL var="renderUrl"/>
 <p>
-    En ny inbjudan till <b>${reinvite.system}</b> har skickats till
-    <b>${reinvite.fullName}</b> (<a href="mailto:${reinvite.email}">${reinvite.email}</a>).
+    En ny inbjudan till <b>${externalUserFormBean.invitePreferences.title}</b> har skickats till
+    <b>${externalUserFormBean.name} ${externalUserFormBean.surname}</b>
+    (<a href="mailto:${externalUserFormBean.email}">${externalUserFormBean.email}</a>).
 </p>
 <p>
     <a class="buttonlink" href="${renderUrl}">Tillbaka</a>

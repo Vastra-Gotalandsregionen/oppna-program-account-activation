@@ -20,6 +20,7 @@ public class ExternalUserFormBean implements Serializable {
     private String sponsorVgrId;
     private String sponsorFullName;
     private String dateLimit;
+    private String vgrId;
 
     public InvitePreferences getInvitePreferences() {
         return invitePreferences;
@@ -117,6 +118,14 @@ public class ExternalUserFormBean implements Serializable {
         this.dateLimit = dateLimit;
     }
 
+    public String getVgrId() {
+        return vgrId;
+    }
+
+    public void setVgrId(String vgrId) {
+        this.vgrId = vgrId;
+    }
+
     @Override
     public String toString() {
         return "ExternalUserFormBean{" +
@@ -126,6 +135,7 @@ public class ExternalUserFormBean implements Serializable {
                 ", phone='" + phone + '\'' +
                 ", externStructurePersonDn=" + (externStructurePersonDn == null ? null : Arrays.asList(externStructurePersonDn)) +
                 ", userType='" + userType + '\'' +
+                ", vgrId='" + vgrId + '\'' +
                 ", sponsorVgrId='" + sponsorVgrId + '\'' +
                 ", sponsorFullName='" + sponsorFullName + '\'' +
                 '}';

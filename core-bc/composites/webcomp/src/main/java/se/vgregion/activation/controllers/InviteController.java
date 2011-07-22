@@ -122,19 +122,23 @@ public class InviteController {
     }
 
     @RenderMapping(params = {"success"})
-    public String success() {
-        return "success";
+    public String success(@RequestParam(value = "success") String redirectPage) {
+        return redirectPage;
     }
 
     @RenderMapping(params = {"unresponsive"})
-    public String unresponsive(@RequestParam(value = "unresponsive") String failureCode, Model model) {
+    public String unresponsive(@ModelAttribute ExternalUserFormBean externalUserFormBean,
+                               @RequestParam(value = "unresponsive") String failureCode, Model model) {
         model.addAttribute("message", failureCode);
         return "inviteTimeout";
     }
 
     @RenderMapping(params = {"error"})
-    public String inviteError(@RequestParam(value = "error") String errorMessage, Model model) {
+    public String inviteError(@RequestParam(value = "error") String errorMessage,
+                              @RequestParam(value = "errorArguments", required = false) String errorArguments,
+                              Model model) {
         model.addAttribute("message", errorMessage);
+        model.addAttribute("messageArguments", errorArguments);
         return "error";
     }
 
@@ -164,8 +168,12 @@ public class InviteController {
         try {
             CreateUserResponse createUserResponse = callCreateUser(externalUserFormBean);
 
+            //need the vgr id for the confirmation or error page
+            externalUserFormBean.setVgrId(createUserResponse.getVgrId());
+
             CreateUserStatusCodeType statusCode = createUserResponse.getStatusCode();
-            if (statusCode == CreateUserStatusCodeType.NEW_USER || statusCode == CreateUserStatusCodeType.EXISTING_USER) {
+            if (statusCode == CreateUserStatusCodeType.NEW_USER ||
+                    statusCode == CreateUserStatusCodeType.EXISTING_EXTERNAL_USER) {
                 structureService.storeExternStructurePersonDn(externalUserFormBean.getExternStructurePersonDn());
 
                 // ?: new user -> invite
@@ -178,11 +186,19 @@ public class InviteController {
                     response.setRenderParameter("error", inviteUserResponse.getMessage());
                 } else {
                     status.setComplete();
-                    response.setRenderParameter("success", "true");
+                    if (statusCode == CreateUserStatusCodeType.NEW_USER) {
+                        response.setRenderParameter("success", "success");
+                    } else if (statusCode == CreateUserStatusCodeType.EXISTING_EXTERNAL_USER) {
+                        response.setRenderParameter("success", "reinviteSuccess");
+                    }
                 }
-            } else if (statusCode == CreateUserStatusCodeType.ERROR) {
+            } else if (statusCode == CreateUserStatusCodeType.SPONSOR_NOT_AUTHORIZED) {
+                response.setRenderParameter("error", "sponsor.not.authorized");
+            } else if (statusCode == CreateUserStatusCodeType.EXISTING_INTERNAL_USER) {
+                response.setRenderParameter("error", "existing.internal.user");
+                response.setRenderParameter("errorArguments", new String[]{externalUserFormBean.getEmail()});
+            } else {
                 // error -> cannot create
-                status.setComplete();
                 response.setRenderParameter("error", createUserResponse.getMessage());
             }
 

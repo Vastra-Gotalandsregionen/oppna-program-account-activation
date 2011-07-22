@@ -9,11 +9,11 @@
 
 <portlet:renderURL var="renderUrl"/>
 <p>
-    En inbjudan har skickats till:<br/>
-    ${externalUserFormBean.name} ${externalUserFormBean.surname}<br/>
-    ${externalUserFormBean.email}<br/>
-    System: ${externalUserFormBean.invitePreferences.title}
-
+    Du är nu klar med inbjudan.<br/><br/>
+    Användare med id <b>${externalUserFormBean.vgrId}</b> har skapats och e-postmeddelande med inbjudan till
+    <b>${externalUserFormBean.invitePreferences.title}</b> har skickats till
+    <b>${externalUserFormBean.name} ${externalUserFormBean.surname}</b>
+    (<a href="mailto:${externalUserFormBean.email}">${externalUserFormBean.email}</a>).
 </p>
 <p>
     <a class="buttonlink" href="${renderUrl}">Tillbaka</a>

@@ -127,7 +127,7 @@ public class InviteControllerTest {
         inviteController.invite(externalUserFormBean, mock(BindingResult.class), model,
                 mock(SessionStatus.class), request, response);
 
-        verify(response).setRenderParameter("success", "true");
+        verify(response).setRenderParameter("success", "success");
 
     }
 
