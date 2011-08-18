@@ -228,7 +228,7 @@ public class InviteController {
 
         logger.info(response.toString());
 
-        return ControllerUtil.extractResponse(response, inviteUserJaxbUtil);
+        return inviteUserJaxbUtil.extractResponse(response);
     }
 
     private CreateUserResponse callCreateUser(ExternalUserFormBean externalUserFormBean) throws MessageBusException {
@@ -251,7 +251,7 @@ public class InviteController {
 
         Object response = MessageBusUtil.sendSynchronousMessage("vgr/account_create", message, 7000);
 
-        return ControllerUtil.extractResponse(response, createUserJaxbUtil);
+        return createUserJaxbUtil.extractResponse(response);
     }
 
     private String lookupP3PInfo(PortletRequest req, PortletRequest.P3PUserInfos p3pInfo) {

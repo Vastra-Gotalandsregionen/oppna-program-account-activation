@@ -115,7 +115,7 @@ public class ReinviteController {
 
             logger.info(inviteResponse.toString());
 
-            InviteUserResponse inviteUserResponse = ControllerUtil.extractResponse(inviteResponse, inviteUserJaxbUtil);
+            InviteUserResponse inviteUserResponse = inviteUserJaxbUtil.extractResponse(inviteResponse);
 
             InviteUserStatusCodeType statusCodeInvite = inviteUserResponse.getStatusCode();
             if (statusCodeInvite == InviteUserStatusCodeType.ERROR) {
