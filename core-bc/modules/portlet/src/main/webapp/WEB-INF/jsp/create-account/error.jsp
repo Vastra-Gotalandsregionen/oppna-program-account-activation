@@ -8,8 +8,10 @@
 <link href="${pageContext.request.contextPath}/css/style.css" type="text/css" rel="stylesheet"/>
 
 <portlet:renderURL var="renderUrl"/>
+<p>Inbjudan misslyckades</p>
+
 <p>
-    Inbjudan av användare <b>${externalUserFormBean.name} ${externalUserFormBean.surname}</b> misslyckades.<br/><br/>
+    Inbjudan av användare <b>${externalUserFormBean.name} ${externalUserFormBean.surname}</b> har misslyckats.
     <spring:message code="${message}" text="${message}" arguments="${messageArguments}"/><br/><br/>
 </p>
 <p>

@@ -9,7 +9,9 @@
 
 <portlet:renderURL var="renderUrl"/>
 <p>
-    En ny inbjudan till <b>${externalUserFormBean.invitePreferences.title}</b> har skickats till
+    Du är nu klar med inbjudan.<br/><br/>
+    Användare med id <b>${externalUserFormBean.vgrId}</b> fanns redan men ett nytt e-postmeddelande med inbjudan till
+    <b>${externalUserFormBean.invitePreferences.title}</b> har skickats till
     <b>${externalUserFormBean.name} ${externalUserFormBean.surname}</b>
     (<a href="mailto:${externalUserFormBean.email}">${externalUserFormBean.email}</a>).
 </p>
