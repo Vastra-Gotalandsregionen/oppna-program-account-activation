@@ -128,7 +128,8 @@ public class AccountActivationController {
                 response.setRenderParameter("success", "true");
             } catch (ActivateUserFailedException e) {
                 // explicit response failure
-                response.setRenderParameter("failure", e.getMessage());
+                response.setRenderParameter("failure", "unknown.system.error");
+                response.setRenderParameter("failureArguments", e.getMessage());
             } catch (MessageBusException e) {
                 // timeout
                 handleMessageBusException(e, response);
@@ -145,7 +146,8 @@ public class AccountActivationController {
         } else if (e.getMessage().startsWith("No reply received for message")) {
             response.setRenderParameter("failure", "request.timeout");
         } else {
-            response.setRenderParameter("failure", "unknown.exception");
+            response.setRenderParameter("failure", "unknown.system.error");
+            response.setRenderParameter("failureArguments", e.getMessage());
         }
 
     }
@@ -160,8 +162,11 @@ public class AccountActivationController {
     }
 
     @RenderMapping(params = {"failure"})
-    public String failure(@RequestParam(value = "failure") String failureCode, @ModelAttribute PasswordFormBean passwordFormBean, Model model) {
+    public String failure(@RequestParam(value = "failure") String failureCode,
+            @RequestParam(value = "failureArguments", required = false) String failureArguments,
+            @ModelAttribute PasswordFormBean passwordFormBean, Model model) {
         model.addAttribute("message", failureCode);
+        model.addAttribute("messageArguments", failureArguments);
         return "failureForm";
     }
 

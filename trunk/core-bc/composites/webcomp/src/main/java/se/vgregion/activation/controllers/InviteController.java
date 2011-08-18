@@ -128,15 +128,15 @@ public class InviteController {
 
     @RenderMapping(params = {"unresponsive"})
     public String unresponsive(@ModelAttribute ExternalUserFormBean externalUserFormBean,
-                               @RequestParam(value = "unresponsive") String failureCode, Model model) {
+            @RequestParam(value = "unresponsive") String failureCode, Model model) {
         model.addAttribute("message", failureCode);
         return "inviteTimeout";
     }
 
     @RenderMapping(params = {"error"})
     public String inviteError(@RequestParam(value = "error") String errorMessage,
-                              @RequestParam(value = "errorArguments", required = false) String errorArguments,
-                              Model model) {
+            @RequestParam(value = "errorArguments", required = false) String errorArguments,
+            Model model) {
         model.addAttribute("message", errorMessage);
         model.addAttribute("messageArguments", errorArguments);
         return "error";
@@ -183,7 +183,8 @@ public class InviteController {
                 InviteUserStatusCodeType statusCodeInvite = inviteUserResponse.getStatusCode();
                 if (statusCodeInvite == InviteUserStatusCodeType.ERROR) {
                     // error -> cannot invite
-                    response.setRenderParameter("error", inviteUserResponse.getMessage());
+                    response.setRenderParameter("error", "unknown.system.error");
+                    response.setRenderParameter("errorArguments", inviteUserResponse.getMessage());
                 } else {
                     status.setComplete();
                     if (statusCode == CreateUserStatusCodeType.NEW_USER) {
@@ -199,7 +200,8 @@ public class InviteController {
                 response.setRenderParameter("errorArguments", new String[]{externalUserFormBean.getEmail()});
             } else {
                 // error -> cannot create
-                response.setRenderParameter("error", createUserResponse.getMessage());
+                response.setRenderParameter("error", "unknown.system.error");
+                response.setRenderParameter("errorArguments", createUserResponse.getMessage());
             }
 
         } catch (MessageBusException e) {
@@ -220,7 +222,7 @@ public class InviteController {
         String payload = inviteUserJaxbUtil.marshal(inviteUser);
 
         logger.info("Invite user payload: " + payload);
-        
+
         message.setPayload(payload);
 
         Object response = MessageBusUtil.sendSynchronousMessage

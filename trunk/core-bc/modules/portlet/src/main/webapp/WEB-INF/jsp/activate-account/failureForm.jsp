@@ -6,7 +6,7 @@
 
 <portlet:renderURL var="renderUrl"/>
 <p>
-  <spring:message code="${message}" text="${message}" />
+    <spring:message code="${message}" text="${message}" arguments="${messageArguments}"/><br/><br/>
 </p>
 <p>
     <a class="buttonlink" href="${renderUrl}">Tillbaka</a>
