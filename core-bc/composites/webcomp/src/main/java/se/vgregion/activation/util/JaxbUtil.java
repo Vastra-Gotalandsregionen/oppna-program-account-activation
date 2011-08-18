@@ -1,5 +1,9 @@
 package se.vgregion.activation.util;
 
+import com.liferay.portal.kernel.messaging.MessageBusException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -14,6 +18,7 @@ import java.io.StringWriter;
  * Time: 10:59
  */
 public class JaxbUtil {
+    private static final Logger logger = LoggerFactory.getLogger(JaxbUtil.class);
 
     private String contextNameSpace;
 
@@ -46,5 +51,17 @@ public class JaxbUtil {
         }
         return sw.toString();
     }
+
+    public <T> T extractResponse(Object response) throws MessageBusException {
+        if (response instanceof Exception) {
+            throw new MessageBusException((Exception) response);
+        } else if (response instanceof String) {
+            logger.info("Response: " + response);
+            return (T)unmarshal((String) response);
+        } else {
+            throw new MessageBusException("Unknown response type: " + response.getClass());
+        }
+    }
+
 
 }
