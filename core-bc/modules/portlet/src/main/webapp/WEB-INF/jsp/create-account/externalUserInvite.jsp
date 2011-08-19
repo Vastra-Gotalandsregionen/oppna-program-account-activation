@@ -41,12 +41,29 @@
         margin-bottom: 3px;
     }
 
+    .cnf-title {
+        font-weight: bold;
+        display: inline-block;
+        width: 80px;
+        text-align: right;
+        padding: 3px;
+    }
+
+    .cnf-value {
+        padding:  3px;
+    }
+
+    .cnf-button {
+        text-align: center;
+        width: 100%;
+    }
+
 </style>
 
 <jsp:useBean id="externalUserFormBean" type="se.vgregion.activation.formbeans.ExternalUserFormBean" scope="request"/>
 <portlet:actionURL var="invite" name="invite" escapeXml="false"/>
 <div class="wrapper-div">
-    <aui:form action="<%= invite %>" method="post">
+    <aui:form action="<%= invite %>" name="create-external-user-form" method="post">
         <aui:fieldset>
             <aui:layout>
                 <aui:column columnWidth="50">
@@ -112,12 +129,12 @@
                                 label="Kommun"
                                 value="Kommun"
                                 selected="${externalUserFormBean.userType eq \"Kommun\"}"/>
-<%--
-                        <aui:option
-                                label="newUserType"
-                                value="newUserType"
-                                selected="${externalUserFormBean.userType eq \"newUserType\"}"/>
---%>
+                        <%--
+                                                <aui:option
+                                                        label="newUserType"
+                                                        value="newUserType"
+                                                        selected="${externalUserFormBean.userType eq \"newUserType\"}"/>
+                        --%>
                     </aui:select>
 
                     <aui:field-wrapper label="sponsor-full-name" helpMessage="Den person som bjuder in blir sponsor.
@@ -133,7 +150,7 @@
                     <form:errors path="externalUserFormBean.sponsorVgrId" cssClass="portlet-msg-error"/>
 
                     <aui:button-row>
-                        <aui:button type="submit" value="Bjud in" style="margin-top: 14px"/>
+                        <aui:button type="submit" name="submitForm" value="Bjud in" style="margin-top: 14px"/>
                     </aui:button-row>
                 </aui:column>
             </aui:layout>
@@ -145,23 +162,29 @@
 
 <portlet:resourceURL var="resourceUrl" escapeXml="false"/>
 
+<p><a href="${resourceUrl}" class="test-link" title="Bekräfta">Test Link</a></p>
+
 <script type="text/javascript">
     function NewDate(str) {
-        str=str.split('-');
-        var date=new Date();
-        date.setUTCFullYear(str[0], str[1]-1, str[2]);
+        str = str.split('-');
+        var date = new Date();
+        date.setUTCFullYear(str[0], str[1] - 1, str[2]);
         date.setUTCHours(0, 0, 0, 0);
         return date;
-     }
+    }
 
-    AUI().ready('aui-autocomplete', 'aui-datepicker-select', function(A) {
+    AUI().ready('aui-autocomplete',
+            'aui-datepicker-select',
+            'aui,base',
+            'aui-dialog',
+            function(A) {
 
-        var dateLimit = NewDate('${externalUserFormBean.dateLimit}');
-        if (dateLimit == 'Invalid Date') {
-            dateLimit = new Date(new Date().getTime() + 365 * 24 * 60 * 60 * 1000);
-        }
+                var dateLimit = NewDate('${externalUserFormBean.dateLimit}');
+                if (dateLimit == 'Invalid Date') {
+                    dateLimit = new Date(new Date().getTime() + 365 * 24 * 60 * 60 * 1000);
+                }
 
-        var datePicker = new A.DatePicker({
+                var datePicker = new A.DatePicker({
                     calendar: {
                         dateFormat: '%Y-%m-%d',
                         dates: [dateLimit],
@@ -171,23 +194,23 @@
                     trigger: '#<portlet:namespace/>dateLimit'
                 }).render();
 
-        var autoComplete = new A.AutoComplete({
+                var autoComplete = new A.AutoComplete({
                     dataSource: function(request) {
                         var items = null;
                         A.io.request('<%= resourceUrl %>&query=' + A.one('#<portlet:namespace />externStructurePersonDn').get('value'), {
-                                    cache: false,
-                                    sync: true,
-                                    timeout: 1000,
-                                    dataType: 'json',
-                                    method: 'get',
-                                    on: {
-                                        success: function() {
-                                            items = this.get('responseData');
-                                        },
-                                        failure: function() {
-                                        }
-                                    }
-                                });
+                            cache: false,
+                            sync: true,
+                            timeout: 1000,
+                            dataType: 'json',
+                            method: 'get',
+                            on: {
+                                success: function() {
+                                    items = this.get('responseData');
+                                },
+                                failure: function() {
+                                }
+                            }
+                        });
 
                         return items;
                     },
@@ -197,5 +220,90 @@
                     contentBox: '#<portlet:namespace />externStructurePersonDnDiv',
                     input: '#<portlet:namespace />externStructurePersonDn'
                 }).render();
-    });
+
+                var TPL = '<p><span class="cnf-title">Namn:</span><span class="cnf-value">{fullName}</span><br/>' +
+                        '<span class="cnf-title">Epost:</span><span class="cnf-value">{email}</span><br/>' +
+                        '<span class="cnf-title">Org:</span><span class="cnf-value">{org}</span><br/>' +
+                        '<span class="cnf-title">Inbjuden till:</span><span class="cnf-value">{system}</span></p>' +
+                        '<div class="cnf-button">' +
+                        '<input type="button"' +
+                        'onClick="document.getElementById(\'<portlet:namespace/>create-external-user-form\').submit();"' +
+                        'value="Skicka">' +
+                        '</p>';
+
+                var documentDialogOptions = {
+                    bodyContent: 'Testing body',
+                    centered: true,
+                    constrain2view: true,
+                    destroyOnClose: false,
+                    draggable: true,
+                    group: 'default',
+                    height: 170,
+                    modal: true,
+                    stack: true,
+                    // shim: true,
+                    title: 'Dokument',
+                    width: 350
+                };
+
+
+                // Event listener - on before documentDialog render
+                function onBeforeDocumentDialogRender(e, params) {
+                    // Instance is document dialog
+                    var instance = this;
+
+                    var fullName = params[0];
+                    var email = params[1];
+                    var org = params[2];
+                    var system = params[3];
+
+                    var contentIFrame = A.substitute(TPL, {
+                        fullName: fullName,
+                        email: email,
+                        org: org,
+                        system: system
+                    });
+
+                    instance.set('bodyContent', contentIFrame);
+                }
+
+                // Event listener - on documentLink click
+                function onTestLinkClick(e) {
+                    e.halt();
+
+                    var name = document.getElementById('<portlet:namespace/>name').value;
+                    var middleName = document.getElementById('<portlet:namespace/>middleName').value;
+                    var surname = document.getElementById('<portlet:namespace/>surname').value;
+                    var fullName = name + ' ' + (middleName != '' ? (middleName + ' ') : '') + surname;
+
+                    var email = document.getElementById('<portlet:namespace/>email').value;
+                    var org = document.getElementById('<portlet:namespace/>externStructurePersonDn').value;
+
+                    var inviteTo = document.getElementById('<portlet:namespace/>invitePreferences');
+                    var system = inviteTo.options[inviteTo.selectedIndex].text;
+
+                    createDocumentDialog("Bekräfta inbjudan", fullName, email, org, system);
+                }
+
+                // Creates a document dialog
+                function createDocumentDialog(dialogTitle, fullName, email, org, system) {
+
+                    var documentDialog = new A.Dialog(
+                            A.merge(documentDialogOptions, {
+                                title: dialogTitle
+                            })
+                    );
+                    documentDialog.before('render', onBeforeDocumentDialogRender, documentDialog,
+                            [fullName, email, org, system]);
+
+                    // On before render listener
+
+                    // Render dialog
+                    documentDialog.render();
+                }
+
+                // Attach listeners
+                A.all('#<portlet:namespace/>submitForm').on('click', onTestLinkClick);
+
+            });
 </script>
