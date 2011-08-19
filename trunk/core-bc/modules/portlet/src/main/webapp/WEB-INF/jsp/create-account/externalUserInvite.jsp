@@ -162,8 +162,6 @@
 
 <portlet:resourceURL var="resourceUrl" escapeXml="false"/>
 
-<p><a href="${resourceUrl}" class="test-link" title="Bekräfta">Test Link</a></p>
-
 <script type="text/javascript">
     function NewDate(str) {
         str = str.split('-');
@@ -238,7 +236,7 @@
                     destroyOnClose: false,
                     draggable: true,
                     group: 'default',
-                    height: 170,
+                    height: 190,
                     modal: true,
                     stack: true,
                     // shim: true,
