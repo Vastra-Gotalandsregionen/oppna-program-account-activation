@@ -38,7 +38,8 @@ public class ControllerUtil {
         } else if (e.getMessage().startsWith("No reply received for message")) {
             response.setRenderParameter("unresponsive", "request.timeout");
         } else {
-            response.setRenderParameter("unresponsive", "unknown.exception");
+            response.setRenderParameter("unresponsive", "unknown.system.error");
+            response.setRenderParameter("unresponsiveArguments", e.getMessage());
         }
     }
 
