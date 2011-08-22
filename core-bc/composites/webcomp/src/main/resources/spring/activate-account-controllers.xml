@@ -7,16 +7,16 @@
                            http://www.springframework.org/schema/context/spring-context.xsd">
 
   <bean class="se.vgregion.activation.controllers.AccountActivationController">
-    <constructor-arg name="otpLoginValidator">
+    <constructor-arg index="0">
       <bean class="se.vgregion.activation.validators.AccountActivationLoginValidator"/>
     </constructor-arg>
-    <constructor-arg name="dominoLoginValidator">
+    <constructor-arg index="1">
       <bean class="se.vgregion.activation.validators.DominoLoginValidator"/>
     </constructor-arg>
-    <constructor-arg name="passwordMatchValidator">
+    <constructor-arg index="2">
       <bean class="se.vgregion.activation.validators.PasswordMatchValidator"/>
     </constructor-arg>
-    <constructor-arg name="passwordStrengthValidator">
+    <constructor-arg index="3">
       <bean class="se.vgregion.activation.validators.PasswordStrengthValidator"/>
     </constructor-arg>
   </bean>

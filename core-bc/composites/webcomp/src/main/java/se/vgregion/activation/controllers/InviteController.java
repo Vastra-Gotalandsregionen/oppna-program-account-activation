@@ -110,7 +110,7 @@ public class InviteController {
     }
 
     @ResourceMapping
-    public void searchStructure(@RequestParam String query, ResourceResponse res) {
+    public void searchStructure(@RequestParam("query") String query, ResourceResponse res) {
         Collection<String> structures = structureService.search(query);
         try {
             OutputStream outputStream = res.getPortletOutputStream();
@@ -128,8 +128,11 @@ public class InviteController {
 
     @RenderMapping(params = {"unresponsive"})
     public String unresponsive(@ModelAttribute ExternalUserFormBean externalUserFormBean,
-            @RequestParam(value = "unresponsive") String failureCode, Model model) {
+            @RequestParam(value = "unresponsive") String failureCode,
+            @RequestParam(value = "unresponsiveArguments", required = false) String failureArguments,
+            Model model) {
         model.addAttribute("message", failureCode);
+        model.addAttribute("messageArguments", failureArguments);
         return "inviteTimeout";
     }
 
