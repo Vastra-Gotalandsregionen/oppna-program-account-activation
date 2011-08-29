@@ -26,7 +26,7 @@ public class LoginController {
      * @param model model
      * @return A view
      */
-    @RenderMapping(params = {"loginType=otp"})
+    @RenderMapping(params = { "loginType=otp" })
     public String showOtpPasswordForm(Model model) {
         return "otpLogin";
     }
@@ -36,7 +36,7 @@ public class LoginController {
      *
      * @return A view
      */
-    @RenderMapping(params = {"loginType=domino"})
+    @RenderMapping(params = { "loginType=domino" })
     public String showDominoPasswordForm() {
         return "dominoLogin";
     }

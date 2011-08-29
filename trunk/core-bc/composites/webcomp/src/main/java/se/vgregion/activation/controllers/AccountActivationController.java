@@ -81,7 +81,7 @@ public class AccountActivationController {
      * @param model            model
      * @return A view
      */
-    @RenderMapping(params = {"activationCode"})
+    @RenderMapping(params = { "activationCode" })
     public String showPasswordFormForOTP(@ModelAttribute PasswordFormBean passwordFormBean, BindingResult result,
                                          Model model) {
         return validateAndShowForm(accountActivationLoginValidator, passwordFormBean, result, model);
@@ -95,7 +95,7 @@ public class AccountActivationController {
      * @param response         response
      * @param model            model
      */
-    @ActionMapping(params = {"activationCode"})
+    @ActionMapping(params = { "activationCode" })
     public void activateAccountWithOTP(@ModelAttribute PasswordFormBean passwordFormBean, BindingResult result,
                                        ActionResponse response, Model model) {
         Map<String, String[]> renderParams = new HashMap<String, String[]>();
@@ -111,7 +111,7 @@ public class AccountActivationController {
      * @param model            model
      * @return A view
      */
-    @RenderMapping(params = {"vgrId"})
+    @RenderMapping(params = { "vgrId" })
     public String showPasswordFormForDominoUser(@ModelAttribute PasswordFormBean passwordFormBean,
                                                 BindingResult result, Model model) {
         return validateAndShowForm(dominoLoginValidator, passwordFormBean, result, model);
@@ -125,7 +125,7 @@ public class AccountActivationController {
      * @param response         response
      * @param model            model
      */
-    @ActionMapping(params = {"vgrId"})
+    @ActionMapping(params = { "vgrId" })
     public void activateAccountAsDominoUser(@ModelAttribute PasswordFormBean passwordFormBean,
                                             BindingResult result, ActionResponse response, Model model) {
         Map<String, String[]> renderParams = new HashMap<String, String[]>();
@@ -203,7 +203,7 @@ public class AccountActivationController {
      * @param model            model
      * @return A view
      */
-    @RenderMapping(params = {"success"})
+    @RenderMapping(params = { "success" })
     public String success(@ModelAttribute PasswordFormBean passwordFormBean, Model model) {
         model.asMap().clear();
         ActivationCode activationCode = new ActivationCode(passwordFormBean.getActivationCode());
@@ -221,7 +221,7 @@ public class AccountActivationController {
      * @param model            model
      * @return A view
      */
-    @RenderMapping(params = {"failure"})
+    @RenderMapping(params = { "failure" })
     public String failure(@RequestParam(value = "failure") String failureCode,
                           @RequestParam(value = "failureArguments", required = false) String failureArguments,
                           @ModelAttribute PasswordFormBean passwordFormBean, Model model) {
