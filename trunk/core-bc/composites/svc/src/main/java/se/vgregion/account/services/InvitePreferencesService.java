@@ -10,6 +10,8 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
+ * Service for {@link InvitePreferences}.
+ * <p/>
  * User: pabe
  * Date: 2011-05-16
  * Time: 14:40
@@ -17,13 +19,22 @@ import java.util.List;
 public class InvitePreferencesService {
 
     @Autowired
-    InvitePreferencesRepository invitePreferencesRepository;
+    private InvitePreferencesRepository invitePreferencesRepository;
 
+    /**
+     * Merge an instance.
+     * @param invitePreferences The instance to be merged.
+     * @return The merged instance.
+     */
     @Transactional
     public InvitePreferences merge(InvitePreferences invitePreferences) {
         return invitePreferencesRepository.merge(invitePreferences);
     }
 
+    /**
+     * Find all <code>InvitePreferences</code>s in the repository.
+     * @return All <code>InvitePreferences</code>s in the repository.
+     */
     public List<InvitePreferences> findAll() {
         List<InvitePreferences> preferenceses = (List<InvitePreferences>) invitePreferencesRepository.findAll();
         Collections.sort(preferenceses, new Comparator<InvitePreferences>() {
@@ -36,27 +47,47 @@ public class InvitePreferencesService {
         return preferenceses;
     }
 
+    /**
+     * Find an <code>InvitePreferences</code>.
+     * @param id id
+     * @return The <code>InvitePreferences</code> with the given id.
+     */
     public InvitePreferences find(Long id) {
         return invitePreferencesRepository.find(id);
     }
 
+    /**
+     * Removes an <code>InvitePreferences</code> with the given id.
+     * @param id id
+     */
     @Transactional
     public void remove(Long id) {
         invitePreferencesRepository.remove(id);
     }
 
+    /**
+     * Find an <code>InvitePreferences</code> by title.
+     * @param title title
+     * @return An <code>InvitePreferences</code> with the given title.
+     */
     public InvitePreferences findByTitle(String title) {
         List<InvitePreferences> list = (List<InvitePreferences>) invitePreferencesRepository.
                 findByQuery("select p from InvitePreferences p where p.title = ?1", new String[]{title});
         if (list.size() == 0) {
             return null;
         } else if (list.size() > 1) {
-            throw new IllegalStateException("There should not exist more than one InvitePreferences with the same title.");
+            throw new IllegalStateException("There should not exist more than one InvitePreferences with the"
+                    + " same title.");
         } else {
             return list.get(0);
         }
     }
 
+    /**
+     * Find an <code>InvitePreferences</code> by customerUrl.
+     * @param customUrl customUrl
+     * @return An <code>InvitePreferences</code> with the given customUrl.
+     */
     public InvitePreferences findByCustomUrl(String customUrl) {
         List<InvitePreferences> list = (List<InvitePreferences>) invitePreferencesRepository.
                 findByQuery("select p from InvitePreferences p where p.customUrl = ?1", new String[]{customUrl});

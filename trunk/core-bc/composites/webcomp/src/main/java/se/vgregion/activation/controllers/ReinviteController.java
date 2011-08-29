@@ -38,7 +38,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("VIEW")
 public class ReinviteController {
-    private static final Logger logger = LoggerFactory.getLogger(ReinviteController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReinviteController.class);
 
     @Autowired
     private AccountService accountService;
@@ -51,13 +51,20 @@ public class ReinviteController {
 
     private JaxbUtil inviteUserJaxbUtil = new JaxbUtil("se.vgregion.portal.inviteuser");
 
+    /**
+     * Default handler method when no parameters are passed. Loads current and expired invites.
+     * @param model model
+     * @param request request
+     * @return A view
+     */
     @RequestMapping
     public String view(Model model, PortletRequest request) {
         Collection<ActivationAccount> accounts = accountService.getAllValidAccounts();
         List<ReinviteFormBean> reinvites = accountsToReinvites(request, accounts);
         model.addAttribute("accounts", reinvites);
 
-        Collection<ActivationAccount> expiredAccounts = accountService.getExpiredUnusedAccounts(1, 90);
+        final int maxDaysOld = 90;
+        Collection<ActivationAccount> expiredAccounts = accountService.getExpiredUnusedAccounts(1, maxDaysOld);
         List<ReinviteFormBean> expiredReinvites = accountsToReinvites(request, expiredAccounts);
         model.addAttribute("expiredAccounts", expiredReinvites);
 
@@ -71,30 +78,53 @@ public class ReinviteController {
                 ReinviteFormBean bean = mapToReinvite(account, request);
                 reinvites.add(bean);
             } catch (IllegalArgumentException ex) {
-                logger.error(ex.getMessage(), ex);
+                LOGGER.error(ex.getMessage(), ex);
             }
         }
         return reinvites;
     }
 
-    @RenderMapping(params = {"success=true"})
+    /**
+     * Handler method for when the "success" parameter is set to <code>true</code>.
+     * @return A view
+     */
+    @RenderMapping(params = { "success=true" })
     public String success() {
         return "success";
     }
 
-    @RenderMapping(params = {"unresponsive"})
+    /**
+     * Handler method for when the "unresponsive" parameter is set.
+     * @param failureCode failureCode
+     * @param model model
+     * @return A view
+     */
+    @RenderMapping(params = { "unresponsive" })
     public String unresponsive(@RequestParam(value = "unresponsive") String failureCode, Model model) {
         model.addAttribute("message", failureCode);
         return "inviteTimeout";
     }
 
-    @RenderMapping(params = {"error"})
+    /**
+     * Handler method for when the "error" parameter is set.
+     * @param errorMessage errorMessage
+     * @param model model
+     * @return A view
+     */
+    @RenderMapping(params = { "error" })
     public String error(@RequestParam (value = "error") String errorMessage, Model model) {
         model.addAttribute("message", errorMessage);
         return "error";
     }
 
-    @ActionMapping(params = {"action=reinvite"})
+    /**
+     * Makes the reinvite call.
+     * @param code code
+     * @param request request
+     * @param response response
+     * @param model model
+     */
+    @ActionMapping(params = { "action=reinvite" })
     public void reinvite(@RequestParam("activationCode") ActivationCode code, ActionRequest request,
             ActionResponse response, Model model) {
         try {
@@ -111,9 +141,10 @@ public class ReinviteController {
             Message message = new Message();
             message.setPayload(inviteUserJaxbUtil.marshal(inviteUser));
 
-            Object inviteResponse = MessageBusUtil.sendSynchronousMessage("vgr/account_invite", message, 7000);
+            final int timeout = 7000;
+            Object inviteResponse = MessageBusUtil.sendSynchronousMessage("vgr/account_invite", message, timeout);
 
-            logger.info(inviteResponse.toString());
+            LOGGER.info(inviteResponse.toString());
 
             InviteUserResponse inviteUserResponse = inviteUserJaxbUtil.extractResponse(inviteResponse);
 
@@ -126,14 +157,23 @@ public class ReinviteController {
             }
 
         } catch (IllegalArgumentException ex) {
+            ex.printStackTrace();
             response.setRenderParameter("error", ex.getMessage());
         } catch (MessageBusException e) {
+            e.printStackTrace();
             ControllerUtil.handleMessageBusException(e, response);
         }
 
     }
 
-    @ActionMapping(params = {"action=inactivate"})
+    /**
+     * Inactivates a current invite.
+     * @param code code
+     * @param request request
+     * @param response response
+     * @param model model
+     */
+    @ActionMapping(params = { "action=inactivate" })
     public void inactivate(@RequestParam("activationCode") ActivationCode code, ActionRequest request,
             ActionResponse response, Model model) {
         ActivationAccount account = accountService.getAccount(code);

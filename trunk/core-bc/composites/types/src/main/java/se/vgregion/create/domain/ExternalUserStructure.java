@@ -1,16 +1,28 @@
 package se.vgregion.create.domain;
 
-import org.hibernate.annotations.Index;
 import se.vgregion.dao.domain.patterns.entity.AbstractEntity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.io.Serializable;
 
+/**
+ * JPA entity.
+ */
 @Entity
 @Table(name = "vgr_activation_external_user_structure")
 public class ExternalUserStructure extends AbstractEntity<Long> implements Serializable {
 
-    public ExternalUserStructure() {}
+    /**
+     * Constructor.
+     */
+    public ExternalUserStructure() {
+
+    }
 
     @Id
     @GeneratedValue

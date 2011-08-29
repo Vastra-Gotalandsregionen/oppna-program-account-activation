@@ -5,10 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import se.vgregion.account.services.InvitePreferencesService;
 import se.vgregion.create.domain.InvitePreferences;
 
-import java.beans.PropertyEditor;
 import java.beans.PropertyEditorSupport;
 
 /**
+ * This class converts between {@link InvitePreferences} and <code>String</code>.
+ * <p/>
  * User: pabe
  * Date: 2011-05-16
  * Time: 16:29
@@ -19,7 +20,7 @@ public class InvitePreferencesPropertyEditor extends PropertyEditorSupport {
     private InvitePreferencesService invitePreferencesService;
 
     @Override
-    public void setAsText(String text) throws IllegalArgumentException {
+    public void setAsText(String text) {
         if (StringUtils.isNotBlank(text)) {
             Long id = Long.parseLong(text);
             InvitePreferences preferences = invitePreferencesService.find(id);

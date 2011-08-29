@@ -1,17 +1,22 @@
 package se.vgregion.activation.rest;
 
+import se.vgregion.activation.api.ActivationAccountDTO;
+import se.vgregion.activation.domain.ActivationAccount;
+
+import javax.ws.rs.core.UriInfo;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 
-import javax.ws.rs.core.UriInfo;
-
-import se.vgregion.activation.api.ActivationAccountDTO;
-import se.vgregion.activation.domain.ActivationAccount;
-
 public final class DTOAssembler {
+
+    //Only static methods. No public constructor.
+    private DTOAssembler() {
+
+    }
+
     static ActivationAccountDTO toDTO(final ActivationAccount account, UriInfo ui) throws MalformedURLException {
         return toDTO(account, ui, "");
     }
@@ -33,7 +38,9 @@ public final class DTOAssembler {
 
     static String getBaseUrl(UriInfo ui) {
         String base = ui.getBaseUri().toString();
-        if (!base.endsWith("/")) base += "/";
+        if (!base.endsWith("/")) {
+            base += "/";
+        }
         return base;
     }
 

@@ -11,6 +11,6 @@ public enum ActivationAccountStatus {
 
     @Override
     public String toString() {
-        return "code."+this.name().toLowerCase();
+        return "code." + this.name().toLowerCase();
     }
 }

@@ -21,6 +21,8 @@ import javax.portlet.RenderRequest;
 import java.util.List;
 
 /**
+ * Controller class for the "EDIT" view.
+ * <p/>
  * User: pabe
  * Date: 2011-05-12
  * Time: 14:44
@@ -36,6 +38,13 @@ public class InviteEditController {
     @Autowired
     private InvitePreferencesValidator validator;
 
+    /**
+     * Default method for the edit mode. Will show the edit form.
+     *
+     * @param model   model
+     * @param request request
+     * @return A view
+     */
     @RenderMapping
     public String edit(ModelMap model, RenderRequest request) {
 
@@ -60,7 +69,15 @@ public class InviteEditController {
         return "editForm";
     }
 
-    @RenderMapping(params = {"action=edit"})
+    /**
+     * Handler method, when the "action" parameter is set to "edit", to show the edit preferences form.
+     *
+     * @param modelMap                  modelMap
+     * @param request                   request
+     * @param invitePreferencesFormBean invitePreferencesFormBean
+     * @return A view
+     */
+    @RenderMapping(params = { "action=edit" })
     public String editPreferences(ModelMap modelMap, RenderRequest request,
                                   @ModelAttribute InvitePreferencesFormBean invitePreferencesFormBean) {
         Long id = Long.parseLong(request.getParameter("preferencesId"));
@@ -69,7 +86,16 @@ public class InviteEditController {
         return "editPreferencesForm";
     }
 
-    @ActionMapping(params = {"action=save"})
+    /**
+     * Saves an <code>InvitePreferences</code> object.
+     *
+     * @param request request
+     * @param response response
+     * @param invitePreferencesFormBean InvitePreferencesFormBean
+     * @param errors errors
+     * @param model model
+     */
+    @ActionMapping(params = { "action=save" })
     public void savePreferences(ActionRequest request, ActionResponse response,
                                 @ModelAttribute InvitePreferencesFormBean invitePreferencesFormBean,
                                 BindingResult errors, Model model) {
@@ -94,7 +120,14 @@ public class InviteEditController {
         }
     }
 
-    @RenderMapping(params = {"action=remove"})
+    /**
+     * Shows a confirmation form to assure an <code>InvitePreferences</code> removal.
+     *
+     * @param modelMap modelMap
+     * @param request request
+     * @return A view
+     */
+    @RenderMapping(params = { "action=remove" })
     public String removePreferences(ModelMap modelMap, RenderRequest request) {
         Long id = Long.parseLong(request.getParameter("preferencesId"));
         InvitePreferences preferences = invitePreferencesService.find(id);
@@ -102,7 +135,13 @@ public class InviteEditController {
         return "removePreferencesForm";
     }
 
-    @ActionMapping(params = {"action=remove"})
+    /**
+     * Removes a given <code>InvitePreferences</code> instance.
+     *
+     * @param request request
+     * @param response response
+     */
+    @ActionMapping(params = { "action=remove" })
     public void confirmRemovePreferences(ActionRequest request, ActionResponse response) {
         Long id = Long.parseLong(request.getParameter("preferencesId"));
 
@@ -111,7 +150,14 @@ public class InviteEditController {
         response.setRenderParameter("message", "Borttagen!");
     }
 
-    @RenderMapping(params = {"action=add"})
+    /**
+     * Creates a new <code>InvitePreferences</code> object which will be edited.
+     *
+     * @param modelMap modelMap
+     * @param request request
+     * @return A view
+     */
+    @RenderMapping(params = { "action=add" })
     public String addPreferences(ModelMap modelMap, RenderRequest request) {
         InvitePreferences preferences = new InvitePreferences();
         modelMap.addAttribute("preferences", preferences);

@@ -12,7 +12,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
@@ -31,7 +36,11 @@ import se.vgregion.portal.inviteuser.InviteUser;
 import se.vgregion.portal.inviteuser.InviteUserResponse;
 import se.vgregion.portal.inviteuser.InviteUserStatusCodeType;
 
-import javax.portlet.*;
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletRequest;
+import javax.portlet.RenderRequest;
+import javax.portlet.ResourceResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
@@ -44,7 +53,7 @@ import java.util.Map;
 @SessionAttributes("externalUserFormBean")
 @RequestMapping("VIEW")
 public class InviteController {
-    Logger logger = LoggerFactory.getLogger(InviteController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(InviteController.class);
 
     @Autowired
     private InvitePreferencesService invitePreferencesService;
@@ -61,16 +70,30 @@ public class InviteController {
     @Autowired
     private StructureService structureService;
 
+    /**
+     * Method used by Spring to convert between <code>Object</code> and <code>String</code>.
+     *
+     * @param binder binder
+     */
     @InitBinder("externalUserFormBean")
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(InvitePreferences.class, invitePreferencesPropertyEditor);
     }
 
-    @ModelAttribute("externalUserFormBean")
+    //Checking if this method is unnecessary.
+    /*@ModelAttribute("externalUserFormBean")
     public ExternalUserFormBean populate() {
         return new ExternalUserFormBean();
-    }
+    }*/
 
+    /**
+     * Default handler method when no parameters are passed before showing the invite form.
+     *
+     * @param externalUserFormBean externalUserFormBean
+     * @param model                model
+     * @param req                  req
+     * @return A view
+     */
     @RequestMapping
     public String showExternalUserInvite(
             @ModelAttribute("externalUserFormBean") ExternalUserFormBean externalUserFormBean,
@@ -109,6 +132,12 @@ public class InviteController {
         return "externalUserInvite";
     }
 
+    /**
+     * Called with AJAX request. Writes JSON to response.
+     *
+     * @param query query
+     * @param res   res
+     */
     @ResourceMapping
     public void searchStructure(@RequestParam("query") String query, ResourceResponse res) {
         Collection<String> structures = structureService.search(query);
@@ -121,30 +150,59 @@ public class InviteController {
         }
     }
 
-    @RenderMapping(params = {"success"})
+    /**
+     * Handler method that returns a view specified by redirectPage.
+     *
+     * @param redirectPage redirectPage
+     * @return A view
+     */
+    @RenderMapping(params = { "success" })
     public String success(@RequestParam(value = "success") String redirectPage) {
         return redirectPage;
     }
 
-    @RenderMapping(params = {"unresponsive"})
+    /**
+     * Handler method for when the "unresponsive" parameter is set.
+     *
+     * @param externalUserFormBean externalUserFormBean
+     * @param failureCode          failureCode
+     * @param failureArguments     failureArguments
+     * @param model                model
+     * @return A view
+     */
+    @RenderMapping(params = { "unresponsive" })
     public String unresponsive(@ModelAttribute ExternalUserFormBean externalUserFormBean,
-            @RequestParam(value = "unresponsive") String failureCode,
-            @RequestParam(value = "unresponsiveArguments", required = false) String failureArguments,
-            Model model) {
+                               @RequestParam(value = "unresponsive") String failureCode,
+                               @RequestParam(value = "unresponsiveArguments", required = false) String failureArguments,
+                               Model model) {
         model.addAttribute("message", failureCode);
         model.addAttribute("messageArguments", failureArguments);
         return "inviteTimeout";
     }
 
-    @RenderMapping(params = {"error"})
+    /**
+     * Handler method for when the "error" parameter is set.
+     *
+     * @param errorMessage   errorMessage
+     * @param errorArguments errorArguments
+     * @param model          model
+     * @return A view
+     */
+    @RenderMapping(params = { "error" })
     public String inviteError(@RequestParam(value = "error") String errorMessage,
-            @RequestParam(value = "errorArguments", required = false) String errorArguments,
-            Model model) {
+                              @RequestParam(value = "errorArguments", required = false) String errorArguments,
+                              Model model) {
         model.addAttribute("message", errorMessage);
         model.addAttribute("messageArguments", errorArguments);
         return "error";
     }
 
+    /**
+     * Handler method for when an <code>Exception</code> is thrown.
+     *
+     * @param ex ex
+     * @return A <code>ModelAndView</code>
+     */
     @ExceptionHandler(Exception.class)
     public ModelAndView handleException(Exception ex) {
         ex.printStackTrace();
@@ -153,10 +211,20 @@ public class InviteController {
         return modelAndView;
     }
 
+    /**
+     * This action method makes the call to create the user and, if success, also makes the call to invite the user.
+     *
+     * @param externalUserFormBean externalUserFormBean
+     * @param result               result
+     * @param model                model
+     * @param status               status
+     * @param req                  req
+     * @param response             response
+     */
     @ActionMapping
     public void invite(@ModelAttribute ExternalUserFormBean externalUserFormBean,
-            BindingResult result, Model model, SessionStatus status,
-            ActionRequest req, ActionResponse response) {
+                       BindingResult result, Model model, SessionStatus status,
+                       ActionRequest req, ActionResponse response) {
         // validate indata
         String loggedInUser = lookupP3PInfo(req, PortletRequest.P3PUserInfos.USER_LOGIN_ID);
         externalUserValidator.validateWithLoggedInUser(externalUserFormBean, result, loggedInUser);
@@ -175,8 +243,8 @@ public class InviteController {
             externalUserFormBean.setVgrId(createUserResponse.getVgrId());
 
             CreateUserStatusCodeType statusCode = createUserResponse.getStatusCode();
-            if (statusCode == CreateUserStatusCodeType.NEW_USER ||
-                    statusCode == CreateUserStatusCodeType.EXISTING_EXTERNAL_USER) {
+            if (statusCode == CreateUserStatusCodeType.NEW_USER
+                    || statusCode == CreateUserStatusCodeType.EXISTING_EXTERNAL_USER) {
                 structureService.storeExternStructurePersonDn(externalUserFormBean.getExternStructurePersonDn());
 
                 // ?: new user -> invite
@@ -213,8 +281,10 @@ public class InviteController {
         }
     }
 
-    private InviteUserResponse callInviteUser(ExternalUserFormBean externalUserFormBean, CreateUserResponse createUserResponse)
-            throws MessageBusException {//invite
+    private InviteUserResponse callInviteUser(ExternalUserFormBean externalUserFormBean,
+                                              CreateUserResponse createUserResponse)
+            throws MessageBusException {
+
         InviteUser inviteUser = new InviteUser();
         inviteUser.setUserId(createUserResponse.getVgrId());
         inviteUser.setCustomURL(externalUserFormBean.getInvitePreferences().getCustomUrl());
@@ -224,14 +294,14 @@ public class InviteController {
         Message message = new Message();
         String payload = inviteUserJaxbUtil.marshal(inviteUser);
 
-        logger.info("Invite user payload: " + payload);
+        LOGGER.info("Invite user payload: " + payload);
 
         message.setPayload(payload);
 
-        Object response = MessageBusUtil.sendSynchronousMessage
-                ("vgr/account_invite", message, 7000);
+        final int timeout = 7000;
+        Object response = MessageBusUtil.sendSynchronousMessage("vgr/account_invite", message, timeout);
 
-        logger.info(response.toString());
+        LOGGER.info(response.toString());
 
         return inviteUserJaxbUtil.extractResponse(response);
     }
@@ -252,9 +322,10 @@ public class InviteController {
         Message message = new Message();
         message.setPayload(createUserJaxbUtil.marshal(createUser));
 
-        logger.info(createUserJaxbUtil.marshal(createUser));
+        LOGGER.info(createUserJaxbUtil.marshal(createUser));
 
-        Object response = MessageBusUtil.sendSynchronousMessage("vgr/account_create", message, 7000);
+        final int timeout = 7000;
+        Object response = MessageBusUtil.sendSynchronousMessage("vgr/account_create", message, timeout);
 
         return createUserJaxbUtil.extractResponse(response);
     }

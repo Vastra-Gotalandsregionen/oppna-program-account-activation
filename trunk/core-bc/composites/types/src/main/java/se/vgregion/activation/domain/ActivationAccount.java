@@ -1,26 +1,23 @@
 package se.vgregion.activation.domain;
 
-import java.io.Serializable;
-import java.util.Calendar;
-import java.util.Date;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import se.vgregion.dao.domain.patterns.entity.AbstractEntity;
 
-import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import se.vgregion.dao.domain.patterns.entity.AbstractEntity;
+import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 
 @Entity
 @Table(name = "vgr_activation_account")
 public class ActivationAccount extends AbstractEntity<ActivationCode> implements Serializable {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(ActivationAccount.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ActivationAccount.class);
 
     private static final long serialVersionUID = 1L;
 
@@ -42,10 +39,23 @@ public class ActivationAccount extends AbstractEntity<ActivationCode> implements
     private String customMessage;
     private String system;
 
+    /**
+     * Constructor.
+     *
+     * @param vgrId vgrId
+     */
     public ActivationAccount(String vgrId) {
         this(vgrId, "", "", "");
     }
 
+    /**
+     * Constructor.
+     *
+     * @param vgrId vgrId
+     * @param customUrl customUrl
+     * @param customMessage customMessage
+     * @param system system
+     */
     public ActivationAccount(String vgrId, String customUrl, String customMessage, String system) {
         this.vgrId = vgrId;
         this.customUrl = customUrl;
@@ -91,6 +101,10 @@ public class ActivationAccount extends AbstractEntity<ActivationCode> implements
         return new Date().after(expire);
     }
 
+    /**
+     * Get the expire date.
+     * @return expire date
+     */
     public Date getExpireDate() {
         if (expire == null) {
             return null;
@@ -98,11 +112,16 @@ public class ActivationAccount extends AbstractEntity<ActivationCode> implements
         return new Date(expire.getTime());
     }
 
-    public void setExpireDate(Date expire) {
-        if (expire == null) {
-            expire = null;
+    /**
+     * Set expire date.
+     *
+     * @param expireDate expireDate
+     */
+    public void setExpireDate(Date expireDate) {
+        if (expireDate == null) {
+            expireDate = null;
         } else {
-            this.expire = new Date(expire.getTime());
+            this.expire = new Date(expireDate.getTime());
         }
     }
 
@@ -115,10 +134,19 @@ public class ActivationAccount extends AbstractEntity<ActivationCode> implements
         return used;
     }
 
+    /**
+     * Get the current <code>ActivationAccountStatus</code>.
+     *
+     * @return current <code>ActivationAccountStatus</code>
+     */
     public ActivationAccountStatus currentStatus() {
-        if (isUsed()) return ActivationAccountStatus.INVALID;
+        if (isUsed()) {
+            return ActivationAccountStatus.INVALID;
+        }
 
-        if (hasExpired()) return ActivationAccountStatus.EXPIRED;
+        if (hasExpired()) {
+            return ActivationAccountStatus.EXPIRED;
+        }
 
         return ActivationAccountStatus.OK;
     }
