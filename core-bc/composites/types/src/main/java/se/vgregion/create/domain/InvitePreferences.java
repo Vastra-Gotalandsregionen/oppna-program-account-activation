@@ -1,12 +1,17 @@
 package se.vgregion.create.domain;
 
-import org.hibernate.annotations.Index;
 import se.vgregion.dao.domain.patterns.entity.AbstractEntity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
 
 /**
+ * JPA entity.
+ * <p/>
  * User: pabe
  * Date: 2011-05-12
  * Time: 15:34

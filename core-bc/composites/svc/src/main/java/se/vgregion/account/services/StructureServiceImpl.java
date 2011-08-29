@@ -7,7 +7,11 @@ import se.vgregion.account.services.repository.ExternalUserStructureRepository;
 import se.vgregion.account.services.util.StructureQueryUtil;
 import se.vgregion.create.domain.ExternalUserStructure;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class StructureServiceImpl implements StructureService {
 
@@ -43,11 +47,19 @@ public class StructureServiceImpl implements StructureService {
             List<ExternalUserStructure> children = (List<ExternalUserStructure>) structureRepository
                     .findByQuery("select s from ExternalUserStructure s join s.parent s2 where s2 = ?1",
                             new Object[]{externalUserStructure});
-            if (replyList.add(base)) cnt++;
-            if (cnt >= maxResults) break;
+            if (replyList.add(base)) {
+                cnt++;
+            }
+            if (cnt >= maxResults) {
+                break;
+            }
             for (ExternalUserStructure child : children) {
-                if (replyList.add(base + "/" + child.getName())) cnt++;
-                if (cnt >= maxResults) break outer;
+                if (replyList.add(base + "/" + child.getName())) {
+                    cnt++;
+                }
+                if (cnt >= maxResults) {
+                    break outer;
+                }
             }
         }
 
@@ -64,12 +76,14 @@ public class StructureServiceImpl implements StructureService {
         int i = parts.length;
         while (i > 0) {
             parent = existingStructure(Arrays.copyOf(parts, i));
-            if (parent != null) break; // existing parent found
+            if (parent != null) {
+                break; // existing parent found
+            }
             i--;
         }
 
         // create the children that were not found
-        for (int j=i; j < parts.length; j++) {
+        for (int j = i; j < parts.length; j++) {
             ExternalUserStructure child = new ExternalUserStructure();
             child.setParent(parent);
             child.setName(parts[j]);

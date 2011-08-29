@@ -14,11 +14,25 @@ public class ActivationAccountDTO implements Serializable {
     private String status;
     private String system;
 
+    /**
+     * Constructor.
+     */
     public ActivationAccountDTO() {
     }
 
-    public ActivationAccountDTO(String vgrId, String id, URL link, URL customUrl, String customMessage, String status,
-                                String system) {
+    /**
+     * Constructor.
+     * 
+     * @param vgrId vgrId
+     * @param id id
+     * @param link link
+     * @param customUrl customUrl
+     * @param customMessage customMessage
+     * @param status status
+     * @param system system
+     */
+    public ActivationAccountDTO(String vgrId, String id, URL link, URL customUrl, String customMessage,
+                                String status, String system) {
         this.vgrId = vgrId;
         this.id = id;
         this.link = link;

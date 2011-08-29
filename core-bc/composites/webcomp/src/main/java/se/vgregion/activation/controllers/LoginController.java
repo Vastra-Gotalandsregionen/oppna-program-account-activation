@@ -9,17 +9,34 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 @RequestMapping(value = "VIEW")
 public class LoginController {
 
+    /**
+     * Default handler method.
+     *
+     * @param model model
+     * @return A view
+     */
     @RenderMapping
     public String showDefaultPasswordForm(Model model) {
         return "otpLogin";
     }
 
-    @RenderMapping(params = { "loginType=otp" })
+    /**
+     * Handler method for OTP login.
+     *
+     * @param model model
+     * @return A view
+     */
+    @RenderMapping(params = {"loginType=otp"})
     public String showOtpPasswordForm(Model model) {
         return "otpLogin";
     }
 
-    @RenderMapping(params = { "loginType=domino" })
+    /**
+     * Handler method for domino login.
+     *
+     * @return A view
+     */
+    @RenderMapping(params = {"loginType=domino"})
     public String showDominoPasswordForm() {
         return "dominoLogin";
     }

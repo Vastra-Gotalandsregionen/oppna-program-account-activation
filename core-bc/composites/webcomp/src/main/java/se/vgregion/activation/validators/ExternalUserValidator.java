@@ -12,23 +12,34 @@ import java.util.regex.Pattern;
 
 public class ExternalUserValidator implements Validator {
 
-    private final static Pattern EMAIL_PATTERN = Pattern.compile(".+@.+\\.[a-z]+");
+    private final Pattern emailPattern = Pattern.compile(".+@.+\\.[a-z]+");
 
     @Override
     public boolean supports(Class<?> clazz) {
         return ExternalUserFormBean.class.equals(clazz);
     }
 
+    /**
+     * Validate the logged in user and the fields about the user that are to be invited.
+     * @param form form
+     * @param errors errors
+     * @param loggedInUser loggedInUser
+     */
     public void validateWithLoggedInUser(ExternalUserFormBean form, Errors errors, String loggedInUser) {
-        if (validateLoggedInUser(form, errors, loggedInUser)) return;
+        if (validateLoggedInUser(form, errors, loggedInUser)) {
+            return;
+        }
 
         // mandatory information provided
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "invitePreferences", "invalid.invitePreferences.missing",
                 "Invite must be specified");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "invalid.name.missing", "Name must be specified");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "surname", "invalid.surname.missing", "Surname must be specified");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "invalid.email.missing", "Email must be specified");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "invalid.name.missing",
+                "Name must be specified");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "surname", "invalid.surname.missing",
+                "Surname must be specified");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "invalid.email.missing",
+                "Email must be specified");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "externStructurePersonDn",
                 "invalid.externStructurePersonDn.missing", "Organisation must be specified");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "dateLimit",
@@ -45,7 +56,8 @@ public class ExternalUserValidator implements Validator {
             if (chosenDate.before(new Date())) {
                 errors.rejectValue("dateLimit", "invalid.dateLimit.oldDate", "The date must not be old");
             }
-            //In case it was possible to parse only because the parser was forgiving we check that it actually is the right date
+            //In case it was possible to parse only because the parser was forgiving we check that it actually is
+            // the right date
             if (!sdf.format(chosenDate).equals(form.getDateLimit())) {
                 errors.rejectValue("dateLimit", "invalid.dateLimit", "Invalid date");
             }
@@ -79,6 +91,6 @@ public class ExternalUserValidator implements Validator {
     }
 
     private boolean isEmail(String value) {
-        return EMAIL_PATTERN.matcher(value).matches();
+        return emailPattern.matcher(value).matches();
     }
 }

@@ -12,6 +12,9 @@ import se.vgregion.dao.domain.patterns.valueobject.AbstractValueObject;
 public class ActivationCode extends AbstractValueObject implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Constructor.
+     */
     public ActivationCode() {
         // To make Hibernate happy
     }
@@ -19,6 +22,11 @@ public class ActivationCode extends AbstractValueObject implements Serializable 
     @Column(name = "activationCode")
     private String value;
 
+    /**
+     * Constructor.
+     *
+     * @param value value
+     */
     public ActivationCode(String value) {
         this.value = value;
     }
@@ -27,6 +35,11 @@ public class ActivationCode extends AbstractValueObject implements Serializable 
         return value;
     }
 
+    /**
+     * Generate an <code>ActivationCode</code> with random value.
+     *
+     * @return A new <code>ActivationCode</code>.
+     */
     public static ActivationCode generate() {
         return new ActivationCode(UUID.randomUUID().toString());
     }

@@ -3,7 +3,6 @@ package se.vgregion.activation.controllers;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.messaging.MessageBusException;
 import com.liferay.portal.kernel.messaging.MessageBusUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -46,6 +45,11 @@ public class AccountActivationController {
 
     private JaxbUtil jaxbUtil = new JaxbUtil("se.vgregion.portal.activateuser");
 
+    /**
+     * Method used by Spring.
+     *
+     * @param binder binder
+     */
     @InitBinder("passwordFormBean")
     public void initBinder(WebDataBinder binder) {
         binder.setValidator(passwordMatchValidator);
@@ -53,6 +57,14 @@ public class AccountActivationController {
         binder.setValidator(dominoLoginValidator);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param otpLoginValidator         otpLoginValidator
+     * @param dominoLoginValidator      dominoLoginValidator
+     * @param passwordMatchValidator    passwordMatchValidator
+     * @param passwordStrengthValidator passwordStrengthValidator
+     */
     public AccountActivationController(Validator otpLoginValidator, Validator dominoLoginValidator,
                                        Validator passwordMatchValidator, Validator passwordStrengthValidator) {
         this.accountActivationLoginValidator = otpLoginValidator;
@@ -61,12 +73,28 @@ public class AccountActivationController {
         this.dominoLoginValidator = dominoLoginValidator;
     }
 
+    /**
+     * Handler method.
+     *
+     * @param passwordFormBean passwordFormBean
+     * @param result           result
+     * @param model            model
+     * @return A view
+     */
     @RenderMapping(params = {"activationCode"})
     public String showPasswordFormForOTP(@ModelAttribute PasswordFormBean passwordFormBean, BindingResult result,
                                          Model model) {
         return validateAndShowForm(accountActivationLoginValidator, passwordFormBean, result, model);
     }
 
+    /**
+     * Handler method.
+     *
+     * @param passwordFormBean passwordFormBean
+     * @param result           result
+     * @param response         response
+     * @param model            model
+     */
     @ActionMapping(params = {"activationCode"})
     public void activateAccountWithOTP(@ModelAttribute PasswordFormBean passwordFormBean, BindingResult result,
                                        ActionResponse response, Model model) {
@@ -75,12 +103,28 @@ public class AccountActivationController {
         setNewPassword(passwordFormBean, result, response, model, renderParams);
     }
 
+    /**
+     * Handler method.
+     *
+     * @param passwordFormBean passwordFormBean
+     * @param result           result
+     * @param model            model
+     * @return A view
+     */
     @RenderMapping(params = {"vgrId"})
     public String showPasswordFormForDominoUser(@ModelAttribute PasswordFormBean passwordFormBean,
                                                 BindingResult result, Model model) {
         return validateAndShowForm(dominoLoginValidator, passwordFormBean, result, model);
     }
 
+    /**
+     * Handler method.
+     *
+     * @param passwordFormBean passwordFormBean
+     * @param result           result
+     * @param response         response
+     * @param model            model
+     */
     @ActionMapping(params = {"vgrId"})
     public void activateAccountAsDominoUser(@ModelAttribute PasswordFormBean passwordFormBean,
                                             BindingResult result, ActionResponse response, Model model) {
@@ -90,7 +134,7 @@ public class AccountActivationController {
     }
 
     private String validateAndShowForm(Validator validator, @ModelAttribute PasswordFormBean passwordFormBean,
-                                        BindingResult result, Model model) {
+                                       BindingResult result, Model model) {
 
         // Always validate login password.
         validator.validate(passwordFormBean, result);
@@ -152,6 +196,13 @@ public class AccountActivationController {
 
     }
 
+    /**
+     * Handler method.
+     *
+     * @param passwordFormBean passwordFormBean
+     * @param model            model
+     * @return A view
+     */
     @RenderMapping(params = {"success"})
     public String success(@ModelAttribute PasswordFormBean passwordFormBean, Model model) {
         model.asMap().clear();
@@ -161,16 +212,26 @@ public class AccountActivationController {
         return "successForm";
     }
 
+    /**
+     * Handler method.
+     *
+     * @param failureCode      failureCode
+     * @param failureArguments failureArguments
+     * @param passwordFormBean passwordFormBean
+     * @param model            model
+     * @return A view
+     */
     @RenderMapping(params = {"failure"})
     public String failure(@RequestParam(value = "failure") String failureCode,
-            @RequestParam(value = "failureArguments", required = false) String failureArguments,
-            @ModelAttribute PasswordFormBean passwordFormBean, Model model) {
+                          @RequestParam(value = "failureArguments", required = false) String failureArguments,
+                          @ModelAttribute PasswordFormBean passwordFormBean, Model model) {
         model.addAttribute("message", failureCode);
         model.addAttribute("messageArguments", failureArguments);
         return "failureForm";
     }
 
-    private void callSetPassword(PasswordFormBean passwordFormBean) throws ActivateUserFailedException, MessageBusException {
+    private void callSetPassword(PasswordFormBean passwordFormBean) throws ActivateUserFailedException,
+            MessageBusException {
         String activationCode = passwordFormBean.getActivationCode();
         ActivationAccount activationAccount = accountService.getAccount(new ActivationCode(activationCode));
 
@@ -187,14 +248,15 @@ public class AccountActivationController {
 
         ActivateUserResponse activateUserResponse;
 
-        Object response = MessageBusUtil.sendSynchronousMessage("vgr/account_activation", message, 7000);
+        final int timeout = 7000;
+        Object response = MessageBusUtil.sendSynchronousMessage("vgr/account_activation", message, timeout);
         if (response instanceof Exception) {
             throw new MessageBusException((Exception) response);
         } else if (response instanceof String) {
             activateUserResponse = jaxbUtil.unmarshal((String) response);
         } else {
-            throw new MessageBusException("Unknown response type: " +
-                    response == null ? "null" : response.getClass().getName());
+            throw new MessageBusException("Unknown response type: "
+                    + response == null ? "null" : response.getClass().getName());
         }
 
         if (activateUserResponse.getStatusCode() != ActivateUserStatusCodeType.SUCCESS) {

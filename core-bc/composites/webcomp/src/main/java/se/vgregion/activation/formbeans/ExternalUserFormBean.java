@@ -128,16 +128,17 @@ public class ExternalUserFormBean implements Serializable {
 
     @Override
     public String toString() {
-        return "ExternalUserFormBean{" +
-                "name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", externStructurePersonDn=" + (externStructurePersonDn == null ? null : Arrays.asList(externStructurePersonDn)) +
-                ", userType='" + userType + '\'' +
-                ", vgrId='" + vgrId + '\'' +
-                ", sponsorVgrId='" + sponsorVgrId + '\'' +
-                ", sponsorFullName='" + sponsorFullName + '\'' +
-                '}';
+        return "ExternalUserFormBean{"
+                + "name='" + name + '\''
+                + ", surname='" + surname + '\''
+                + ", email='" + email + '\''
+                + ", phone='" + phone + '\''
+                + ", externStructurePersonDn="
+                + (externStructurePersonDn == null ? null : Arrays.asList(externStructurePersonDn))
+                + ", userType='" + userType + '\''
+                + ", vgrId='" + vgrId + '\''
+                + ", sponsorVgrId='" + sponsorVgrId + '\''
+                + ", sponsorFullName='" + sponsorFullName + '\''
+                + '}';
     }
 }

@@ -22,16 +22,17 @@ public class PasswordStrengthValidator implements Validator {
 
 
         if (!errors.hasErrors()) {
-            if (password.length() < 6) {
+            final int i = 6;
+            if (password.length() < i) {
                 errors.rejectValue("password", "code.password.length", "Lösenordet måste vara minst sex tecken");
             }
             if (!password.matches("[a-zA-Z0-9]*")) {
-                errors.rejectValue("password", "code.password.illegal.characters", "Lösenordet får bara innehålla " +
-                        "bokstäver och siffror");
+                errors.rejectValue("password", "code.password.illegal.characters", "Lösenordet får bara innehålla "
+                        + "bokstäver och siffror");
             }
-            if (!(password.matches(".*[a-zA-Z]+.*") && password.matches(".*[0-9]+.*")) ) {
-                errors.rejectValue("password", "code.password.min.complexity", "Lösenordet måste innehålla " +
-                        "både bokstäver och siffror");
+            if (!(password.matches(".*[a-zA-Z]+.*") && password.matches(".*[0-9]+.*"))) {
+                errors.rejectValue("password", "code.password.min.complexity", "Lösenordet måste innehålla "
+                        + "både bokstäver och siffror");
             }
         }
     }

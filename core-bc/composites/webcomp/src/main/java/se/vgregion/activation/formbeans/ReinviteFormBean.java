@@ -80,7 +80,7 @@ public class ReinviteFormBean {
     }
 
     public void setCustomUrl(String customUrl) {
-        this.customUrl=customUrl;
+        this.customUrl = customUrl;
     }
 
     public String getCustomMessage() {

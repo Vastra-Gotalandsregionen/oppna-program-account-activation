@@ -14,7 +14,7 @@ import se.vgregion.activation.formbeans.PasswordFormBean;
 
 public class AccountActivationLoginValidator implements Validator {
     @Resource
-    AccountService accountService;
+    private AccountService accountService;
 
     @Override
     public boolean supports(Class<?> clazz) {
