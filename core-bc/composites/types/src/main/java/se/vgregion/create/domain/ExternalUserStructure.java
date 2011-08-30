@@ -17,6 +17,8 @@ import java.io.Serializable;
 @Table(name = "vgr_activation_external_user_structure")
 public class ExternalUserStructure extends AbstractEntity<Long> implements Serializable {
 
+    private static final long serialVersionUID = 4224372736874731907L;
+
     /**
      * Constructor.
      */

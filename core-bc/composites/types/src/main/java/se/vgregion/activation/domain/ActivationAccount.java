@@ -118,9 +118,7 @@ public class ActivationAccount extends AbstractEntity<ActivationCode> implements
      * @param expireDate expireDate
      */
     public void setExpireDate(Date expireDate) {
-        if (expireDate == null) {
-            expireDate = null;
-        } else {
+        if (expireDate != null) {
             this.expire = new Date(expireDate.getTime());
         }
     }
