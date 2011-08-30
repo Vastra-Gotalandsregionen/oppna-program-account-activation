@@ -112,7 +112,7 @@ public class ActivationCodeService {
     @Consumes("application/xml")
     public ActivationCode createActivationCodeXml(InviteUser inviteUser) {
         try {
-            return accountService.createAccount(inviteUser.getUserId(), inviteUser.getCustomURL().toString(),
+            return accountService.createAccount(inviteUser.getUserId(), inviteUser.getCustomURL(),
                     inviteUser.getCustomMessage(), inviteUser.getSystem());
         } catch (DataAccessException e) {
             LOGGER.warn("Failed to create account.");

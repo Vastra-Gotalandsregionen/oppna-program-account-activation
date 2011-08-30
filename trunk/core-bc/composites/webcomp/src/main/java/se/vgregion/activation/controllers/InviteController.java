@@ -80,11 +80,14 @@ public class InviteController {
         binder.registerCustomEditor(InvitePreferences.class, invitePreferencesPropertyEditor);
     }
 
-    //Checking if this method is unnecessary.
-    /*@ModelAttribute("externalUserFormBean")
+    /**
+     * Called by Spring since "externalUserFormBean" is session-scoped.
+     * @return A new {@link ExternalUserFormBean}
+     */
+    @ModelAttribute("externalUserFormBean")
     public ExternalUserFormBean populate() {
         return new ExternalUserFormBean();
-    }*/
+    }
 
     /**
      * Default handler method when no parameters are passed before showing the invite form.

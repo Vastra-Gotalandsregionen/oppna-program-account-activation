@@ -26,7 +26,6 @@ public class StructureQueryUtil {
         StringBuilder whereClause = new StringBuilder("where ");
         int length = queryParts.length;
         for (int i = 0; i < length - 1; i++) {
-            String queryPart = queryParts[i];
             StringBuilder joinClause = new StringBuilder("join s");
             for (int j = length - 1; j > i; j--) {
                 joinClause.append(".parent");
