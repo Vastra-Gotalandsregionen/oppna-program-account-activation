@@ -17,7 +17,6 @@ import se.vgregion.activation.domain.ActivationCode;
 @Service("accountService")
 public class AccountServiceImpl implements AccountService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AccountServiceImpl.class);
     private final ActivationAccountRepository repository;
 
     /**

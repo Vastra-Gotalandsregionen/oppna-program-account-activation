@@ -23,6 +23,7 @@ public class InvitePreferencesService {
 
     /**
      * Merge an instance.
+     *
      * @param invitePreferences The instance to be merged.
      * @return The merged instance.
      */
@@ -33,22 +34,28 @@ public class InvitePreferencesService {
 
     /**
      * Find all <code>InvitePreferences</code>s in the repository.
+     *
      * @return All <code>InvitePreferences</code>s in the repository.
      */
     public List<InvitePreferences> findAll() {
         List<InvitePreferences> preferenceses = (List<InvitePreferences>) invitePreferencesRepository.findAll();
-        Collections.sort(preferenceses, new Comparator<InvitePreferences>() {
-            @Override
-            public int compare(InvitePreferences o1, InvitePreferences o2) {
-                return o1.getTitle().toLowerCase().compareTo(o2.getTitle().toLowerCase());
-            }
-        });
+        Collections.sort(preferenceses, new InvitePreferencesComparator());
 
         return preferenceses;
     }
 
+    //This is more efficient than having an anonymous class.
+    private static class InvitePreferencesComparator implements Comparator<InvitePreferences> {
+
+        @Override
+        public int compare(InvitePreferences o1, InvitePreferences o2) {
+            return o1.getTitle().toLowerCase().compareTo(o2.getTitle().toLowerCase());
+        }
+    }
+
     /**
      * Find an <code>InvitePreferences</code>.
+     *
      * @param id id
      * @return The <code>InvitePreferences</code> with the given id.
      */
@@ -58,6 +65,7 @@ public class InvitePreferencesService {
 
     /**
      * Removes an <code>InvitePreferences</code> with the given id.
+     *
      * @param id id
      */
     @Transactional
@@ -67,6 +75,7 @@ public class InvitePreferencesService {
 
     /**
      * Find an <code>InvitePreferences</code> by title.
+     *
      * @param title title
      * @return An <code>InvitePreferences</code> with the given title.
      */
@@ -85,6 +94,7 @@ public class InvitePreferencesService {
 
     /**
      * Find an <code>InvitePreferences</code> by customerUrl.
+     *
      * @param customUrl customUrl
      * @return An <code>InvitePreferences</code> with the given customUrl.
      */
