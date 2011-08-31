@@ -17,6 +17,7 @@ import org.mockito.stubbing.Answer;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.springframework.ui.ExtendedModelMap;
+import org.springframework.ui.Model;
 import se.vgregion.account.services.AccountService;
 import se.vgregion.account.services.InvitePreferencesService;
 import se.vgregion.activation.domain.ActivationAccount;
@@ -29,6 +30,7 @@ import se.vgregion.ldapservice.SimpleLdapUser;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,6 +60,33 @@ public class ReinviteControllerTest {
     public void setup() {
         PowerMockito.mockStatic(MessageBusUtil.class);
         MessageBusUtil.init(mock(MessageBus.class), mock(MessageSender.class), mock(SynchronousMessageSender.class));
+    }
+
+    @Test
+    public void testView() {
+
+        ArrayList<ActivationAccount> validAccounts = new ArrayList<ActivationAccount>();
+        validAccounts.add(new ActivationAccount("vgrid"));
+        when(accountService.getAllValidAccounts()).thenReturn(validAccounts);
+
+        ArrayList<ActivationAccount> expiredAccounts = new ArrayList<ActivationAccount>();
+        expiredAccounts.add(new ActivationAccount("expiredVgrId"));
+        when(accountService.getExpiredUnusedAccounts(anyInt(), anyInt())).thenReturn(expiredAccounts);
+
+        PortletRequest portletRequest = mock(PortletRequest.class);
+        HashMap<String, String> userInfo = new HashMap<String, String>();
+        userInfo.put(PortletRequest.P3PUserInfos.USER_LOGIN_ID.toString(), "loggedInUserId");
+        when(portletRequest.getAttribute(PortletRequest.USER_INFO)).thenReturn(userInfo);
+
+        Model model = mock(Model.class);
+
+        //go
+        reinviteController.view(model, portletRequest);
+
+        //verify
+        verify(model).addAttribute(eq("accounts"), anyCollectionOf(ReinviteFormBean.class));
+        verify(model).addAttribute(eq("expiredAccounts"), anyCollectionOf(ReinviteFormBean.class));
+        
     }
 
     @Test
