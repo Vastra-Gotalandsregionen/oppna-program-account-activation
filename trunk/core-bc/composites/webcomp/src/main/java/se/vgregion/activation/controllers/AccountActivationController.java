@@ -182,6 +182,7 @@ public class AccountActivationController {
     }
 
     private void handleMessageBusException(MessageBusException e, ActionResponse response) {
+        e.printStackTrace();
         Throwable rootCause = e.getCause();
         if (rootCause instanceof ConnectException) {
             response.setRenderParameter("failure", "connection.failed");
