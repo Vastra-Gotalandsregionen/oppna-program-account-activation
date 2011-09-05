@@ -61,13 +61,12 @@ public class ActivationCodeService {
     @Value("${pathToActivation}")
     private String pathToActivation;
 
-    private AccountService accountService;
+    private AccountService accountService = null;
 
     /**
      * Default constructor.
      */
     public ActivationCodeService() {
-        this.accountService = null;
     }
 
     /**
