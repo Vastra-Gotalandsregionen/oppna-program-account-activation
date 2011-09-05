@@ -2,23 +2,42 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xmlns:http="http://cxf.apache.org/transports/http/configuration"
+       xmlns:sec="http://cxf.apache.org/configuration/security"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-       http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
+       http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+       http://cxf.apache.org/transports/http/configuration
+       http://cxf.apache.org/schemas/configuration/http-conf.xsd
+       http://cxf.apache.org/configuration/security
+       http://cxf.apache.org/schemas/configuration/security.xsd">
 
   <import resource="classpath:META-INF/cxf/cxf.xml"/>
   <import resource="classpath:META-INF/cxf/cxf-extension-jaxrs-binding.xml"/>
   <import resource="classpath:META-INF/cxf/cxf-extension-http-jetty.xml"/>
 
-  <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+  <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
 
   <!-- Client -->
-  <jaxrs:client id="client" address="http://localhost:8989"
+  <jaxrs:client id="client" address="https://localhost:8989"
                 serviceClass="se.vgregion.activation.rest.ActivationCodeService"
-                >
+                name="restuser" username="restuser" password="restuser">
+    <!--<jaxrs:headers>
+      <entry key="Authorization" value="Basic cmVzdHVzZXI6cmVzdHVzZXI="/>
+    </jaxrs:headers>-->
     <jaxrs:providers>
-      <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
+      <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
     </jaxrs:providers>
   </jaxrs:client>
 
+  <http:conduit name="https://localhost:8989/.*">
+    <http:tlsClientParameters disableCNCheck="true">
+      <sec:trustManagers>
+        <sec:keyStore type="jks" password="clientpass" resource="cert/clienttruststore.jks"/>
+      </sec:trustManagers>
+      <sec:keyManagers keyPassword="clientpass">
+        <sec:keyStore type="jks" password="clientpass" resource="cert/clientkeystore.jks"/>
+      </sec:keyManagers>
+    </http:tlsClientParameters>
+  </http:conduit>
 </beans>
