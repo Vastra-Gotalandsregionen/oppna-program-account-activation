@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mortbay.jetty.handler.DefaultHandler;
 import org.mortbay.jetty.handler.RequestLogHandler;
+import org.mortbay.jetty.security.SslSocketConnector;
 import org.mortbay.jetty.servlet.Context;
 import org.mortbay.jetty.servlet.ServletHandler;
 import org.mortbay.jetty.servlet.ServletHolder;
@@ -45,7 +46,7 @@ public class ActivationCodeServiceTest {
 
     @Autowired
     @Qualifier(value = "client")
-    private ActivationCodeService activationCodeService;
+    private ActivationCodeService activationCodeProxyService;
 
     private org.mortbay.jetty.Server jettyServer;
 
@@ -66,20 +67,20 @@ public class ActivationCodeServiceTest {
 
     @Test
     public void testAllActivationCode() {
-        Collection<ActivationAccountDTO> allActivationCodes = activationCodeService.getAllActivationCode();
+        Collection<ActivationAccountDTO> allActivationCodes = activationCodeProxyService.getAllActivationCode();
 
         assertEquals(2, allActivationCodes.size());
     }
 
     @Test
     public void testGetActivationCode() throws MalformedURLException {
-        ActivationAccountDTO activationAccountDTO = activationCodeService.getActivationCode("id1");
+        ActivationAccountDTO activationAccountDTO = activationCodeProxyService.getActivationCode("id1");
         assertEquals(activationAccountDTO.getCustomUrl(), new URL("http://example.com"));
     }
 
     @Test
     public void testGetActivationFormUrl() throws InterruptedException {
-        String activationFormUrl = activationCodeService.getActivationFormUrl(new ActivationCode("anyValue"));
+        String activationFormUrl = activationCodeProxyService.getActivationFormUrl(new ActivationCode("anyValue"));
         assertTrue(activationFormUrl.contains("anyValue"));
 
     }
@@ -94,7 +95,9 @@ public class ActivationCodeServiceTest {
         SpringBusFactory bf = new SpringBusFactory();
         final Bus customBus = bf.createBus("testContext-web.xml");
 
-        jettyServer = new org.mortbay.jetty.Server(8989);
+        jettyServer = new org.mortbay.jetty.Server();
+
+        setupSslSocketConnector();
 
         Context context = new Context();
         context.setContextPath("/");
@@ -126,5 +129,19 @@ public class ActivationCodeServiceTest {
         jettyServer.addHandler(new DefaultHandler());
         jettyServer.addHandler(new RequestLogHandler());
         jettyServer.start();
+    }
+
+    private void setupSslSocketConnector() {
+        SslSocketConnector sslSocketConnector = new SslSocketConnector();
+        sslSocketConnector.setPort(8989);
+        sslSocketConnector.setNeedClientAuth(true);
+
+        String serverKeystore = this.getClass().getClassLoader().getResource("cert/serverkeystore.jks").getPath();
+        sslSocketConnector.setKeystore(serverKeystore);
+        sslSocketConnector.setKeyPassword("serverpass");
+        String serverTruststore = this.getClass().getClassLoader().getResource("cert/servertruststore.jks").getPath();
+        sslSocketConnector.setTruststore(serverTruststore);
+        sslSocketConnector.setTrustPassword("serverpass");
+        jettyServer.addConnector(sslSocketConnector);
     }
 }
