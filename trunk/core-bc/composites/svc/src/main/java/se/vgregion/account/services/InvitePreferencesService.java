@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import se.vgregion.account.services.repository.InvitePreferencesRepository;
 import se.vgregion.create.domain.InvitePreferences;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -45,7 +46,7 @@ public class InvitePreferencesService {
     }
 
     //This is more efficient than having an anonymous class.
-    private static class InvitePreferencesComparator implements Comparator<InvitePreferences> {
+    private static class InvitePreferencesComparator implements Comparator<InvitePreferences>, Serializable {
 
         @Override
         public int compare(InvitePreferences o1, InvitePreferences o2) {
