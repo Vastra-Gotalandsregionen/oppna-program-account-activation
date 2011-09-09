@@ -9,12 +9,13 @@
 
   <import resource="messagebus-common.xml" />
 
+  <bean class="se.vgregion.activation.camel.CamelInit" init-method="init"/>
+
   <camelContext xmlns="http://camel.apache.org/schema/spring">
 
     <routeBuilder ref="createRoutes"/>
 
   </camelContext>
-
 
   <bean id="createRoutes" class="se.vgregion.routes.MessagebusRestRouteBuilder">
     <constructor-arg index="0" value="${create.messagebus.destination}"/>
@@ -27,6 +28,7 @@
         init-method="afterPropertiesSet">
     <property name="name" value="${create.messagebus.destination}"/>
   </bean>
+
   <!-- Configurator -->
 
   <bean id="messagingConfigurator.core"

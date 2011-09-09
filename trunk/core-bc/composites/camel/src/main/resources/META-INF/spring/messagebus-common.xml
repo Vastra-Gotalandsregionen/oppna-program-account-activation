@@ -10,7 +10,7 @@
     <property name="locations">
       <list>
         <value>classpath:META-INF/camel.properties</value>
-        <value>classpath:security.properties</value>
+        <value>classpath*:security.properties</value>
       </list>
     </property>
   </bean>
@@ -38,5 +38,4 @@
 
   <bean id="log" class="org.apache.camel.component.log.LogComponent"/>
 
-  <!-- SITHS-CA cert has to be available in java truststore for ssl communication -->
 </beans>
