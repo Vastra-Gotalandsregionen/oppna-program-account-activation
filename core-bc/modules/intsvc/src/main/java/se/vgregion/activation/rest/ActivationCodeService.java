@@ -211,7 +211,7 @@ public class ActivationCodeService {
         } else if (account.currentStatus() != ActivationAccountStatus.OK) {
             throw new WebApplicationException(Response.Status.BAD_REQUEST);
         }
-        return pathToActivation + "&activationCode=" + id.getValue();
+        return pathToActivation + "activationCode=" + id.getValue();
     }
 
 }
