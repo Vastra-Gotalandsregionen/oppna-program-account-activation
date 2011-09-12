@@ -1,1 +1,0 @@
-drop table vgr_activation_external_user_structure;
