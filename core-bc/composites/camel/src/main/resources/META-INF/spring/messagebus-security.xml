@@ -36,10 +36,10 @@
     </http:tlsClientParameters>
   </http:conduit>
 
-  <http:conduit name="https://esbtest.vgregion.se:63080/.*">
+  <http:conduit name="https://vgms0141.vgregion.se:40102/.*">
     <http:tlsClientParameters disableCNCheck="true">
       <sec:trustManagers>
-        <sec:keyStore type="jks" password="changeit" resource="META-INF/esbtest.vgregion.se.ts"/>
+        <sec:keyStore type="jks" password="changeit" resource="META-INF/SITHS.ts"/>
       </sec:trustManagers>
       <!-- It is possible to add a keyManager for mutual authentication. -->
       <!--<sec:keyManagers keyPassword="clientpass">
@@ -48,10 +48,10 @@
     </http:tlsClientParameters>
   </http:conduit>
 
-  <http:conduit name="https://esbtest.vgregion.se:63090/.*">
+  <http:conduit name="https://vgms0141.vgregion.se:40102/.*">
     <http:tlsClientParameters disableCNCheck="true">
       <sec:trustManagers>
-        <sec:keyStore type="jks" password="changeit" resource="META-INF/esbtest.vgregion.se.ts"/>
+        <sec:keyStore type="jks" password="changeit" resource="META-INF/SITHS.ts"/>
       </sec:trustManagers>
       </http:tlsClientParameters>
   </http:conduit>
