@@ -36,7 +36,7 @@
     </http:tlsClientParameters>
   </http:conduit>
 
-  <http:conduit name="https://vgms0141.vgregion.se:40102/.*">
+  <http:conduit name="https://vgms0141.vgregion.se:40103/.*">
     <http:tlsClientParameters disableCNCheck="true">
       <sec:trustManagers>
         <sec:keyStore type="jks" password="changeit" resource="META-INF/SITHS.ts"/>
@@ -48,13 +48,13 @@
     </http:tlsClientParameters>
   </http:conduit>
 
-  <http:conduit name="https://vgms0141.vgregion.se:40102/.*">
+  <!--<http:conduit name="https://vgms0141.vgregion.se:40102/.*">
     <http:tlsClientParameters disableCNCheck="true">
       <sec:trustManagers>
         <sec:keyStore type="jks" password="changeit" resource="META-INF/SITHS.ts"/>
       </sec:trustManagers>
       </http:tlsClientParameters>
-  </http:conduit>
+  </http:conduit>-->
 
 
 </beans>
