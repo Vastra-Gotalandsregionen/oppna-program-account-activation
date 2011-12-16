@@ -7,6 +7,8 @@ Authorization are not handled per se, but user type can be used by the systems t
 
 = The invitation flow =
 
+[http://oppna-program-account-activation.googlecode.com/svn/wiki/AA-Workflow.png]
+
 A manager need to invite a user to a system - this could for instance be a consultant who needs access to an Alfresco Workspace.
  * The manager fills out a form with the new user's information - for an external user. The email adress are used as unique identifier.
  * A backing service are called which: 
