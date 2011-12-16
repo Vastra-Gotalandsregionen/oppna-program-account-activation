@@ -1,4 +1,5 @@
 #summary The rest interface for account activation service
+#sidebar TableOfContents
 
 = Rest interface =
 
