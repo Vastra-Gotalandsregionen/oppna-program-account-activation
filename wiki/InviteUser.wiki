@@ -1,4 +1,5 @@
 #summary Form for inviting external users.
+#sidebar TableOfContents
 
 = Invite user form =
 
