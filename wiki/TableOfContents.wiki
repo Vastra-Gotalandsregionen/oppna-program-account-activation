@@ -2,14 +2,12 @@
 
  * Clients
     * [OverviewClient Overview]
-    * [http://code.google.com/p/oppna-program-account-activation/wiki/InviteUser Invite User] (Manager, Administrator)
-    * [http://code.google.com/p/oppna-program-account-activation/wiki/ActivateUser Activate User] (User)
-    * [http://code.google.com/p/oppna-program-account-activation/wiki/ReinviteUser Reinvite user] (Manager)
-    * [http://code.google.com/p/oppna-program-account-activation/wiki/InstallationAndConfiguration Installation and configuration]
-
- * Account Activation Service
-    * Activation Code
-      * [http://code.google.com/p/oppna-program-account-activation/wiki/OverviewService Rest interface]
-    * External Organization
-      * [http://code.google.com/p/oppna-program-account-activation/wiki/OverviewExtranalOrganization Rest interface]
-    * Installation and configuration
+    * [InviteUser Invite User] (Manager, Administrator)
+    * [ActivateUser Activate User] (User)
+    * [ReinviteUser Reinvite user] (Manager)
+    * [InstallationAndConfiguration Installation and configuration]
+ * Activation Code Service
+    * [OverviewService Rest interface]
+ * External Organization Service
+    * [OverviewExtranalOrganization Rest interface]
+ 
