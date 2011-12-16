@@ -1,4 +1,5 @@
 #summary A portlet for activating an invited user.
+#sidebar TableOfContents
 
 = Introduction =
 
