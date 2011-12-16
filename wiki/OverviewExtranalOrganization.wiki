@@ -3,8 +3,11 @@
 
 = Introduction =
 
-Add your content here.
+It is very risky to allow end users to enter free-text when specifying hierarchical information.
 
+On the "Invite user"-form information of which organization the invitee comes from can be provided. To make this free text more manageable an service has been created that records all previous entries, and then allow fuzzy matching in a dropdown when entering new values.
+This makes it easy to select a company name for an invited user if someone from the same company previously has been invited.
+It also provides for the possibility to check auditing of company names.
 
 = Details =
 
