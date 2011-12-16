@@ -6,6 +6,7 @@
     <groupId>se.vgregion.oppna-program-account-activation</groupId>
     <artifactId>oppna-program-account-activation-core-bc</artifactId>
     <version>1.1-SNAPSHOT</version>
+    <relativePath>../../pom.xml</relativePath>
   </parent>
   <groupId>se.vgregion.oppna-program-account-activation</groupId>
   <artifactId>oppna-program-account-activation-core-bc-composite-svc</artifactId>
