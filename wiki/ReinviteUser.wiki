@@ -1,4 +1,5 @@
 #summary Manger can issue a reinvite for external users.
+#sidebar TableOfContents
 
 = Introduction =
 
