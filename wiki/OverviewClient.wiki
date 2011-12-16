@@ -1,4 +1,5 @@
 #summary Big picture of the who's and how's for inviting new users.
+#sidebar TableOfContents
 
 = Introduction =
 
