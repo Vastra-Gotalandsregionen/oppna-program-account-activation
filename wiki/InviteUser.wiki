@@ -1,6 +1,6 @@
-#summary Generic form for creating and inviting new external users.
+#summary Form for inviting external users.
 
-= Screenshot =
+= Invite user form =
 
 <img src="http://oppna-program-account-activation.googlecode.com/svn/wiki/InviteUser.png" width="600"/>
 
@@ -21,7 +21,9 @@ User access will only be granted for a specified time period. The form defaults 
 The person doing the invite (sponsor) is responsible for the person he/she invites and prolonged access can be decided by the sponsor. Only non-external users are allowed to be sponsors.
 
 = Administration =
-When logged in as a portal administrator you can enter the edit mode which allows you to add and change systems.
+It is possible to do some basic configuration of the user invitation process. This configuration is mainly aimed at what is communicated to the user who is invited (i.e. mail message and links to follow when the invited user has activated his account).
+
+When logged in as a portal administrator you can enter the edit mode which allows you to add and change systems. A system can be any tool in the organization where a user need an account to acquire access.
 
 <img src="http://oppna-program-account-activation.googlecode.com/svn/wiki/BjudIn1.png" width="400"/>
 
