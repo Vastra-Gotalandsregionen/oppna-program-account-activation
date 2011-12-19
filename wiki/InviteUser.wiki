@@ -7,7 +7,8 @@ An invitation can be issued by anyone currently employed in the organization. Th
 
 = Invite user form =
 
-To invite a user you first have to supply 
+To invite a user you first have to supply a unique identifier for the user and som further information about the user. As unique identifier we use the email adress. This makes it possible to first check if the person invited already exist in the catalog service. 
+
 <img src="http://oppna-program-account-activation.googlecode.com/svn/wiki/InviteUser.png" width="600"/>
 
 The fields marked with (`*`) are mandatory.
