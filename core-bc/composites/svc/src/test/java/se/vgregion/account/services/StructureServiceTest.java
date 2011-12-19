@@ -52,7 +52,7 @@ public class StructureServiceTest extends AbstractTransactionalJUnit4SpringConte
 
     @Before
     public void setUp() throws Exception {
-        executeSqlScript("classpath:dbSetup/test-data-structure.sql", false);
+        executeSqlScript("classpath:dbsetup/test-data-structure.sql", false);
     }
     @After
     public void tearDown() throws Exception {
