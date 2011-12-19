@@ -3,9 +3,11 @@
 
 = Invite user =
 
-Inviting users are targeted at _Project Managers/Members_.
+Inviting users are targeted at *_Project Managers/Members_*.
 
 An invitation can be issued by anyone currently employed in the organization. This restriction is enforced by the backend integration service and it is possible to adopt this rule to what is needed in your organization.
+
+Information of person who issues the invitation are saved and can be used as a reference when auditing people's access. Since we use a self administration model for granting access to external users it is important to have a reference person that can decide if the invited person still need access on the yearly audit.
 
 = Invite user form =
 
@@ -31,7 +33,7 @@ The person doing the invite (sponsor) is responsible for the person he/she invit
 
 = Administration =
 
-Administration of the invitation process are targeted at _Portal System Administrators_.
+Administration of the invitation process are targeted at *_Portal Administrators_*.
 
 It is possible to do some basic configuration of the user invitation process. This configuration is mainly aimed at what is communicated to the user who is invited (i.e. mail message and links to follow when the invited user has activated his account).
 
