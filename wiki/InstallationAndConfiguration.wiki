@@ -8,11 +8,15 @@ The configuration can basically be divided into three parts:
   * Camel
   * Database
 
+Backend
+  * [http://smwiki.vgregion.se/index.php/Portal_-_Externa_Anv%C3%A4ndare Backend documentation]
+
 == LDAP ==
 The LDAP configuration can be found in webcomp in the ldap-configuration.properties and security.properties files.
 
 == Camel ==
 The Camel configuration consists of two parts: the internal messagebus destinations and the external endpoints. In addition, the JMS brokerURL has to be given. The Account Activation portlets communicate with three different server services. Each service is configured separately. The configuration is found in the camel project in the file camel.properties.
+Communication with the backend are done over mutual trusted SSL which makes it necessary to exchange public certificates between the backend system and the account activation system. This configuration is handled in security.properties.  
 
 == Database ==
 The database JNDI connection is configured in the Tomcat server.xml file. 
