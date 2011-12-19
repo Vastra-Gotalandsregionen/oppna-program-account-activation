@@ -1,8 +1,13 @@
 #summary Form for inviting external users.
 #sidebar TableOfContents
 
+= Invite user =
+
+An invitation can be issued by anyone currently employed in the organization. This restriction is enforced by the backend integration service and it is possible to adopt this rule to what is needed in your organization.
+
 = Invite user form =
 
+To invite a user you first have to supply 
 <img src="http://oppna-program-account-activation.googlecode.com/svn/wiki/InviteUser.png" width="600"/>
 
 The fields marked with (`*`) are mandatory.
