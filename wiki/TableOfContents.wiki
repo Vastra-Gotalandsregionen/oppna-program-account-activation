@@ -7,7 +7,7 @@
     * [ReinviteUser Reinvite user] (Manager)
     * [InstallationAndConfiguration Installation and configuration]
  * Activation Code Service
-    * [OverviewActivationCodeService]
+    * [OverviewActivationCodeService Introduction]
     * [OverviewService Rest interface]
  * External Organization Service
     * [OverviewExtranalOrganization Rest interface]
