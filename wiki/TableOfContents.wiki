@@ -10,5 +10,6 @@
     * [OverviewActivationCodeService Introduction]
     * [OverviewService Rest interface]
  * External Organization Service
-    * [OverviewExtranalOrganization Rest interface]
+    * [OverviewExtranalOrganization Introduction]
+    * [ExternalOrganizationRest Rest Interface] 
  
