@@ -4,6 +4,7 @@
 = Invite user =
 
 Inviting users are targeted at _Project Managers/Members_.
+
 An invitation can be issued by anyone currently employed in the organization. This restriction is enforced by the backend integration service and it is possible to adopt this rule to what is needed in your organization.
 
 = Invite user form =
@@ -31,6 +32,7 @@ The person doing the invite (sponsor) is responsible for the person he/she invit
 = Administration =
 
 Administration of the invitation process are targeted at _Portal System Administrators_.
+
 It is possible to do some basic configuration of the user invitation process. This configuration is mainly aimed at what is communicated to the user who is invited (i.e. mail message and links to follow when the invited user has activated his account).
 
 When logged in as a portal administrator you can enter the edit mode which allows you to add and change systems. A system can be any tool in the organization where a user need an account to acquire access.
