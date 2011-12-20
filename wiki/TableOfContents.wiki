@@ -1,15 +1,15 @@
 #summary One-sentence summary of this page.
 
- * Clients
+ * [OverviewClient Clients]
     * [OverviewClient Overview]
     * [InviteUser Invite User] (Manager, Administrator)
     * [ActivateUser Activate User] (User)
     * [ReinviteUser Reinvite user] (Manager)
     * [InstallationAndConfiguration Installation and configuration]
- * Activation Code Service
+ * [OverviewActivationCodeService Activation Code Service]
     * [OverviewActivationCodeService Introduction]
     * [OverviewService Rest interface]
- * External Organization Service
+ * [OverviewExtranalOrganization External Organization Service]
     * [OverviewExtranalOrganization Introduction]
     * [ExternalOrganizationRest Rest Interface] 
  
