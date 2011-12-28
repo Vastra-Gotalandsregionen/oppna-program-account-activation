@@ -18,8 +18,9 @@ A manager need to invite a user to a system - this could for instance be a consu
  # Sends an email with the ActivationCode to the specified email adress
  # On receiving the email, the invited user can directly click the invite-link to set his/her password.
  # A backing service will validate:
-    * the activation code
-    * password strength
-    * and finally send a confirmation mail directing the user to the service he/she was invited to
+    * the activation code (has it been used, or is it too old)
+    * password strength 
+    * then, set the user password in the backend-catalog
+    * and finally, send a confirmation mail directing the user to the service he/she was invited to
 
-The manager can issue a re-invite (Notify) that will send the invitation email again.      
+The manager can re-issue an invite (Notify) that will send the invitation email again. But once the activation code has been used, it cannot be reused again.     
