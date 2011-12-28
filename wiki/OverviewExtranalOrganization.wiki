@@ -3,7 +3,7 @@
 
 = Introduction =
 
-End users should not be able to enter hierarchical free-text information unassisted.
+End users should not be left to enter hierarchical free-text information unassisted.
 
 On the "Invite user"-form, invitee organization is such a field. We do not have a registry to pick organization/unit, so free-text is the only option. 
 
