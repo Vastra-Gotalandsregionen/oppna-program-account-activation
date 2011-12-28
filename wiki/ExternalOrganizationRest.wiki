@@ -7,7 +7,7 @@ The External Organization service is a RESTful service exposing the following me
   * GET, /search
     * Fetch all organizations matching the query, including one level up and down.
     * {{{curl --get localhost:8080/account-activation-service/external-org/search?query=Te}}}
-      <code>[ "Test", "Test/testAvd" ]</code>
+      <code>[ "Test", "Test/TestAvd" ]</code>
   * PUT, /save
     * Store a new organization value, duplicates are ignored and hierarchy are surmised from the character '/' 
-    * {{{curl --request PUT localhost:8080/account-activation-service/external-org/save?organization=Test/testAvd}}}
+    * {{{curl --request PUT localhost:8080/account-activation-service/external-org/save?organization=Test/TestAvd}}}
