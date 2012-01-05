@@ -24,3 +24,5 @@ A manager need to invite a user to a system - this could for instance be a consu
     * and finally, send a confirmation mail directing the user to the service he/she was invited to
 
 The manager can re-issue an invite (Notify) that will send the invitation email again. But once the activation code has been used, it cannot be reused again.     
+
+[InviteUser Next - Invite User]
