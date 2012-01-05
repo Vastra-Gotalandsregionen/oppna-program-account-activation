@@ -1,6 +1,8 @@
 #summary The rest interface for account activation service
 #sidebar TableOfContents
 
+[OverviewActivationCodeService [Previous]] [OverviewExtranalOrganization [Next]]
+
 = Rest interface =
 
 The Account Activation service is a RESTful service exposing the following methods (the http method and the relative path is given in the list):
@@ -31,3 +33,5 @@ The Account Activation service is a RESTful service exposing the following metho
     * Receive the activation URL in plain text which takes the new external user to the activation screen.
     * {{{curl --get localhost:8080/account-activation-service/activation-codes/path/activation-code/0cce4a2f-940c-4843-8040-f71640c6efdd -v}}}
       <code>http://localhost:8080/web/guest/account-activation?p_p_id=ActivateAccount_WAR_accountactivationportlet&activationCode=0cce4a2f-940c-4843-8040-f71640c6efdd</code>
+
+[OverviewActivationCodeService [Previous]] [OverviewExtranalOrganization [Next]]
