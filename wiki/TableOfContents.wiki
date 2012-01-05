@@ -12,4 +12,4 @@
  * [OverviewExtranalOrganization External Organization Service]
     * [OverviewExtranalOrganization Introduction]
     * [ExternalOrganizationRest Rest Interface] 
- * [http://smwiki.vgregion.se/index.php/Portal_-_Externa_Anv%C3%A4ndare Backend documentation]
+ * [http://smwiki.vgregion.se/index.php/Portal_-_Externa_Anv%C3%A4ndare Backend documentation (External site)]
