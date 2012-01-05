@@ -1,8 +1,7 @@
 #summary A description is provided of what needs to be configured in order to use the features.
 #sidebar TableOfContents
 
-ReinviteUser
-OverviewActivationCodeService
+[ReinviteUser [Previous]] [OverviewActivationCodeService [Next]]
 
 = Introduction =
 
@@ -28,3 +27,5 @@ The database JNDI connection is configured in the Tomcat server.xml file.
 The tables used are:
   * vgr_activation_external_user_structure (for organization structure)
   * vgr_activation_invite_preferences (for system which users can be invited to)
+
+[ReinviteUser [Previous]] [OverviewActivationCodeService [Next]]
