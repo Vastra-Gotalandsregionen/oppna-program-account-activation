@@ -11,7 +11,7 @@ The configuration can basically be divided into three parts:
   * Database
 
 Backend
-  * [http://smwiki.vgregion.se/index.php/Portal_-_Externa_Anv%C3%A4ndare Backend documentation]
+  * [http://smwiki.vgregion.se/index.php/Portal_-_Externa_Anv%C3%A4ndare Backend documentation][http://oppna-program-account-activation.googlecode.com/svn/wiki/external_link_icon.gif]
 
 == LDAP ==
 The LDAP configuration can be found in webcomp in the ldap-configuration.properties and security.properties files.
