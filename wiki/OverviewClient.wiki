@@ -1,6 +1,8 @@
 #summary Big picture of the who's and how's for inviting new users.
 #sidebar TableOfContents
 
+[InviteUser [Next]]
+
 = Introduction =
 
 Inviting new users need to be both simple and secure. This should as much as possible be an automated process and rely on the person inviting (sponsor) being responsible for the person being invited.
@@ -25,4 +27,4 @@ A manager need to invite a user to a system - this could for instance be a consu
 
 The manager can re-issue an invite (Notify) that will send the invitation email again. But once the activation code has been used, it cannot be reused again.     
 
-[InviteUser Next - Invite User]
+[InviteUser [Next]]
