@@ -12,4 +12,4 @@
  * [OverviewExtranalOrganization External Organization Service]
     * [OverviewExtranalOrganization Introduction]
     * [ExternalOrganizationRest Rest Interface] 
- * [http://smwiki.vgregion.se/index.php/Portal_-_Externa_Anv%C3%A4ndare Backend documentation (External site)]
+ * [http://smwiki.vgregion.se/index.php/Portal_-_Externa_Anv%C3%A4ndare Backend documentation][http://oppna-program-account-activation.googlecode.com/svn/wiki/external_link_icon.gif]
