@@ -1,6 +1,8 @@
 #summary One-sentence summary of this page.
 #sidebar TableOfContents
 
+[OverviewService [Previous]] [ExternalOrganizationRest [Next]]
+
 = Introduction =
 
 End users should not be left to enter hierarchical free-text information unassisted.
@@ -15,3 +17,5 @@ This makes it easy to select a company name for an invited user if someone from 
 It also provides for the possibility to check auditing of company names.
 
 This type of functionality needs an Ajax-enabled dropdown. To make it easy to take advantage of this service an ReST-service exposing this functionality has been created.
+
+[OverviewService [Previous]] [ExternalOrganizationRest [Next]]
