@@ -1,6 +1,8 @@
 #summary Form for inviting external users.
 #sidebar TableOfContents
 
+[OverviewClient [Previous]] [ActivateUser [Next]]
+
 = Invite user =
 
 Inviting users are targeted at *_Project Managers/Members_*.
@@ -46,3 +48,5 @@ By adding or changing an entry the following screen will show:
 <img src="http://oppna-program-account-activation.googlecode.com/svn/wiki/Bjudin3.png" width="400"/>
 
 The title will be shown in the dropdown ("Bjud in till") and the message and URL will be shown to the invited external user when the account has been activated. This provides easy access to the site.
+
+[OverviewClient [Previous]] [ActivateUser [Next]]
