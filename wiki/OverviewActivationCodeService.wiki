@@ -1,6 +1,8 @@
 #summary Activation code service.
 #sidebar TableOfContents
 
+[InstallationAndConfiguration [Previous]] [OverviewService [Next]]
+
 = Introduction =
 
 The Activation Code Service is an infrastructure ReST service for creating and handeling one time tokens.
@@ -15,3 +17,5 @@ The activation token is constructed in such a way that it isn't possible to find
   * It can only be user one time.
 
 The Activation Code Service are primarily used by the backen system ([http://smwiki.vgregion.se/index.php/Portal_-_Externa_Anv%C3%A4ndare Mule ESB]). 
+
+[InstallationAndConfiguration [Previous]] [OverviewService [Next]]
