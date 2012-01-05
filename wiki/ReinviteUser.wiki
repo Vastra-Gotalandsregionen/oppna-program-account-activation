@@ -1,7 +1,9 @@
 #summary Manger can issue a reinvite for external users.
 #sidebar TableOfContents
 
-= Introduction =
+[ActivateUser [Previous]] [InstallationAndConfiguration [Next]]
+
+= Reinvite =
 
 This function is targeted at *_Project Managers/Members_*
 
@@ -10,3 +12,5 @@ If a user hasn't activated him-/herself or the invitation email has been lost, i
 <img src="http://oppna-program-account-activation.googlecode.com/svn/wiki/Reinvite1.png" width="500"/>
 
 To issue a reinvite just click the mail icon.
+
+[ActivateUser [Previous]] [InstallationAndConfiguration [Next]]
