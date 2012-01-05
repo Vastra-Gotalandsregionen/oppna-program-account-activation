@@ -1,6 +1,8 @@
 #summary One-sentence summary of this page.
 #sidebar TableOfContents
 
+[OverviewExtranalOrganization [Previous]]
+
 = Rest Interface =
 
 The External Organization service is a RESTful service exposing the following methods (the http method and the relative path is given in the list):
@@ -11,3 +13,5 @@ The External Organization service is a RESTful service exposing the following me
   * PUT, /save
     * Store a new organization value, duplicates are ignored and hierarchy are surmised from the character '/' 
     * {{{curl --request PUT localhost:8080/account-activation-service/external-org/save?organization=Test/TestAvd}}}
+
+[OverviewExtranalOrganization [Previous]]
