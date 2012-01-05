@@ -1,6 +1,8 @@
 #summary A portlet for activating an invited user.
 #sidebar TableOfContents
 
+[InviteUser [Previous]] [ReinviteUser [Next]]
+
 = Introduction =
 
 Activate User is done by *_the Invited User_*.
@@ -18,3 +20,5 @@ It is also possible to use the "activation code" that is received in the invitat
 <img src="http://oppna-program-account-activation.googlecode.com/svn/wiki/ActivateUser.png" width="300"/><br/> 
 
 After entering the activation code the user may continue with the procedure described in the introduction.
+
+[InviteUser [Previous]] [ReinviteUser [Next]]
