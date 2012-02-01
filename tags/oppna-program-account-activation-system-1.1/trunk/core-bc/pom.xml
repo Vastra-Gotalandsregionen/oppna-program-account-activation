@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+This is the Business Component Maven POM.
+
+
+Template version: 1.5-SNAPSHOT
+Generation time : 2011-02-11 11:58:05 CET
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>se.vgregion.oppna-program-account-activation</groupId>
+    <artifactId>oppna-program-account-activation-system</artifactId>
+    <version>1.1</version>
+  </parent>
+  <groupId>se.vgregion.oppna-program-account-activation</groupId>
+  <artifactId>oppna-program-account-activation-core-bc</artifactId>
+  <packaging>pom</packaging>
+  <version>1.1</version>
+  <name>${project.artifactId}</name>
+
+  <modules>
+    <module>composites/camel</module>
+    <module>composites/types</module>
+    <module>composites/dtos</module>
+    <module>composites/svc</module>
+    <module>composites/webcomp</module>
+    <module>modules/portlet</module>
+    <module>modules/intsvc</module>
+  </modules>
+</project>

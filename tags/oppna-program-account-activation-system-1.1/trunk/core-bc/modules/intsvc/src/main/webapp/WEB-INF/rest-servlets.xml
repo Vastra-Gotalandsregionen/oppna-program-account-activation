@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:jaxrs="http://cxf.apache.org/jaxrs" xmlns:security="http://www.springframework.org/schema/security"
+
+  xsi:schemaLocation="http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+  http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+
+  <import resource="applicationContext.xml" />
+  <import resource="classpath:META-INF/cxf/cxf.xml" />
+  <import resource="classpath:META-INF/cxf/cxf-extension-jaxrs-binding.xml" />
+  <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+  <jaxrs:server id="activationService" address="/">
+    <jaxrs:serviceBeans>
+      <ref bean="activationRestService" />
+    </jaxrs:serviceBeans>
+    <jaxrs:providers>
+      <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
+    </jaxrs:providers>
+  </jaxrs:server>
+
+  <jaxrs:server id="externalOrgService" address="/external-org">
+    <jaxrs:serviceBeans>
+      <ref bean="externalOrgRestService" />
+    </jaxrs:serviceBeans>
+    <jaxrs:providers>
+      <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
+    </jaxrs:providers>
+  </jaxrs:server>
+
+  <security:http>
+    <security:http-basic />
+  </security:http>
+  <security:global-method-security secured-annotations="enabled" />
+  <security:authentication-manager>
+    <security:authentication-provider>
+      <security:user-service>
+        <security:user name="restuser" password="restuser" authorities="ROLE_RESTCLIENT" />
+      </security:user-service>
+    </security:authentication-provider>
+  </security:authentication-manager>
+</beans>
