@@ -11,12 +11,6 @@
 <portlet:actionURL var="actionUrl"/>
 <portlet:renderURL var="renderUrl"/>
 
-<style type="text/css">
-    .aui-field-input {
-        width: 300px;
-    }
-</style>
-
 <aui:form action="<%= actionUrl %>" method="post">
     <aui:input name="id" value="${invitePreferencesFormBean.id}" type="hidden"/>
     <aui:input name="action" value="save" type="hidden"/>

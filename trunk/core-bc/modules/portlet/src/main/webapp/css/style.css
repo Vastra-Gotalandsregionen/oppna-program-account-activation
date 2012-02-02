@@ -1,5 +1,5 @@
 a.buttonlink {
-    background: #d4d4d4 url(/vgr-theme/images/portlet/header_bg.png) 0 0 repeat-x;
+    background: #d4d4d4 url(/regionportalen-theme/images/portlet/header_bg.png) 0 0 repeat-x;
     border: 1px solid #dedede;
     border-color: #C8C9CA #9E9E9E #9E9E9E #C8C9CA;
     -moz-border-radius: 4px;
@@ -18,8 +18,103 @@ a.buttonlink {
 }
 
 a.buttonlink:hover {
-    background: #B9CED9 url(/vgr-theme/images/application/state_hover_bg.png) 0 0 repeat-x;
+    background: #B9CED9 url(/regionportalen-theme/images/application/state_hover_bg.png) 0 0 repeat-x;
     border-color: #A7CEDF;
     color: #336699;
     text-decoration: none;
+}
+
+#prefsTable tr td {
+    padding-right: 20px;
+}
+
+.imglink {
+    padding-top: 4px;
+}
+
+.aui-field-input {
+    width: 300px;
+}
+
+/* EXTERNAL_USER_INVITE */
+
+/* A fix to make the autoComplete combobox aligned with the select button */
+.aui-combobox-content .aui-field .aui-field-content {
+    margin: 0;
+}
+
+.aui-field-input {
+    width: 200px;
+    background-image: url(/regionportalen-theme/images/forms/input_shadow.png);
+    background-repeat: no-repeat;
+}
+
+.mandatory-label span label {
+    background: transparent url(${pageContext.request.contextPath}/images/red_asterisk.gif) no-repeat right center;
+    display: inline;
+    padding-right: 18px;
+}
+
+.structure span span div div span span .aui-field-input {
+    width: 175px;
+}
+
+.wrapper-div {
+    border-color: #AAAAAA;
+    border-style: solid;
+    border-width: 1px;
+    margin-left: 0;
+    margin-right: auto;
+    padding: 10px;
+    width: 500px;
+}
+
+.taglib-icon-help img {
+    margin-bottom: 3px;
+}
+
+.cnf-title {
+    font-weight: bold;
+    display: inline-block;
+    width: 80px;
+    text-align: right;
+    padding: 3px;
+}
+
+.cnf-value {
+    padding:  3px;
+}
+
+.cnf-button {
+    text-align: center;
+    width: 100%;
+}
+
+/* REINVITE */
+.activationAccountsTable tr td {
+    padding: 7px;
+}
+
+.activationAccountsTable tr th {
+    padding: 7px;
+    background-color: #BBB;
+}
+
+.activationAccountsTable {
+    border: 1px;
+    border-style: inset;
+    border-color: #666;
+    width: 100%;
+}
+
+.center {
+    text-align: center;
+}
+
+.evenRow {
+    background-color: #eee;
+}
+
+.oddRow {
+    background-color: #ccc;
 }

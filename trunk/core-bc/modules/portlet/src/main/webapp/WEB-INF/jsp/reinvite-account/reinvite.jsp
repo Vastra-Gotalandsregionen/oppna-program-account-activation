@@ -7,37 +7,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-
-<style type="text/css">
-    .activationAccountsTable tr td {
-        padding: 7px;
-    }
-
-    .activationAccountsTable tr th {
-        padding: 7px;
-        background-color: #BBB;
-    }
-
-    .activationAccountsTable {
-        border: 1px;
-        border-style: inset;
-        border-color: #666;
-        width: 100%;
-    }
-
-    .center {
-        text-align: center;
-    }
-
-    .evenRow {
-        background-color: #eee;
-    }
-
-    .oddRow {
-        background-color: #ccc;
-    }
-
-</style>
+<link href="${pageContext.request.contextPath}/css/style.css" type="text/css" rel="stylesheet" />
 
 <c:if test="${not empty message}">
     <span class="portlet-msg-success">
@@ -82,10 +52,10 @@
                     <td>${account.organization}</td>
                     <td>${account.sponsor}</td>
                     <td class="center">
-                        <a href="${reinviteUrl}"><img src="/vgr-theme/images/mail/forward.png" title="Skicka inbjudan"/></a>
+                        <a href="${reinviteUrl}"><img src="/regionportalen-theme/images/mail/forward.png" title="Skicka inbjudan"/></a>
                     </td>
                     <td>
-                        <a href="${inactivateUrl}"><img src="/vgr-theme/images/application/close.png" title="Ta bort"/></a>
+                        <a href="${inactivateUrl}"><img src="/regionportalen-theme/images/application/close.png" title="Ta bort"/></a>
                     </td>
                 </tr>
             </c:forEach>
@@ -129,10 +99,10 @@
                     <td>${account.organization}</td>
                     <td>${account.sponsor}</td>
                     <td class="center">
-                        <a href="${reinviteUrl}"><img src="/vgr-theme/images/mail/forward.png" title="Skicka inbjudan"/></a>
+                        <a href="${reinviteUrl}"><img src="/regionportalen-theme/images/mail/forward.png" title="Skicka inbjudan"/></a>
                     </td>
                     <td>
-                        <a href="${inactivateUrl}"><img src="/vgr-theme/images/application/close.png" title="Ta bort"/></a>
+                        <a href="${inactivateUrl}"><img src="/regionportalen-theme/images/application/close.png" title="Ta bort"/></a>
                     </td>
                 </tr>
             </c:forEach>
