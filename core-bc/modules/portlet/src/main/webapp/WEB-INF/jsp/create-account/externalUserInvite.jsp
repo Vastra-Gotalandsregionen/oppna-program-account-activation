@@ -5,60 +5,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<style type="text/css">
-        /* A fix to make the autoComplete combobox aligned with the select button */
-    .aui-combobox-content .aui-field .aui-field-content {
-        margin: 0;
-    }
-
-    .aui-field-input {
-        width: 200px;
-        background-image: url(/vgr-theme/images/forms/input_shadow.png);
-        background-repeat: no-repeat;
-    }
-
-    .mandatory-label span label {
-        background: transparent url(${pageContext.request.contextPath}/images/red_asterisk.gif) no-repeat right center;
-        display: inline;
-        padding-right: 18px;
-    }
-
-    .structure span span div div span span .aui-field-input {
-        width: 175px;
-    }
-
-    .wrapper-div {
-        border-color: #AAAAAA;
-        border-style: solid;
-        border-width: 1px;
-        margin-left: 0;
-        margin-right: auto;
-        padding: 10px;
-        width: 500px;
-    }
-
-    .taglib-icon-help img {
-        margin-bottom: 3px;
-    }
-
-    .cnf-title {
-        font-weight: bold;
-        display: inline-block;
-        width: 80px;
-        text-align: right;
-        padding: 3px;
-    }
-
-    .cnf-value {
-        padding:  3px;
-    }
-
-    .cnf-button {
-        text-align: center;
-        width: 100%;
-    }
-
-</style>
+<link href="${pageContext.request.contextPath}/css/style.css" type="text/css" rel="stylesheet" />
 
 <jsp:useBean id="externalUserFormBean" type="se.vgregion.activation.formbeans.ExternalUserFormBean" scope="request"/>
 <portlet:actionURL var="invite" name="invite" escapeXml="false"/>

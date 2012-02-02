@@ -5,20 +5,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<style type="text/css">
-    #prefsTable tr td {
-        padding-right: 20px;
-    }
-
-    a.buttonlink {
-        text-decoration: none;
-        color: #34404F;
-
-    }
-    .imglink {
-        padding-top: 4px;
-    }
-</style>
+<link href="${pageContext.request.contextPath}/css/style.css" type="text/css" rel="stylesheet" />
 
 <c:if test="${not empty message}">
     <div class="portlet-msg-success">${message}</div>
@@ -34,12 +21,12 @@
             </td>
             <td>
                 <a title="Ändra" href="<%= renderUrl %>&action=edit&preferencesId=${prefs.id}">
-                    <img class="imglink" src="/vgr-theme/images/dockbar/settings.png" />
+                    <img class="imglink" src="/regionportalen-theme/images/dockbar/settings.png" />
                 </a>
             </td>
             <td>
                 <a title="Ta bort" href="<%= renderUrl %>&action=remove&preferencesId=${prefs.id}">
-                    <img class="imglink" src="/vgr-theme/images/common/close.png" />
+                    <img class="imglink" src="/regionportalen-theme/images/common/close.png" />
                 </a>
             </td>
         </tr>
@@ -49,7 +36,7 @@
         <td></td>
         <td>
             <a title="Lägg till" href="<%= renderUrl %>&action=add">
-                <img class="imglink" src="/vgr-theme/images/dock/add_content.png" />
+                <img class="imglink" src="/regionportalen-theme/images/dock/add_content.png" />
             </a>
         </td>
 
