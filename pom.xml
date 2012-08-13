@@ -15,7 +15,7 @@
   <groupId>se.vgregion.oppna-program-account-activation</groupId>
   <artifactId>oppna-program-account-activation-system</artifactId>
   <packaging>pom</packaging>
-  <version>1.2-SNAPSHOT</version>
+  <version>1.2</version>
   <name>${project.artifactId}</name>
 
   <modules>
@@ -25,8 +25,8 @@
   <!--NB! SCM config below assumes system name equals VGR subversion/googlecode project name! -->
   <!-- Open Source repo -->
   <scm>
-    <developerConnection>scm:svn:https://oppna-program-account-activation.googlecode.com/svn/trunk</developerConnection>
-    <url>http://oppna-program-account-activation.googlecode.com/svn/trunk</url>
+    <developerConnection>scm:svn:https://oppna-program-account-activation.googlecode.com/svn/tags/oppna-program-account-activation-system-1.2</developerConnection>
+    <url>http://oppna-program-account-activation.googlecode.com/svn/tags/oppna-program-account-activation-system-1.2</url>
   </scm>
 
 </project>
