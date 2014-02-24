@@ -31,7 +31,7 @@
   <!-- Configurator -->
 
   <bean id="messagingConfigurator.core"
-        class="com.liferay.portal.kernel.messaging.config.DefaultMessagingConfigurator" init-method="init"
+        class="com.liferay.portal.kernel.messaging.config.DefaultMessagingConfigurator" init-method="afterPropertiesSet"
         destroy-method="destroy">
     <property name="destinations">
       <list>
