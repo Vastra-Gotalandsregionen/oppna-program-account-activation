@@ -5,5 +5,6 @@
   <persistence-unit name="activation">
     <class>se.vgregion.activation.domain.ActivationAccount</class>
     <class>se.vgregion.create.domain.ExternalUserStructure</class>
+    <class>se.vgregion.create.domain.InvitePreferences</class>
   </persistence-unit>
 </persistence>
