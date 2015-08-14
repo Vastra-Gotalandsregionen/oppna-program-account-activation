@@ -1,0 +1,39 @@
+[[Previous](OverviewActivationCodeService.md)] [[Next](OverviewExtranalOrganization.md)]
+
+# Rest interface #
+
+The Account Activation service is a RESTful service exposing the following methods (the http method and the relative path is given in the list):
+  * GET, /activation-codes
+    * Fetch all active activation accounts
+    * `curl --get localhost:8080/account-activation-service/activation-codes`
+> > > ```
+[{"id":"9e3867b5-4dbb-4add-8f03-1b47cdf5eb40","link":"http://localhost:8080/account-activation-service/activation-codes/9e3867b5-4dbb-4add-8f03-1b47cdf5eb40","status":"OK","vgrId":"abcde1","customUrl":"http://example.com","customMessage":"a custome message"}]```
+  * POST, /activation-codes
+    * Post an ActivateAccountDTO object to create an activation account.
+    * Returns an ActivationCode object in JSON format
+    * `curl -H "Content-Type: application/json" -d '{"vgrId":"abcde123","customUrl":"http://example.com","customMessage":"a custome message"}' localhost:8080/account-activation-service/activation-codes -v`
+> > > ```
+{"value":"09db2baa-f4a9-495c-8c99-c74e5886f283"}```
+  * GET, /{id}
+    * Fetch the valid ActivationAccountDTO, in JSON format, with the given id or reply 404 if it doesn't exist.
+    * `curl --get localhost:8080/account-activation-service/activation-codes/0cce4a2f-940c-4843-8040-f71640c6efdd`
+> > > ```
+{"id":"0cce4a2f-940c-4843-8040-f71640c6efdd","link":"http://localhost:8080/account-activation-service/activation-codes/0cce4a2f-940c-4843-8040-f71640c6efdd","status":"OK","vgrId":"abcde1","customUrl":"http://example.com","customMessage":"a custome message"}```
+  * GET, /vgrid/{vgrid}
+    * Fetch the valid ActivationAccountDTO, in JSON format, with the given vgr id or reply 404 if it doesn't exist.
+    * `curl --get localhost:8080/account-activation-service/activation-codes/vgrid/ex_test`
+> > > ```
+{"id":"0cce4a2f-940c-4843-8040-f71640c6efdd","link":"http://localhost:8080/account-activation-service/activation-codes/vgrid/ex_test","status":"OK","vgrId":"ex_test","customUrl":"http://example.com","customMessage":"a custome message"}```
+  * PUT, /{id}/inactivate
+    * Inactivate the ActivationAccount with the given id or reply 404. A successful reply only results in a 204 response without any content.
+    * `curl --request PUT localhost:8080/account-activation-service/activation-codes/0cce4a2f-940c-4843-8040-f71640c6efdd/inactivate -v`
+  * PUT, /{id}/reactivate
+    * Reactivate the ActivationAccount with the given id or reply 404. A successful reply only results in a 204 response without any content.
+    * `curl --request PUT localhost:8080/account-activation-service/activation-codes/0cce4a2f-940c-4843-8040-f71640c6efdd/reactivate -v`
+  * GET, /path/activation-code/{id}
+    * Receive the activation URL in plain text which takes the new external user to the activation screen.
+    * `curl --get localhost:8080/account-activation-service/activation-codes/path/activation-code/0cce4a2f-940c-4843-8040-f71640c6efdd -v`
+> > > ```
+http://localhost:8080/web/guest/account-activation?p_p_id=ActivateAccount_WAR_accountactivationportlet&activationCode=0cce4a2f-940c-4843-8040-f71640c6efdd```
+
+[[Previous](OverviewActivationCodeService.md)] [[Next](OverviewExtranalOrganization.md)]

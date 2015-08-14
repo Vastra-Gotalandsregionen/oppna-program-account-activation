@@ -1,0 +1,15 @@
+[[Previous](OverviewExtranalOrganization.md)]
+
+# Rest Interface #
+
+The External Organization service is a RESTful service exposing the following methods (the http method and the relative path is given in the list):
+  * GET, /search
+    * Fetch all organizations matching the query, including one level up and down.
+    * `curl --get localhost:8080/account-activation-service/external-org/search?query=Te`
+> > > ```
+[ "Test", "Test/TestAvd" ]```
+  * PUT, /save
+    * Store a new organization value, duplicates are ignored and hierarchy are surmised from the character '/'
+    * `curl --request PUT localhost:8080/account-activation-service/external-org/save?organization=Test/TestAvd`
+
+[[Previous](OverviewExtranalOrganization.md)]

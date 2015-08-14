@@ -1,0 +1,27 @@
+[[Next](InviteUser.md)]
+
+# Introduction #
+
+Inviting new users need to be both simple and secure. This should as much as possible be an automated process and rely on the person inviting (sponsor) being responsible for the person being invited.
+Authorization are not handled per se, but user type can be used by the systems to set this indirectly.
+
+# The invitation flow #
+
+![http://oppna-program-account-activation.googlecode.com/svn/wiki/AA-Workflow.png](http://oppna-program-account-activation.googlecode.com/svn/wiki/AA-Workflow.png)
+
+A manager need to invite a user to a system - this could for instance be a consultant who needs access to an Alfresco Workspace.
+  1. The manager fills out a form with the new user's information - for an external user. The email adress are used as unique identifier.
+  1. A backing service are called which:
+    * creates the user
+    * generates a new ActivationCode
+  1. Sends an email with the ActivationCode to the specified email adress
+  1. On receiving the email, the invited user can directly click the invite-link to set his/her password.
+  1. A backing service will validate:
+    * the activation code (has it been used, or is it too old)
+    * password strength
+    * then, set the user password in the backend-catalog
+    * and finally, send a confirmation mail directing the user to the service he/she was invited to
+
+The manager can re-issue an invite (Notify) that will send the invitation email again. But once the activation code has been used, it cannot be reused again.
+
+[[Next](InviteUser.md)]

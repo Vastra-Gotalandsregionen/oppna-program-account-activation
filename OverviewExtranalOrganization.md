@@ -1,0 +1,18 @@
+[[Previous](OverviewService.md)] [[Next](ExternalOrganizationRest.md)]
+
+# Introduction #
+
+End users should not be left to enter hierarchical free-text information unassisted.
+
+On the "Invite user"-form, invitee organization is such a field. We do not have a registry to pick organization/unit, so free-text is the only option.
+
+To make this free text more manageable, a service has been created that records all previous entries, and then allow fuzzy matching in a dropdown when entering new values.
+
+![http://oppna-program-account-activation.googlecode.com/svn/wiki/AA-organization.png](http://oppna-program-account-activation.googlecode.com/svn/wiki/AA-organization.png)
+
+This makes it easy to select a company name for an invited user if someone from the same company previously has been invited.
+It also provides for the possibility to check auditing of company names.
+
+This type of functionality needs an Ajax-enabled dropdown. To make it easy to take advantage of this service an ReST-service exposing this functionality has been created.
+
+[[Previous](OverviewService.md)] [[Next](ExternalOrganizationRest.md)]

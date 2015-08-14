@@ -1,0 +1,49 @@
+[[Previous](OverviewClient.md)] [[Next](ActivateUser.md)]
+
+# Invite user #
+
+Inviting users are targeted at **_Project Managers/Members_**.
+
+An invitation can be issued by anyone currently employed in the organization. This restriction is enforced by the backend integration service and it is possible to adopt this rule to what is needed in your organization.
+
+Information of person who issues the invitation are saved and can be used as a reference when auditing people's access. Since we use a self administration model for granting access to external users it is important to have a reference person that can decide if the invited person still need access on the yearly audit.
+
+# Invite user form #
+
+To invite a user you first have to supply a unique identifier for the user and som further information about the user. As unique identifier we use the email adress. This makes it possible to first check if the person invited already exist in the catalog service.
+
+<img src='http://oppna-program-account-activation.googlecode.com/svn/wiki/InviteUser.png' width='600' />
+
+The fields marked with (`*`) are mandatory.
+
+# Details #
+
+After submitting the form a user will be created in the directory service and an invitation will be sent by email to the given email address. So the form submission triggers two consecutive requests: the create request and the invite request. If any of these fails the user will be informed and can try again later.
+
+The user is identified by the email address and duplicate email addresses are not allowed in the directory service. If the given email address already exists in the directory service it will not be created again but the invite will still be sent.
+
+The given system ("Bjud in till") is only used for providing an appropriate invitation message, and does not have any effect on permissions etc. Access and authorization are always managed by the applications themselves.
+
+The organization field is a "/"-separated string, e.g. "CompanyABC/DivsionDEF/GroupGHI". As you start typing autocomplete will be provided section by section. It is also possible to select directly from the dropdown menu. New entries will be saved and can be reused the next time.
+
+User access will only be granted for a specified time period. The form defaults to a year ahead.
+
+The person doing the invite (sponsor) is responsible for the person he/she invites and prolonged access can be decided by the sponsor. Only non-external users are allowed to be sponsors.
+
+# Administration #
+
+Administration of the invitation process are targeted at **_Portal Administrators_**.
+
+It is possible to do some basic configuration of the user invitation process. This configuration is mainly aimed at what is communicated to the user who is invited (i.e. mail message and links to follow when the invited user has activated his account).
+
+When logged in as a portal administrator you can enter the edit mode which allows you to add and change systems. A system can be any tool in the organization where a user need an account to acquire access.
+
+<img src='http://oppna-program-account-activation.googlecode.com/svn/wiki/BjudIn1.png' width='400' />
+
+By adding or changing an entry the following screen will show:
+
+<img src='http://oppna-program-account-activation.googlecode.com/svn/wiki/Bjudin3.png' width='400' />
+
+The title will be shown in the dropdown ("Bjud in till") and the message and URL will be shown to the invited external user when the account has been activated. This provides easy access to the site.
+
+[[Previous](OverviewClient.md)] [[Next](ActivateUser.md)]
